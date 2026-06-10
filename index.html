@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Стратегия запуска консалтинга · вся карта из головы Заали</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   ФИРМЕННЫЕ ТОКЕНЫ ЗААЛИ · холодный белый + один синий акцент
+   Канон: ai-clone/style/design-system.md · токены style-tokens.css
+   ============================================================ */
+:root{
+  --paper:#ffffff;
+  --surface:#f5f6f8;
+  --surface-2:#eceef2;
+  --surface-ink:#14161a;
+
+  --ink:#14161a;
+  --ink-soft:#494f57;
+  --ink-mute:#878d96;
+  --on-dark:#f5f6f8;
+
+  --line:#e3e6ea;
+  --line-2:#d3d7dd;
+  --line-ink:#14161a;
+
+  --accent:#2563eb;
+  --accent-ink:#1d4ed8;
+  --accent-wash:#eaf0fe;
+  --accent-on:#ffffff;
+
+  --pos:#15a04a;  --pos-ink:#0f7d39;  --pos-wash:#e9f7ee;
+  --warn:#e08600; --warn-ink:#b56b00; --warn-wash:#fdf3e2;
+  --neg:#d92d20;  --neg-ink:#b42318;  --neg-wash:#fdeceb;
+  --info:#2563eb; --info-ink:#1d4ed8; --info-wash:#eaf0fe;
+  --neutral:#878d96;
+
+  --r:4px;
+  --r-lg:8px;
+
+  --shadow-hair:0 1px 0 rgba(20,22,26,.04);
+  --shadow-layer:0 1px 0 var(--line-2), 0 2px 0 var(--line), 0 6px 14px -8px rgba(20,22,26,.18);
+  --glow:0 0 0 1px var(--accent), 0 6px 22px -6px color-mix(in srgb, var(--accent) 55%, transparent);
+
+  --font-body:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-display:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --t-h1:clamp(34px, 6.2vw, 68px);
+  --t-h2:clamp(26px, 3.6vw, 42px);
+  --t-h3:clamp(20px, 2.2vw, 26px);
+  --t-h4:18px;
+  --t-lead:clamp(17px, 1.8vw, 20px);
+  --t-body:16.5px;
+  --t-small:13px;
+  --t-micro:11px;
+
+  --maxw:820px;  /* единая контентная колонка: ВСЕ блоки одной ширины, один левый и правый край */
+}
+
+*{box-sizing:border-box; margin:0; padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-size:var(--t-body);
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 20px}
+.mono{font-family:var(--font-mono)}
+
+/* ---------- навбар ---------- */
+.navbar{position:sticky; top:0; z-index:100; background:color-mix(in srgb, var(--paper) 90%, transparent); backdrop-filter:saturate(140%) blur(8px); border-bottom:1px solid var(--line)}
+.navbar-in{max-width:var(--maxw); margin:0 auto; padding:11px 20px; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap}
+.navbar .logo{font-family:var(--font-display); font-weight:800; letter-spacing:-.02em; font-size:16px; white-space:nowrap}
+.navbar .logo .dot{color:var(--accent)}
+.navbar nav{display:flex; gap:16px; flex-wrap:wrap}
+.navbar nav a{color:var(--ink-soft); text-decoration:none; font-size:13px; font-weight:500; display:inline-block; padding:10px 4px; margin:-8px 0}
+.navbar nav a:hover{color:var(--accent-ink)}
+@media(max-width:720px){ .navbar nav{gap:12px} .navbar nav a{font-size:12px} }
+
+/* ---------- обложка ---------- */
+.cover{padding:56px 0 48px; border-bottom:1px solid var(--line); background:var(--surface)}
+.kicker{font-family:var(--font-mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent-ink); font-weight:600}
+.cover h1{font-size:var(--t-h1); font-weight:900; letter-spacing:-.035em; line-height:1.02; max-width:18ch; margin-top:16px}
+.cover h1 .accent{color:var(--accent-ink)}
+.cover .sub{font-size:var(--t-lead); color:var(--ink-soft); margin-top:20px; line-height:1.5}
+.badges{display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-top:24px}
+.badge{font-size:12px; font-weight:600; padding:4px 10px; border-radius:var(--r); border:1px solid var(--line-2); background:var(--paper); color:var(--ink-soft)}
+.badge.solid{background:var(--ink); color:var(--on-dark); border-color:var(--ink)}
+.badge.accent{background:var(--accent); color:var(--accent-on); border-color:var(--accent)}
+
+/* ---------- каркас секций ---------- */
+section{padding:56px 0; border-bottom:1px solid var(--line)}
+.sec-head{margin-bottom:30px}
+.sec-num{font-family:var(--font-mono); font-size:13px; color:var(--accent-ink); font-weight:600; letter-spacing:.04em; display:block; margin-bottom:8px}
+.sec-title{font-family:var(--font-display); font-size:var(--t-h2); font-weight:800; letter-spacing:-.02em; line-height:1.05}
+.sec-note{font-size:15px; color:var(--ink-soft); line-height:1.55; margin-top:12px}
+.block-label{font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-mute); margin:34px 0 14px; padding-top:22px; border-top:1px dashed var(--line-2)}
+.block-label:first-of-type{border-top:none; padding-top:0}
+h3.sub-title{font-size:var(--t-h3); font-weight:700; letter-spacing:-.01em; margin:6px 0 10px}
+p.body{color:var(--ink); margin:10px 0}
+p.body + p.body{margin-top:12px}
+.muted{color:var(--ink-soft)}
+.hl-bold{font-weight:700}
+.hl-accent{color:var(--accent-ink); font-weight:600}
+.hl-underline{box-shadow:inset 0 -2px 0 var(--accent); padding-bottom:1px}
+
+/* ---------- карточки ---------- */
+.card{background:var(--paper); border:1px solid var(--line); border-radius:var(--r-lg); padding:20px}
+.card.tint{background:var(--surface)}
+.card.depth{box-shadow:var(--shadow-layer)}
+.card-title{font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-mute); margin-bottom:14px}
+.cap{font-size:12.5px; color:var(--ink-mute); line-height:1.5; margin-top:12px}
+
+/* ---------- статы ---------- */
+.stats{display:grid; grid-template-columns:repeat(3,1fr); gap:0; border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; background:var(--surface)}
+.stat{padding:22px; border-right:1px solid var(--line)}
+.stat:last-child{border-right:none}
+.stat .v{font-family:var(--font-display); font-size:clamp(32px,5vw,48px); font-weight:800; letter-spacing:-.03em; line-height:1}
+.stat .v.up{color:var(--accent-ink)}
+.stat .v.bad{color:var(--neg-ink)}
+.stat .v.pos{color:var(--pos-ink)}
+.stat .k{font-size:12.5px; color:var(--ink-mute); margin-top:8px; font-weight:500}
+@media(max-width:720px){ .stats{grid-template-columns:1fr} .stat{border-right:none; border-bottom:1px solid var(--line)} .stat:last-child{border-bottom:none} }
+
+/* ---------- списки ---------- */
+ul.lst, ol.lst{list-style:none}
+ul.lst li, ol.lst li{position:relative; padding:7px 0 7px 30px; border-bottom:1px solid var(--line); font-size:15px}
+ul.lst li:last-child, ol.lst li:last-child{border-bottom:none}
+ul.bullet li::before{content:""; position:absolute; left:6px; top:16px; width:6px; height:6px; background:var(--accent); border-radius:50%}
+ol.num{counter-reset:n}
+ol.num li::before{counter-increment:n; content:counter(n,decimal-leading-zero); position:absolute; left:0; top:8px; font-family:var(--font-mono); font-size:12px; font-weight:600; color:var(--accent-ink)}
+ul.check li::before{content:"✓"; position:absolute; left:2px; top:7px; color:var(--pos-ink); font-weight:800}
+ul.cross li.no::before{content:"✕"; position:absolute; left:3px; top:7px; color:var(--neg); font-weight:800}
+ul.cross li.yes::before{content:"✓"; position:absolute; left:2px; top:7px; color:var(--pos-ink); font-weight:800}
+
+/* ---------- статусы ---------- */
+.status{display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:600; padding:3px 10px; border-radius:100px; white-space:nowrap}
+.status::before{content:""; width:7px; height:7px; border-radius:50%}
+.status.ok{background:var(--pos-wash); color:var(--pos-ink)} .status.ok::before{background:var(--pos)}
+.status.warn{background:var(--warn-wash); color:var(--warn-ink)} .status.warn::before{background:var(--warn)}
+.status.bad{background:var(--neg-wash); color:var(--neg-ink)} .status.bad::before{background:var(--neg)}
+.status.off{background:var(--surface-2); color:var(--ink-mute)} .status.off::before{background:var(--neutral)}
+
+/* ---------- callout ---------- */
+.callout{display:flex; gap:13px; padding:16px 18px; border-radius:var(--r-lg); border:1px solid; margin:18px 0; font-size:14.5px; line-height:1.55}
+.callout .ic{font-weight:800; flex-shrink:0}
+.callout b.t{font-weight:700; display:block; margin-bottom:3px}
+.callout.info{background:var(--info-wash); border-color:color-mix(in srgb,var(--info) 22%,transparent)} .callout.info .ic{color:var(--info-ink)}
+.callout.ok{background:var(--pos-wash); border-color:color-mix(in srgb,var(--pos) 22%,transparent)} .callout.ok .ic{color:var(--pos-ink)}
+.callout.warn{background:var(--warn-wash); border-color:color-mix(in srgb,var(--warn) 26%,transparent)} .callout.warn .ic{color:var(--warn-ink)}
+.callout.bad{background:var(--neg-wash); border-color:color-mix(in srgb,var(--neg) 22%,transparent)} .callout.bad .ic{color:var(--neg-ink)}
+
+/* ---------- тёмная плашка ---------- */
+.plaque{background:var(--surface-ink); color:var(--on-dark); padding:26px 26px; border-radius:var(--r-lg); font-size:19px; line-height:1.45; font-weight:500; letter-spacing:-.01em}
+.plaque .accent{color:#7ea6ff; font-weight:700}
+.plaque .by{display:block; margin-top:14px; font-size:12px; font-family:var(--font-mono); color:var(--ink-mute)}
+
+/* ---------- цитата-врезка с акцентным кантом (основной вариант по канону) ---------- */
+.quote-bar{border-left:3px solid var(--accent); padding:6px 0 6px 20px; font-size:18px; line-height:1.5; font-weight:500; letter-spacing:-.005em}
+.quote-bar .accent{color:var(--accent-ink); font-weight:700}
+.quote-bar .by{display:block; margin-top:12px; font-size:12px; font-family:var(--font-mono); color:var(--ink-mute); font-weight:400}
+
+/* ---------- split до/после ---------- */
+.split{display:grid; grid-template-columns:1fr 1fr; border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden}
+.split > div{padding:22px}
+.split .before{background:var(--surface)}
+.split .after{background:var(--accent-wash); border-left:1px solid var(--line)}
+.split h4{font-size:12px; font-family:var(--font-mono); text-transform:uppercase; letter-spacing:.06em; margin-bottom:12px}
+.split .before h4{color:var(--ink-mute)}
+.split .after h4{color:var(--accent-ink)}
+.split ul{list-style:none}
+.split li{padding:6px 0; font-size:14.5px; border-bottom:1px solid color-mix(in srgb, var(--ink) 7%, transparent)}
+.split li:last-child{border-bottom:none}
+@media(max-width:720px){ .split{grid-template-columns:1fr} .split .after{border-left:none; border-top:1px solid var(--line)} }
+
+/* ---------- фичи-карточки ---------- */
+.features{display:grid; grid-template-columns:repeat(3,1fr); gap:14px}
+.features.cols-2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:720px){ .features, .features.cols-2{grid-template-columns:1fr} }
+.feature{border:1px solid var(--line); border-radius:var(--r-lg); padding:20px; background:var(--paper); transition:border-color .15s, box-shadow .15s}
+.feature:hover{border-color:var(--ink-mute); box-shadow:var(--shadow-layer)}
+.feature .ic{min-width:34px; height:34px; padding:0 10px; border-radius:var(--r); background:var(--accent-wash); color:var(--accent-ink); display:inline-grid; place-items:center; font-weight:800; margin-bottom:14px; font-family:var(--font-mono); font-size:13px}
+.feature h4{font-size:16px; font-weight:700; margin-bottom:6px}
+.feature p{font-size:13.5px; color:var(--ink-soft); line-height:1.55}
+.feature .tag{margin-top:12px}
+
+/* ---------- таймлайн карточками ---------- */
+.tl-cards{display:flex; flex-direction:column; gap:10px}
+.tl-card{border:1px solid var(--line); border-left:3px solid var(--accent); border-radius:var(--r); padding:13px 16px; background:var(--paper)}
+.tl-card .when{font-family:var(--font-mono); font-size:11px; color:var(--accent-ink); text-transform:uppercase; letter-spacing:.04em}
+.tl-card h4{font-size:15.5px; font-weight:700; margin:3px 0 4px}
+.tl-card p{font-size:13.5px; color:var(--ink-soft); line-height:1.5}
+
+/* ---------- крупный номер (план шагов) ---------- */
+.tl-nums{display:flex; flex-direction:column; gap:18px}
+.tl-num{display:flex; gap:14px; align-items:flex-start}
+.tl-num .n{font-family:var(--font-display); font-size:30px; font-weight:800; line-height:.9; color:var(--accent); width:46px; flex-shrink:0; letter-spacing:-.03em; text-align:right}
+.tl-num h4{font-size:15.5px; font-weight:700; margin-bottom:3px}
+.tl-num p{font-size:13.5px; color:var(--ink-soft); line-height:1.55}
+.tl-num .crit{font-size:12.5px; color:var(--pos-ink); margin-top:5px; font-weight:600}
+
+/* ---------- таблица ---------- */
+.table-scroll{overflow-x:auto; -webkit-overflow-scrolling:touch}
+.scroll-hint{display:none}
+@media(max-width:720px){ .scroll-hint{display:block} }
+table.data{width:100%; border-collapse:collapse; font-size:14px; min-width:560px}
+table.data th{font-family:var(--font-mono); font-size:11px; letter-spacing:.05em; text-transform:uppercase; color:var(--ink-mute); text-align:left; padding:10px 12px; border-bottom:1.5px solid var(--line-ink); font-weight:600}
+table.data td{padding:11px 12px; border-bottom:1px solid var(--line); vertical-align:top}
+table.data td.num{font-family:var(--font-mono); text-align:right}
+table.data tr:hover td{background:var(--surface)}
+
+/* ---------- ЛЕСТНИЦА ХАНТА ---------- */
+.ladder{display:flex; flex-direction:column}
+.lvl{display:flex; gap:14px; align-items:stretch}
+.lvl .rail{display:flex; flex-direction:column; align-items:center; width:46px; flex-shrink:0}
+.lvl .rail .num{width:40px; height:40px; border-radius:50%; display:grid; place-items:center; font-family:var(--font-mono); font-weight:600; font-size:15px; background:var(--surface-2); color:var(--ink-soft); border:1.5px solid var(--line-2); flex-shrink:0}
+.lvl.hot .rail .num{background:var(--accent); color:var(--accent-on); border-color:var(--accent)}
+.lvl .rail .cord{width:2px; flex:1; background:var(--line-2); min-height:14px}
+.lvl .lvl-body{padding:2px 0 18px; flex:1; min-width:0}
+.lvl .lvl-name{font-size:16px; font-weight:700}
+.lvl .lvl-q{font-family:var(--font-mono); font-size:11px; color:var(--ink-mute); text-transform:uppercase; letter-spacing:.05em; margin-bottom:3px}
+.lvl .lvl-desc{font-size:13.5px; color:var(--ink-soft); line-height:1.5; margin-top:4px}
+/* статья-переход между уровнями */
+.rung{display:flex; gap:14px; align-items:stretch}
+.rung .rail{display:flex; flex-direction:column; align-items:center; width:46px; flex-shrink:0}
+.rung .rail .cord{width:2px; flex:1; background:var(--accent)}
+.rung .rail .cord.none{background:var(--neg)}
+.rung .art{flex:1; min-width:0; margin:0 0 18px; border:1px solid var(--line); border-left:3px solid var(--accent); background:var(--accent-wash); border-radius:var(--r); padding:14px 16px}
+.rung .art.none{border-left-color:var(--neg); background:var(--neg-wash)}
+.rung .art .art-k{font-family:var(--font-mono); font-size:11px; letter-spacing:.05em; text-transform:uppercase; color:var(--accent-ink); display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+.rung .art.none .art-k{color:var(--neg-ink)}
+.rung .art h4{font-size:15px; font-weight:700; margin:5px 0 4px}
+.rung .art p{font-size:13.5px; color:var(--ink-soft); line-height:1.5}
+
+/* ---------- АРХИТЕКТУРА ВОРОНКИ (вертикальная карта) ---------- */
+.map{display:flex; flex-direction:column; align-items:stretch; counter-reset:maprow}
+.map-row{border:1px solid var(--line); border-radius:var(--r-lg); padding:18px; background:var(--paper); position:relative}
+.map-row.tint{background:var(--surface)}
+.map-row.wash{background:var(--accent-wash); border-color:color-mix(in srgb, var(--accent) 25%, transparent)}
+.map-row.ink{background:var(--surface-ink); color:var(--on-dark); border-color:var(--surface-ink)}
+.map-row .mr-k{font-family:var(--font-mono); font-size:11px; letter-spacing:.07em; text-transform:uppercase; color:var(--ink-mute); margin-bottom:10px; display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap}
+.map-row.ink .mr-k{color:#aeb4bd}
+.map-row .mr-k b{color:var(--accent-ink)}
+.map-row.ink .mr-k b{color:#7ea6ff}
+.map-link{display:flex; flex-direction:column; align-items:center; padding:4px 0}
+.map-link .arr{font-size:20px; color:var(--accent); line-height:1}
+.map-link .why{font-size:12px; color:var(--ink-mute); text-align:center; max-width:480px; padding:3px 10px}
+.chips{display:flex; gap:8px; flex-wrap:wrap}
+.chip{font-size:12.5px; font-weight:600; padding:5px 11px; border-radius:100px; background:var(--surface-2); color:var(--ink); border:1px solid var(--line-2)}
+.chip.acc{background:var(--accent); color:var(--accent-on); border-color:var(--accent)}
+.chip.ghost{background:var(--paper); color:var(--ink-mute); border-style:dashed}
+.chip.dark{background:#23262c; color:var(--on-dark); border-color:#23262c}
+.chip.url{font-family:var(--font-mono); font-weight:500; font-size:11.5px}
+
+/* ---------- шаблон со слотами ---------- */
+.tpl{border:1px solid var(--line-2); border-radius:var(--r-lg); background:var(--paper); padding:18px; font-size:14px; line-height:1.7}
+.tpl .slot{display:inline-block; background:var(--accent-wash); color:var(--accent-ink); border:1px dashed var(--accent); border-radius:var(--r); padding:0 7px; font-family:var(--font-mono); font-size:12px; font-weight:600; white-space:nowrap}
+.tpl .fix{color:var(--ink-soft)}
+.legend{display:flex; gap:14px; flex-wrap:wrap; margin-top:12px; font-size:12.5px; color:var(--ink-soft)}
+.legend .sq{display:inline-block; width:11px; height:11px; border-radius:3px; margin-right:5px; vertical-align:-1px}
+
+/* ---------- скелет статьи ---------- */
+.skel{display:flex; flex-direction:column; gap:8px}
+.skel-block{display:flex; gap:12px; border:1px solid var(--line); border-radius:var(--r); background:var(--paper); padding:12px 14px}
+.skel-block .bn{font-family:var(--font-mono); font-size:12px; font-weight:600; color:var(--accent-ink); width:26px; flex-shrink:0; padding-top:2px}
+.skel-block h5{font-size:14.5px; font-weight:700; margin-bottom:2px}
+.skel-block p{font-size:13px; color:var(--ink-soft); line-height:1.5}
+.skel-block .src{font-size:11.5px; font-family:var(--font-mono); color:var(--ink-mute); margin-top:5px}
+.skel-block .src.new{color:var(--warn-ink)}
+.skel-block.bridge{background:var(--accent-wash); border-color:color-mix(in srgb, var(--accent) 30%, transparent)}
+
+/* ---------- акцентная плашка-финал ---------- */
+.accent-band{background:var(--accent); color:var(--accent-on); border-radius:var(--r-lg); padding:32px 28px; display:flex; flex-direction:column; gap:14px}
+.accent-band h3{font-size:clamp(21px,3vw,30px); font-weight:800; letter-spacing:-.02em; line-height:1.1}
+.accent-band p{font-size:15px; line-height:1.55; color:#ffffff}
+
+/* ---------- футер ---------- */
+footer{padding:36px 0 48px; font-size:12.5px; color:var(--ink-mute)}
+
+/* ---------- график ---------- */
+svg.chart{display:block; width:100%; height:auto; overflow:visible}
+
+/* ---------- месяц против месяца ---------- */
+.mini-chips{display:flex; flex-wrap:wrap; gap:6px; margin:10px 0 14px}
+.mini-chip{width:46px; height:32px; border-radius:4px; background:var(--surface-2); border:1px solid var(--line-2); display:grid; place-items:center; font-family:var(--font-mono); font-size:9.5px; color:var(--ink-soft)}
+.big-tile{border-radius:var(--r-lg); background:var(--accent); color:#fff; padding:16px 18px; font-weight:800; font-size:clamp(20px,3vw,26px); letter-spacing:-.02em; margin:10px 0}
+.big-tile small{display:block; font-size:12px; font-weight:500; margin-top:5px; color:#dbe7ff; font-family:var(--font-mono); letter-spacing:0}
+
+/* ---------- воронка-песочные часы ---------- */
+.funnel{display:flex; flex-direction:column; align-items:center; gap:6px}
+.frow{border:1.5px solid var(--line-2); background:var(--surface); border-radius:var(--r); padding:10px 14px; text-align:center}
+.frow b{font-family:var(--font-display); font-weight:800; font-size:22px; letter-spacing:-.02em}
+.frow span{display:block; font-size:12px; color:var(--ink-soft); font-family:var(--font-mono); margin-top:2px}
+.frow.ink{background:var(--surface-ink); color:var(--on-dark); border-color:var(--surface-ink)}
+.frow.ink span{color:#aeb4bd}
+.frow.acc{background:var(--accent); color:#fff; border-color:var(--accent)}
+.frow.acc span{color:#dbe7ff}
+.farr{color:var(--ink-mute); font-size:17px; line-height:1}
+
+/* ---------- полоса рынка 3/97 ---------- */
+.market{border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; display:flex; height:42px}
+.market .hot{background:var(--neg); width:3%; min-width:16px}
+.market .cold{background:var(--accent-wash); flex:1; display:flex; align-items:center; justify-content:center; font-size:13.5px; font-weight:600; color:var(--accent-ink); padding:0 10px; text-align:center}
+
+/* ---------- большие схемы (на мобиле листаются вбок) ---------- */
+.bleed{position:relative; left:50%; transform:translateX(-50%); width:min(1220px, calc(100vw - 32px))}
+.diagram-scroll{overflow-x:auto; -webkit-overflow-scrolling:touch; border:1px solid var(--line); border-radius:var(--r-lg); background:var(--paper); padding:14px 10px}
+.diagram-scroll svg{display:block; height:auto; width:100%}
+
+/* ---------- появление при скролле ---------- */
+.reveal{opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1; transform:none}
+@media (prefers-reduced-motion: reduce){ .reveal{opacity:1; transform:none; transition:none} }
+</style>
+</head>
+<body>
+
+<!-- ===================== НАВБАР ===================== -->
+<div class="navbar">
+  <div class="navbar-in">
+    <span class="logo">Стратегия запуска<span class="dot">.</span></span>
+    <nav>
+      <a href="#diagnoz">Диагноз</a>
+      <a href="#karta">Карта</a>
+      <a href="#lestnitsa">Лестница</a>
+      <a href="#arhitektura">Архитектура</a>
+      <a href="#zatyk">Затык</a>
+      <a href="#start">Старт</a>
+    </nav>
+  </div>
+</div>
+
+<!-- ===================== ОБЛОЖКА ===================== -->
+<div class="cover">
+  <div class="wrap">
+    <div class="kicker">Рабочий документ · консалтинг · июнь 2026</div>
+    <h1>Вся стратегия - из головы <span class="accent">на одну страницу</span>.</h1>
+    <p class="sub">Здесь всё, что ты наговорил, - без сокращений, но в порядке: откуда взялась идея, кто клиент, на чём стоит стратегия, как устроена воронка из статей по лестнице Ханта, где именно сидит затык трёх месяцев и каким шагом он снимается. Читай сверху вниз - документ построен так же, как твоя воронка: от контекста к действию.</p>
+    <div class="badges">
+      <span class="badge solid">воронки из статей</span>
+      <span class="badge">лестница Ханта</span>
+      <span class="badge">Брансон · скрипты</span>
+      <span class="badge">Хормози · оффер</span>
+      <span class="badge accent">персонализация на входе</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== 00 · ДИАГНОЗ ===================== -->
+<section id="diagnoz">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-num">00</span>
+      <h2 class="sec-title">Сразу главное: диагноз</h2>
+      <p class="sec-note">Прежде чем разворачивать карту - вывод, который из неё следует. Чтобы дальше ты читал стратегию спокойно, зная, где собака зарыта.</p>
+    </div>
+
+    <div class="plaque reveal">
+      Стратегия у тебя <span class="accent">есть, и она цельная</span> - ниже она разложена вся, и она сходится. Ты прокрастинируешь не стратегию. Ты прокрастинируешь <span class="accent">два недостающих скрипта</span> - для статьи уровней 0→2 и статьи 2→3. Там, где скрипт есть (уровни 3-5, Брансон), у тебя «всё чётко понятно, что, где, в какой момент». Там, где скрипта нет - ты «не можешь написать и строчки». Это не лень. Это отсутствие «делай раз».
+      <span class="by">диагноз по твоему же рассказу</span>
+    </div>
+
+    <div class="stats reveal" style="margin-top:22px">
+      <div class="stat"><div class="v bad" data-count="3">3</div><div class="k">месяца прокрастинации - не из-за стратегии</div></div>
+      <div class="stat"><div class="v" data-count="2">2</div><div class="k">недостающих скрипта - статьи 0→2 и 2→3</div></div>
+      <div class="stat"><div class="v up" data-count="1">1</div><div class="k">первый шаг, который всё разблокирует (раздел 08)</div></div>
+    </div>
+
+    <div class="block-label" id="karta">Вся стратегия одним взглядом</div>
+    <p class="cap scroll-hint" style="margin:0 0 8px">схема листается вбок →</p>
+    <div class="bleed">
+    <div class="diagram-scroll">
+      <svg viewBox="0 0 1180 750" style="min-width:1000px" role="img" aria-label="Мастер-карта стратегии: от аватаров через персонализированный фронтенд к универсальному бэкенду и сделке" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#878d96"/></marker>
+          <marker id="arRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d92d20"/></marker>
+        </defs>
+
+        <!-- зоны -->
+        <rect x="395" y="85" width="480" height="480" rx="10" fill="#eaf0fe" opacity="0.5"/>
+        <rect x="885" y="85" width="285" height="480" rx="10" fill="#eceef2" opacity="0.75"/>
+        <text x="407" y="112" font-family="JetBrains Mono, monospace" font-size="12" font-weight="600" fill="#1d4ed8">ФРОНТЕНД · ПЕРСОНАЛИЗИРОВАННЫЙ</text>
+        <text x="407" y="130" font-family="JetBrains Mono, monospace" font-size="11" fill="#b42318">скриптов НЕТ - здесь весь затык</text>
+        <text x="897" y="112" font-family="JetBrains Mono, monospace" font-size="12" font-weight="600" fill="#14161a">БЭКЕНД · ОБЩИЙ</text>
+        <text x="897" y="130" font-family="JetBrains Mono, monospace" font-size="11" fill="#0f7d39">скрипты ЕСТЬ</text>
+
+        <!-- линейка Ханта -->
+        <text x="25" y="59" font-family="JetBrains Mono, monospace" font-size="11" fill="#6d737c">ЛЕСТНИЦА ХАНТА · УРОВНИ →</text>
+        <line x1="395" y1="55" x2="1160" y2="55" stroke="#d3d7dd" stroke-width="1.5"/>
+        <g font-family="JetBrains Mono, monospace" font-size="12.5" font-weight="600" text-anchor="middle">
+          <circle cx="425" cy="55" r="12" fill="#ffffff" stroke="#d92d20" stroke-width="1.5"/><text x="425" y="59.5" fill="#b42318">0</text>
+          <circle cx="525" cy="55" r="12" fill="#ffffff" stroke="#d92d20" stroke-width="1.5"/><text x="525" y="59.5" fill="#b42318">1</text>
+          <circle cx="648" cy="55" r="12" fill="#ffffff" stroke="#d92d20" stroke-width="1.5"/><text x="648" y="59.5" fill="#b42318">2</text>
+          <circle cx="878" cy="55" r="12" fill="#2563eb" stroke="#2563eb"/><text x="878" y="59.5" fill="#ffffff">3</text>
+          <circle cx="1015" cy="55" r="12" fill="#ffffff" stroke="#15a04a" stroke-width="1.5"/><text x="1015" y="59.5" fill="#0f7d39">4</text>
+          <circle cx="1150" cy="55" r="12" fill="#ffffff" stroke="#15a04a" stroke-width="1.5"/><text x="1150" y="59.5" fill="#0f7d39">5</text>
+        </g>
+
+        <!-- заголовки колонок -->
+        <text x="30" y="168" font-family="JetBrains Mono, monospace" font-size="11" fill="#6d737c">АВАТАРЫ</text>
+        <text x="210" y="168" font-family="JetBrains Mono, monospace" font-size="11" fill="#6d737c">РЕКЛАМА</text>
+
+        <!-- ряд 1: фотограф -->
+        <rect x="25" y="187" width="150" height="56" rx="6" fill="#eceef2" stroke="#d3d7dd"/>
+        <text x="100" y="220" text-anchor="middle" font-family="Inter, sans-serif" font-size="15" font-weight="600" fill="#14161a">Фотограф</text>
+        <line x1="175" y1="215" x2="203" y2="215" stroke="#878d96" stroke-width="1.5" marker-end="url(#ar)"/>
+        <rect x="205" y="187" width="130" height="56" rx="6" fill="#ffffff" stroke="#14161a" stroke-width="1.5"/>
+        <text x="270" y="211" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#14161a">РК</text>
+        <text x="270" y="230" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#494f57">→ фотографы</text>
+        <line x1="335" y1="215" x2="413" y2="215" stroke="#878d96" stroke-width="1.5" marker-end="url(#ar)"/>
+        <rect x="415" y="183" width="220" height="64" rx="8" fill="#ffffff" stroke="#d92d20" stroke-width="2"/>
+        <text x="429" y="212" font-family="Inter, sans-serif" font-size="15" font-weight="800" fill="#14161a">СТАТЬЯ №1</text>
+        <text x="429" y="232" font-family="JetBrains Mono, monospace" font-size="11" fill="#494f57">0→2 · сцены из жизни</text>
+        <rect x="540" y="171" width="86" height="20" rx="10" fill="#eaf0fe" stroke="#2563eb" stroke-dasharray="3 3"/>
+        <text x="583" y="185" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#1d4ed8">×20 дверей</text>
+        <line x1="635" y1="215" x2="658" y2="215" stroke="#878d96" stroke-width="1.5" marker-end="url(#ar)"/>
+        <rect x="660" y="183" width="200" height="64" rx="8" fill="#ffffff" stroke="#d92d20" stroke-width="2"/>
+        <text x="674" y="212" font-family="Inter, sans-serif" font-size="15" font-weight="800" fill="#14161a">СТАТЬЯ №2</text>
+        <text x="674" y="232" font-family="JetBrains Mono, monospace" font-size="11" fill="#494f57">2→3 · антилопа</text>
+
+        <!-- ряд 2: маркетолог -->
+        <rect x="25" y="287" width="150" height="56" rx="6" fill="#eceef2" stroke="#d3d7dd"/>
+        <text x="100" y="320" text-anchor="middle" font-family="Inter, sans-serif" font-size="15" font-weight="600" fill="#14161a">Маркетолог</text>
+        <line x1="175" y1="315" x2="203" y2="315" stroke="#878d96" stroke-width="1.5" marker-end="url(#ar)"/>
+        <rect x="205" y="287" width="130" height="56" rx="6" fill="#ffffff" stroke="#14161a" stroke-width="1.5"/>
+        <text x="270" y="311" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#14161a">РК</text>
+        <text x="270" y="330" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#494f57">→ маркетологи</text>
+        <line x1="335" y1="315" x2="413" y2="315" stroke="#878d96" stroke-width="1.5" marker-end="url(#ar)"/>
+        <rect x="415" y="283" width="220" height="64" rx="8" fill="#ffffff" stroke="#d92d20" stroke-width="2"/>
+        <text x="429" y="312" font-family="Inter, sans-serif" font-size="15" font-weight="800" fill="#14161a">СТАТЬЯ №1</text>
+        <text x="429" y="332" font-family="JetBrains Mono, monospace" font-size="11" fill="#494f57">0→2 · сцены из жизни</text>
+        <rect x="540" y="271" width="86" height="20" rx="10" fill="#eaf0fe" stroke="#2563eb" stroke-dasharray="3 3"/>
+        <text x="583" y="285" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#1d4ed8">×20 дверей</text>
+        <line x1="635" y1="315" x2="658" y2="315" stroke="#878d96" stroke-width="1.5" marker-end="url(#ar)"/>
+        <rect x="660" y="283" width="200" height="64" rx="8" fill="#ffffff" stroke="#d92d20" stroke-width="2"/>
+        <text x="674" y="312" font-family="Inter, sans-serif" font-size="15" font-weight="800" fill="#14161a">СТАТЬЯ №2</text>
+        <text x="674" y="332" font-family="JetBrains Mono, monospace" font-size="11" fill="#494f57">2→3 · антилопа</text>
+
+        <!-- ряд 3: ведущий -->
+        <rect x="25" y="387" width="150" height="56" rx="6" fill="#eceef2" stroke="#d3d7dd"/>
+        <text x="100" y="420" text-anchor="middle" font-family="Inter, sans-serif" font-size="15" font-weight="600" fill="#14161a">Ведущий</text>
+        <line x1="175" y1="415" x2="203" y2="415" stroke="#878d96" stroke-width="1.5" marker-end="url(#ar)"/>
+        <rect x="205" y="387" width="130" height="56" rx="6" fill="#ffffff" stroke="#14161a" stroke-width="1.5"/>
+        <text x="270" y="411" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#14161a">РК</text>
+        <text x="270" y="430" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#494f57">→ ведущие</text>
+        <line x1="335" y1="415" x2="413" y2="415" stroke="#878d96" stroke-width="1.5" marker-end="url(#ar)"/>
+        <rect x="415" y="383" width="220" height="64" rx="8" fill="#ffffff" stroke="#d92d20" stroke-width="2"/>
+        <text x="429" y="412" font-family="Inter, sans-serif" font-size="15" font-weight="800" fill="#14161a">СТАТЬЯ №1</text>
+        <text x="429" y="432" font-family="JetBrains Mono, monospace" font-size="11" fill="#494f57">0→2 · сцены из жизни</text>
+        <rect x="540" y="371" width="86" height="20" rx="10" fill="#eaf0fe" stroke="#2563eb" stroke-dasharray="3 3"/>
+        <text x="583" y="385" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#1d4ed8">×20 дверей</text>
+        <line x1="635" y1="415" x2="658" y2="415" stroke="#878d96" stroke-width="1.5" marker-end="url(#ar)"/>
+        <rect x="660" y="383" width="200" height="64" rx="8" fill="#ffffff" stroke="#d92d20" stroke-width="2"/>
+        <text x="674" y="412" font-family="Inter, sans-serif" font-size="15" font-weight="800" fill="#14161a">СТАТЬЯ №2</text>
+        <text x="674" y="432" font-family="JetBrains Mono, monospace" font-size="11" fill="#494f57">2→3 · антилопа</text>
+
+        <!-- ряд 4: тираж (пунктир) -->
+        <rect x="25" y="487" width="150" height="56" rx="6" fill="#ffffff" stroke="#878d96" stroke-dasharray="5 4"/>
+        <text x="100" y="520" text-anchor="middle" font-family="Inter, sans-serif" font-size="13.5" font-weight="600" fill="#6d737c">+ ещё 7-17</text>
+        <line x1="175" y1="515" x2="203" y2="515" stroke="#878d96" stroke-width="1.2" stroke-dasharray="4 4"/>
+        <rect x="205" y="487" width="130" height="56" rx="6" fill="#ffffff" stroke="#878d96" stroke-dasharray="5 4"/>
+        <text x="270" y="520" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11.5" fill="#6d737c">РК → ...</text>
+        <line x1="335" y1="515" x2="413" y2="515" stroke="#878d96" stroke-width="1.2" stroke-dasharray="4 4"/>
+        <rect x="415" y="487" width="220" height="56" rx="8" fill="#ffffff" stroke="#878d96" stroke-dasharray="5 4"/>
+        <text x="525" y="514" text-anchor="middle" font-family="Inter, sans-serif" font-size="12.5" fill="#6d737c">та же статья, слоты + нейросети</text>
+        <text x="525" y="531" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#878d96">тираж после пилота</text>
+        <line x1="635" y1="515" x2="658" y2="515" stroke="#878d96" stroke-width="1.2" stroke-dasharray="4 4"/>
+        <rect x="660" y="487" width="200" height="56" rx="8" fill="#ffffff" stroke="#878d96" stroke-dasharray="5 4"/>
+        <text x="760" y="520" text-anchor="middle" font-family="Inter, sans-serif" font-size="12.5" fill="#6d737c">адаптация</text>
+
+        <!-- схождение в бэкенд -->
+        <path d="M860,215 C876,215 882,212 891,206" fill="none" stroke="#878d96" stroke-width="1.6" marker-end="url(#ar)"/>
+        <path d="M860,315 C878,315 884,260 890,232" fill="none" stroke="#878d96" stroke-width="1.6" marker-end="url(#ar)"/>
+        <path d="M860,415 C880,415 886,300 890,256" fill="none" stroke="#878d96" stroke-width="1.6" marker-end="url(#ar)"/>
+        <path d="M860,515 C882,515 888,330 890,276" fill="none" stroke="#878d96" stroke-width="1.2" stroke-dasharray="4 4"/>
+
+        <!-- бэкенд-стек -->
+        <rect x="895" y="160" width="255" height="110" rx="8" fill="#14161a"/>
+        <text x="909" y="196" font-family="Inter, sans-serif" font-size="16" font-weight="800" fill="#f5f6f8">БЭКЕНД</text>
+        <text x="909" y="219" font-family="JetBrains Mono, monospace" font-size="11.5" fill="#aeb4bd">статьи 3-4-5 · одни для всех</text>
+        <text x="909" y="238" font-family="JetBrains Mono, monospace" font-size="11.5" fill="#aeb4bd">скрипты Брансона: VSL · вебинар</text>
+        <line x1="1022" y1="270" x2="1022" y2="298" stroke="#878d96" stroke-width="1.6" marker-end="url(#ar)"/>
+        <rect x="895" y="300" width="255" height="62" rx="8" fill="#ffffff" stroke="#15a04a" stroke-width="2"/>
+        <text x="909" y="327" font-family="Inter, sans-serif" font-size="15" font-weight="800" fill="#14161a">ОФФЕР</text>
+        <text x="909" y="348" font-family="JetBrains Mono, monospace" font-size="11" fill="#0f7d39">по Хормози · $100M Offers</text>
+        <line x1="1022" y1="362" x2="1022" y2="390" stroke="#878d96" stroke-width="1.6" marker-end="url(#ar)"/>
+        <rect x="895" y="392" width="255" height="62" rx="8" fill="#2563eb"/>
+        <text x="909" y="419" font-family="Inter, sans-serif" font-size="15" font-weight="800" fill="#ffffff">СДЕЛКА</text>
+        <text x="909" y="440" font-family="JetBrains Mono, monospace" font-size="11" fill="#dbe7ff">твой консалтинг · личная работа</text>
+
+        <!-- тематические заходы -->
+        <rect x="415" y="595" width="445" height="70" rx="8" fill="#ffffff" stroke="#d92d20" stroke-width="1.5" stroke-dasharray="6 4"/>
+        <text x="429" y="622" font-family="Inter, sans-serif" font-size="13.5" font-weight="700" fill="#14161a">ТЕМАТИЧЕСКИЕ ЗАХОДЫ · ~20 тем</text>
+        <text x="429" y="643" font-family="JetBrains Mono, monospace" font-size="11" fill="#494f57">кликбейт-статьи = ещё двери · работают как Статья №1</text>
+        <line x1="637" y1="593" x2="637" y2="570" stroke="#d92d20" stroke-width="1.6" marker-end="url(#arRed)"/>
+        <text x="650" y="582" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#b42318">вливаются в ту же воронку</text>
+
+        <!-- легенда -->
+        <g font-family="Inter, sans-serif" font-size="12.5" fill="#494f57">
+          <rect x="25" y="700" width="26" height="16" rx="4" fill="#ffffff" stroke="#d92d20" stroke-width="2"/>
+          <text x="60" y="713">скрипта нет - две красные статьи = весь затык</text>
+          <rect x="415" y="700" width="26" height="16" rx="4" fill="#ffffff" stroke="#15a04a" stroke-width="2"/>
+          <text x="450" y="713">скрипты есть · Брансон + Хормози</text>
+          <rect x="740" y="700" width="26" height="16" rx="4" fill="#ffffff" stroke="#878d96" stroke-dasharray="4 3"/>
+          <text x="775" y="713">добавляется при тираже</text>
+        </g>
+      </svg>
+    </div>
+    </div>
+    <p class="cap">Читается слева направо: каждый аватар получает свою рекламу и свою пару статей (фронтенд, красная зона - скриптов пока нет), все нитки сходятся в один общий бэкенд (скрипты есть) и заканчиваются сделкой. Сверху - уровни лестницы Ханта, по которым человек поднимается, двигаясь вправо. Снизу - тематические заходы: дополнительные двери в ту же воронку. Каждый элемент схемы подробно разобран в своём разделе ниже.</p>
+
+    <div class="block-label">Карта документа</div>
+    <ol class="lst num reveal">
+      <li><b>Контекст</b> - откуда взялась идея: услуги → потолок → консалтинг.</li>
+      <li><b>Клиент</b> - специалист-одиночка: кто он, и какой у него «враг».</li>
+      <li><b>Фундамент</b> - три книги и рамка стратегии: что разрешено, что запрещено.</li>
+      <li><b>Лестница</b> - ядро: воронка из статей по уровням Ханта, статья за статьёй.</li>
+      <li><b>Архитектура</b> - персонализированный фронтенд → универсальный бэкенд, двери-заголовки, математика масштаба.</li>
+      <li><b>Доп-стратегия</b> - тематические заходы: как самому формировать холодный трафик.</li>
+      <li><b>Карта затыка</b> - где есть тактика, где нет, и почему это и есть прокрастинация.</li>
+      <li><b>Старт</b> - как подступиться: пилотная нитка и пошаговый план.</li>
+      <li><b>Докрутка</b> - скелеты двух недостающих статей, собранные из твоих же смыслов.</li>
+      <li><b>Глоссарий</b> - твои термины, названные по именам.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ===================== 01 · КОНТЕКСТ ===================== -->
+<section id="kontekst">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-num">01</span>
+      <h2 class="sec-title">Контекст: откуда всё это</h2>
+      <p class="sec-note">Твоя история - не лирика. Это фундамент стратегии: ты сам прошёл путь, который собираешься продавать. Поэтому она здесь, наверху.</p>
+    </div>
+
+    <div class="tl-cards reveal">
+      <div class="tl-card">
+        <span class="when">Этап 1 · услуги под ключ</span>
+        <h4>Всё сам, руками</h4>
+        <p>Воронки продаж под ключ, трафик, настройка рекламы. Сам создал услугу, сам продвигал, сам привлекал клиентов, сам продавал, сам делал работу. Результаты - очень хорошие.</p>
+      </div>
+      <div class="tl-card" style="border-left-color:var(--neg)">
+        <span class="when" style="color:var(--neg-ink)">Этап 2 · потолок</span>
+        <h4>Упёрся в два ограничителя</h4>
+        <p>Чек за услуги - ограничен рынком. Время и ресурс внимания - ограничены физикой: кто всю работу делает сам, имеет лимит по клиентам и проектам, выше которого не прыгнуть.</p>
+      </div>
+      <div class="tl-card">
+        <span class="when">Этап 3 · инсайт</span>
+        <h4>«Научи меня» - платят за мозги</h4>
+        <p>Коллеги-маркетологи смотрели на результаты и просили: «как ты круто настраиваешь рекламу, как делаешь воронки - научи». Так стало видно: знания продаются сами по себе.</p>
+      </div>
+      <div class="tl-card">
+        <span class="when">Этап 4 · консалтинг</span>
+        <h4>Те же знания - другая монетизация</h4>
+        <p>Люди заходят, ты работаешь с ними лично и обучаешь: как работаешь, как настраиваешь рекламу, как строишь воронки. Руками не делаешь ничего. Ничего не поменялось - ни ниша, ни оборудование, ни опыт. Поменялся только способ зарабатывать.</p>
+      </div>
+      <div class="tl-card" style="border-left-color:var(--warn)">
+        <span class="when" style="color:var(--warn-ink)">Этап 5 · сейчас</span>
+        <h4>Запуск консалтингового продукта - и три месяца затыка</h4>
+        <p>Стратегия запуска собрана в голове целиком, но не начата: нет тактики на входе воронки. Этот документ - чтобы выгрузить её из головы и увидеть, где именно стопор.</p>
+      </div>
+    </div>
+
+    <div class="block-label">Услуги против консалтинга - что именно поменялось</div>
+    <div class="split reveal">
+      <div class="before">
+        <h4>Услуги · продаёшь руки</h4>
+        <ul>
+          <li>Всю работу делаешь сам</li>
+          <li>Доход упирается в лимит клиентов и проектов</li>
+          <li>Чек ограничен средним по рынку</li>
+          <li>Привязан к проектам и обязательствам</li>
+        </ul>
+      </div>
+      <div class="after">
+        <h4>Консалтинг · продаёшь мозги</h4>
+        <ul>
+          <li>Руками не делаешь ничего - обучаешь лично</li>
+          <li>Те же знания, тот же опыт, та же экспертиза</li>
+          <li>Чек в разы выше, без потолка услуг</li>
+          <li>Без привязки: минимум обязательств</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout info reveal"><span class="ic">→</span><div><b class="t">Почему эта история - часть стратегии, а не лирика</b>Ты - это твой аватар, только вчера. Всё, что воронка должна доказать клиенту («модель тупиковая», «есть способ зарабатывать на тех же знаниях больше»), ты прожил сам. Фактура для статей - твоя собственная биография, её не надо выдумывать.</div></div>
+  </div>
+</section>
+
+<!-- ===================== 02 · КЛИЕНТ ===================== -->
+<section id="klient">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-num">02</span>
+      <h2 class="sec-title">Клиент: специалист-одиночка</h2>
+      <p class="sec-note">Самое важное определение во всей стратегии. От него зависит и персонализация, и «враг», и вся математика воронки.</p>
+    </div>
+
+    <blockquote class="quote-bar reveal">
+      Его навык - это его продукт. Его продукт - это его бизнес. <span class="accent">Его экспертиза и есть его бизнес.</span> Убери его самого - бизнеса нет.
+      <span class="by">формула аватара</span>
+    </blockquote>
+
+    <div class="block-label">Кто это (и кто это точно НЕ)</div>
+    <div class="features cols-2 reveal">
+      <div class="feature">
+        <span class="ic">✓</span>
+        <h4>Кто он</h4>
+        <ul class="lst check" style="max-width:none">
+          <li>Профессионал, эксперт - оказывает услуги</li>
+          <li>Работает один: всё делает сам</li>
+          <li>Сам себе и продукт, и производство, и продажи</li>
+          <li>Нормально зарабатывает - но всё держится на нём</li>
+          <li>Такой же, каким был ты в услугах</li>
+        </ul>
+      </div>
+      <div class="feature">
+        <span class="ic" style="background:var(--neg-wash); color:var(--neg-ink)">✕</span>
+        <h4>Кто он точно НЕ</h4>
+        <ul class="lst cross" style="max-width:none">
+          <li class="no">Не предприниматель, не бизнесмен</li>
+          <li class="no">Нет команды, нет ассистентов</li>
+          <li class="no">Не ищет «бизнес-обучение» - он о себе так не думает</li>
+          <li class="no">Не новичок: учить профессии с нуля его не нужно</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block-label">Примеры аватаров - их может быть 10, 20, сколько угодно</div>
+    <div class="chips reveal">
+      <span class="chip">Свадебный фотограф</span>
+      <span class="chip">Ведущий</span>
+      <span class="chip">Специалист по рекламе</span>
+      <span class="chip">Маркетолог</span>
+      <span class="chip">Дизайнер</span>
+      <span class="chip">Авитолог</span>
+      <span class="chip">Юрист / адвокат</span>
+      <span class="chip ghost">+ любой, чей навык = его бизнес</span>
+    </div>
+    <p class="cap">Ключевое наблюдение, на котором держится вся машина персонализации (раздел 05): проблема у всех ОДНА И ТА ЖЕ. Меняется только специфика - как она выглядит в их жизни.</p>
+
+    <div class="block-label">«Враг»: два ограничителя его модели</div>
+    <div class="features cols-2 reveal">
+      <div class="feature">
+        <span class="ic" style="background:var(--neg-wash); color:var(--neg-ink)">1</span>
+        <h4>Потолок времени</h4>
+        <p>Он всё делает сам, в одиночку - физически не может обработать больше определённого количества клиентов и проектов в месяц. Работать больше - некуда.</p>
+      </div>
+      <div class="feature">
+        <span class="ic" style="background:var(--neg-wash); color:var(--neg-ink)">2</span>
+        <h4>Потолок чека</h4>
+        <p>За подобные услуги на рынке есть определённый средний чек - и потолок по нему. Особо не разгуляешься: задрать цену в разы не даст сам рынок.</p>
+      </div>
+    </div>
+
+    <div class="card tint depth reveal" style="margin-top:18px">
+      <div class="card-title">Потолок модели: доход × число клиентов</div>
+      <svg class="chart" viewBox="0 0 640 300" role="img" aria-label="График: доход растёт с числом клиентов и упирается в потолок модели">
+        <!-- сетка -->
+        <g stroke="#e3e6ea" stroke-width="1">
+          <line x1="50" y1="40" x2="610" y2="40"/>
+          <line x1="50" y1="100" x2="610" y2="100"/>
+          <line x1="50" y1="160" x2="610" y2="160"/>
+          <line x1="50" y1="220" x2="610" y2="220"/>
+        </g>
+        <!-- оси -->
+        <line x1="50" y1="20" x2="50" y2="260" stroke="#14161a" stroke-width="1.5"/>
+        <line x1="50" y1="260" x2="610" y2="260" stroke="#14161a" stroke-width="1.5"/>
+        <!-- потолок -->
+        <line x1="50" y1="80" x2="610" y2="80" stroke="#d92d20" stroke-width="2.5" stroke-dasharray="7 6"/>
+        <text x="606" y="64" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="17" fill="#b42318" font-weight="600">ПОТОЛОК</text>
+        <!-- кривая дохода с заливкой -->
+        <path d="M50,260 C170,200 260,130 350,96 C430,84 520,81 610,80 L610,260 Z" fill="#2563eb" opacity="0.10"/>
+        <path d="M50,260 C170,200 260,130 350,96 C430,84 520,81 610,80" fill="none" stroke="#2563eb" stroke-width="3.5" stroke-linecap="round"/>
+        <!-- точка упора -->
+        <circle cx="430" cy="86" r="6" fill="#2563eb"/>
+        <text x="424" y="122" text-anchor="middle" font-family="Inter, sans-serif" font-size="16.5" fill="#494f57">дальше - только плато</text>
+        <!-- подписи осей -->
+        <text x="56" y="36" font-family="JetBrains Mono, monospace" font-size="14" fill="#6d737c">ДОХОД</text>
+        <text x="606" y="284" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="14" fill="#6d737c">КЛИЕНТЫ В МЕСЯЦ</text>
+      </svg>
+      <p class="cap"><b>Потолок = лимит клиентов × средний чек по рынку.</b> Это и есть «враг», которому статья №1 даст имя: сколько ни работай усерднее, кривая упирается в потолок, заданный самой моделью «всё делаю сам». Дальше двигает не усилие, а смена модели.</p>
+    </div>
+
+    <div class="callout warn reveal"><span class="ic">!</span><div><b class="t">Нюанс, который ты сам подчеркнул: лестница отсчитывается ОТ ТВОЕГО ПРОДУКТА</b>В жизни у него проблемы, конечно, есть - он хочет клиентов побольше. Но относительно ТВОЕГО продукта он на нулевом уровне: он не знает, что его настоящая проблема - в модели. «Нет проблемы» - значит «нет проблемы в плоскости консалтинга», а не «жизнь идеальна».</div></div>
+  </div>
+</section>
+
+<!-- ===================== 03 · ФУНДАМЕНТ ===================== -->
+<section id="fundament">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-num">03</span>
+      <h2 class="sec-title">Фундамент: три книги, одна рамка</h2>
+      <p class="sec-note">Вся твоя база в запуске консалтинга как инфопродукта. Каждая книга отвечает за свой кусок воронки - и вместе они закрывают её целиком. Это важно увидеть: у тебя НЕ каша из источников, у тебя разделение труда.</p>
+    </div>
+
+    <div class="features reveal">
+      <div class="feature depth">
+        <span class="ic">ХАНТ</span>
+        <h4>«Конверсия сайта»</h4>
+        <p>Бен Хант. Даёт <b>КАРКАС</b>: лестницу осознанности 0-5, по которой человек идёт от «у меня нет проблемы» до «беру». Вся воронка - это движение по его лестнице.</p>
+        <p class="tag"><span class="status off">зона: вся дорога целиком</span></p>
+      </div>
+      <div class="feature depth">
+        <span class="ic">БРАНСОН</span>
+        <h4>«DotCom Secrets» + «Expert Secrets»</h4>
+        <p>Рассел Брансон. Даёт <b>СКРИПТЫ</b>: пошаговые скелеты воронок (VSL, идеальный вебинар) - «где что написать», конструктор лего. У него это видео, но разницы нет - перекладывается на текст один в один.</p>
+        <p class="tag"><span class="status ok">зона: уровни 3-5</span></p>
+      </div>
+      <div class="feature depth">
+        <span class="ic">ХОРМОЗИ</span>
+        <h4>«$100M Offers»</h4>
+        <p>Алекс Хормози. Даёт <b>ОФФЕР</b>: как собрать предложение, от которого не отмахнуться. Включается в самом конце - на пятом уровне, где человек готов покупать.</p>
+        <p class="tag"><span class="status ok">зона: уровень 5</span></p>
+      </div>
+    </div>
+
+    <div class="callout info reveal"><span class="ic">→</span><div><b class="t">Как они складываются</b>Хант говорит, <b>по какой дороге</b> идёт человек. Брансон - <b>что говорить</b> на каждом шаге этой дороги. Хормози - <b>что предложить</b> в её конце. Дыра у тебя ровно одна: для первой половины дороги (уровни 0-2) ни у кого из них нет готового скрипта - Брансон начинает с третьего уровня. Это и есть весь затык (раздел 07).</div></div>
+
+    <div class="block-label">Рамка стратегии: жёсткие «да» и «нет», которые ты сам себе поставил</div>
+    <div class="features cols-2 reveal">
+      <div class="feature">
+        <span class="ic">ДА</span>
+        <h4>На чём строим</h4>
+        <ul class="lst check" style="max-width:none">
+          <li>Воронки из СТАТЕЙ - текст, и только текст</li>
+          <li>Максимально холодный трафик: спрос формируем сами</li>
+          <li>Глубокая персонализация на входе - человек должен себя узнать</li>
+          <li>Заголовок = 80% успеха (Брансон и Хормози, цитируя классиков)</li>
+        </ul>
+      </div>
+      <div class="feature">
+        <span class="ic" style="background:var(--neg-wash); color:var(--neg-ink)">НЕТ</span>
+        <h4>Чего не делаем</h4>
+        <ul class="lst cross" style="max-width:none">
+          <li class="no">Никаких видео и вебинаров</li>
+          <li class="no">Не продаём курсы, мини-уроки, мини-продукты</li>
+          <li class="no">Не бьёмся за 3% рынка, которые уже ищут решение</li>
+          <li class="no">Никакой общей рекламы «на всех, кто оказывает услуги»</li>
+        </ul>
+      </div>
+    </div>
+    <p class="cap">Эта рамка - не ограничение, а фильтр решений: каждый раз, когда появится соблазн «а может, запишу видео» или «а может, одна реклама на всех», - ответ уже зафиксирован здесь.</p>
+  </div>
+</section>
+<!-- ===================== 04 · ЛЕСТНИЦА ===================== -->
+<section id="lestnitsa">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-num">04</span>
+      <h2 class="sec-title">Ядро: воронка по лестнице Ханта</h2>
+      <p class="sec-note">Лестница Бена Ханта - каркас всей воронки: человек поднимается по уровням осознанности, а твои статьи - это ступеньки-переходы между ними. Ниже вся лестница целиком: уровни, статьи между ними и честный статус по каждой - где тактика есть, а где её нет.</p>
+    </div>
+
+    <div class="callout info reveal"><span class="ic">№</span><div><b class="t">Сначала наведём порядок в нумерации</b>В устном рассказе уровни-состояния и статьи-переходы легко смешиваются («ступень 0-1», «статья второго уровня»), поэтому фиксируем раз и навсегда. Уровни Ханта - это СОСТОЯНИЯ человека: 0, 1, 2, 3, 4, 5. Статьи - это ПЕРЕХОДЫ между состояниями. В этом документе всегда так: <b>Статья №1</b> закрывает переходы 0→1→2 (одним текстом), <b>Статья №2</b> закрывает переход 2→3, <b>Бэкенд</b> закрывает 3→4→5, <b>Оффер</b> добивает уровень 5.</div></div>
+
+    <div class="block-label">Лестница одним взглядом</div>
+    <p class="cap scroll-hint" style="margin:0 0 8px">схема листается вбок →</p>
+    <div class="bleed">
+    <div class="diagram-scroll">
+      <svg viewBox="0 0 1080 545" style="min-width:880px" role="img" aria-label="Лестница Ханта: шесть уровней-ступеней, под ними скобки статей-переходов" xmlns="http://www.w3.org/2000/svg">
+        <!-- силуэт лестницы -->
+        <path d="M30,438 L30,408 L202,408 L202,350 L374,350 L374,292 L546,292 L546,234 L718,234 L718,176 L890,176 L890,118 L1062,118 L1062,438 Z" fill="#f5f6f8" stroke="#d3d7dd" stroke-width="1.5"/>
+
+        <!-- ступень 0 -->
+        <circle cx="62" cy="384" r="15" fill="#fdeceb" stroke="#d92d20" stroke-width="1.5"/>
+        <text x="62" y="389" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13.5" font-weight="600" fill="#b42318">0</text>
+        <text x="88" y="380" font-family="Inter, sans-serif" font-size="14.5" font-weight="700" fill="#14161a">Проблемы нет</text>
+        <text x="88" y="398" font-family="Inter, sans-serif" font-size="11.5" fill="#6d737c">«хочу больше клиентов»</text>
+
+        <!-- ступень 1 -->
+        <circle cx="234" cy="326" r="15" fill="#fdeceb" stroke="#d92d20" stroke-width="1.5"/>
+        <text x="234" y="331" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13.5" font-weight="600" fill="#b42318">1</text>
+        <text x="260" y="322" font-family="Inter, sans-serif" font-size="14.5" font-weight="700" fill="#14161a">Проблема есть!</text>
+        <text x="260" y="340" font-family="Inter, sans-serif" font-size="11.5" fill="#6d737c">«дело в модели»</text>
+
+        <!-- ступень 2 -->
+        <circle cx="406" cy="268" r="15" fill="#fdeceb" stroke="#d92d20" stroke-width="1.5"/>
+        <text x="406" y="273" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13.5" font-weight="600" fill="#b42318">2</text>
+        <text x="432" y="264" font-family="Inter, sans-serif" font-size="14.5" font-weight="700" fill="#14161a">Ищу решение</text>
+        <text x="432" y="282" font-family="Inter, sans-serif" font-size="11.5" fill="#6d737c">«какие варианты?»</text>
+
+        <!-- ступень 3 -->
+        <circle cx="578" cy="210" r="15" fill="#2563eb"/>
+        <text x="578" y="215" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13.5" font-weight="600" fill="#ffffff">3</text>
+        <text x="604" y="206" font-family="Inter, sans-serif" font-size="14.5" font-weight="700" fill="#14161a">Консалтинг!</text>
+        <text x="604" y="224" font-family="Inter, sans-serif" font-size="11.5" fill="#6d737c">«как это устроено?»</text>
+
+        <!-- ступень 4 -->
+        <circle cx="750" cy="152" r="15" fill="#e9f7ee" stroke="#15a04a" stroke-width="1.5"/>
+        <text x="750" y="157" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13.5" font-weight="600" fill="#0f7d39">4</text>
+        <text x="776" y="148" font-family="Inter, sans-serif" font-size="14.5" font-weight="700" fill="#14161a">Вижу систему</text>
+        <text x="776" y="166" font-family="Inter, sans-serif" font-size="11.5" fill="#6d737c">«хочу так же»</text>
+
+        <!-- ступень 5 -->
+        <circle cx="922" cy="94" r="15" fill="#15a04a"/>
+        <text x="922" y="99" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13.5" font-weight="600" fill="#ffffff">5</text>
+        <text x="948" y="90" font-family="Inter, sans-serif" font-size="14.5" font-weight="700" fill="#14161a">Беру</text>
+        <text x="948" y="108" font-family="Inter, sans-serif" font-size="11.5" fill="#6d737c">«оффер принят»</text>
+
+        <!-- скобки статей под лестницей -->
+        <line x1="116" y1="438" x2="116" y2="468" stroke="#d92d20" stroke-width="1.2" stroke-dasharray="3 3"/>
+        <line x1="460" y1="438" x2="460" y2="468" stroke="#d92d20" stroke-width="1.2" stroke-dasharray="3 3"/>
+        <line x1="116" y1="468" x2="460" y2="468" stroke="#d92d20" stroke-width="2.5"/>
+        <text x="288" y="490" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" font-weight="600" fill="#b42318">СТАТЬЯ №1 · 0→1→2 · скрипта НЕТ</text>
+
+        <line x1="460" y1="498" x2="460" y2="510" stroke="#d92d20" stroke-width="1.2" stroke-dasharray="3 3"/>
+        <line x1="632" y1="438" x2="632" y2="510" stroke="#d92d20" stroke-width="1.2" stroke-dasharray="3 3"/>
+        <line x1="460" y1="510" x2="632" y2="510" stroke="#d92d20" stroke-width="2.5"/>
+        <text x="548" y="532" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" font-weight="600" fill="#b42318">СТАТЬЯ №2 · 2→3 · скрипта НЕТ</text>
+
+        <line x1="648" y1="438" x2="648" y2="468" stroke="#15a04a" stroke-width="1.2" stroke-dasharray="3 3"/>
+        <line x1="976" y1="438" x2="976" y2="468" stroke="#15a04a" stroke-width="1.2" stroke-dasharray="3 3"/>
+        <line x1="648" y1="468" x2="976" y2="468" stroke="#15a04a" stroke-width="2.5"/>
+        <text x="812" y="490" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" font-weight="600" fill="#0f7d39">БЭКЕНД · 3→4→5 · СКРИПТЫ ЕСТЬ</text>
+
+        <rect x="884" y="498" width="178" height="26" rx="13" fill="#e9f7ee" stroke="#15a04a" stroke-width="1.5"/>
+        <text x="973" y="515" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11.5" font-weight="600" fill="#0f7d39">ОФФЕР · Хормози</text>
+      </svg>
+    </div>
+    </div>
+    <p class="cap">Человек поднимается по ступеням-состояниям, статьи - это перила между ними. Красные скобки - переходы, на которые скрипта пока нет (затык), зелёная - зона, где скрипты Брансона ложатся один в один.</p>
+
+    <div class="block-label">Теперь по шагам · каждый уровень и каждая статья</div>
+    <div class="ladder reveal" style="margin-top:26px">
+
+      <!-- L0 -->
+      <div class="lvl">
+        <div class="rail"><div class="num">0</div><div class="cord"></div></div>
+        <div class="lvl-body">
+          <div class="lvl-q">Уровень 0 · состояние</div>
+          <div class="lvl-name">«У меня нет проблемы»</div>
+          <p class="lvl-desc">Живёт спокойно. Относительно ТВОЕГО продукта - полный ноль. Единственная мысль в голове: «было бы неплохо привлечь побольше новых клиентов». Сюда приходит холодный трафик с рекламы.</p>
+        </div>
+      </div>
+
+      <!-- Статья 1 -->
+      <div class="rung">
+        <div class="rail"><div class="cord none"></div></div>
+        <div class="art none">
+          <div class="art-k"><span>Статья №1 · фронтенд · персонализированная</span><span class="status bad">скрипта нет - главный блокер</span></div>
+          <h4>Вскрыть проблему и дать имя врагу. Закрывает 0→1→2 одним текстом</h4>
+          <p>Посеять зерно сомнения: «дружище, у тебя всё-таки есть проблема». Показать, что его модель тупиковая: дать врагу имя, разложить логику и математику потолка, привести примеры из жизни. Читатель должен кивать: «а ведь я раньше об этом не думал».</p>
+        </div>
+      </div>
+
+      <!-- L1 -->
+      <div class="lvl">
+        <div class="rail"><div class="num">1</div><div class="cord"></div></div>
+        <div class="lvl-body">
+          <div class="lvl-q">Уровень 1 · состояние</div>
+          <div class="lvl-name">«Проблема есть!»</div>
+          <p class="lvl-desc">Осознал: дело не в количестве клиентов, дело в модели. Враг назван. Переход 1→2 настолько близко, что отдельная статья не нужна - та же Статья №1 довозит его дальше (разница переходов - только в том, чтобы описать врага).</p>
+        </div>
+      </div>
+
+      <!-- L2 -->
+      <div class="lvl">
+        <div class="rail"><div class="num">2</div><div class="cord"></div></div>
+        <div class="lvl-body">
+          <div class="lvl-q">Уровень 2 · состояние</div>
+          <div class="lvl-name">«Проблема ясна - решения не знаю»</div>
+          <p class="lvl-desc">Проблему признал, решений не знает и начинает их искать. Самый ценный момент: он открыт к вариантам - и именно ты ему их покажешь.</p>
+        </div>
+      </div>
+
+      <!-- Статья 2 -->
+      <div class="rung">
+        <div class="rail"><div class="cord none"></div></div>
+        <div class="art none">
+          <div class="art-k"><span>Статья №2 · фронтенд · полуперсонализированная</span><span class="status bad">скрипта нет</span></div>
+          <h4>Обзор вариантов → «бац» → золотая антилопа. Закрывает 2→3</h4>
+          <p>Честно разложить варианты заработать больше на тех же знаниях (курс, партнёрство, своя школа, агентство - с плюсами и минусами), а затем подкинуть консалтинг и продать ЕГО ИДЕЮ как золотую антилопу: все минусы убраны, математика дохода, чек от 150 тысяч.</p>
+        </div>
+      </div>
+
+      <!-- L3 -->
+      <div class="lvl hot">
+        <div class="rail"><div class="num">3</div><div class="cord"></div></div>
+        <div class="lvl-body">
+          <div class="lvl-q">Уровень 3 · состояние · граница фронтенда и бэкенда</div>
+          <div class="lvl-name">«Решение - консалтинг. А как это устроено?»</div>
+          <p class="lvl-desc">Идея консалтинга продана. С этого уровня персонализация значения не имеет - дальше воронка универсальная, одна для всех аватаров. И с этого же уровня у тебя появляется тактика: начинаются скрипты Брансона.</p>
+        </div>
+      </div>
+
+      <!-- Бэкенд -->
+      <div class="rung">
+        <div class="rail"><div class="cord"></div></div>
+        <div class="art">
+          <div class="art-k"><span>Бэкенд · статьи уровней 3-4-5 · универсальные</span><span class="status ok">скрипты есть · Брансон</span></div>
+          <h4>Показать, как это устроено, и продать желаемое будущее. Закрывает 3→4→5</h4>
+          <p>Как зарабатываются деньги в консалтинге, как работает воронка, как всё настраивается, как это устроено у тебя - и как будет выстроено у него. Берёшь скрипты из DotCom Secrets (VSL, идеальный вебинар) и как конструктор лего собираешь статью из готовых блоков.</p>
+        </div>
+      </div>
+
+      <!-- L4 -->
+      <div class="lvl">
+        <div class="rail"><div class="num">4</div><div class="cord"></div></div>
+        <div class="lvl-body">
+          <div class="lvl-q">Уровень 4 · состояние</div>
+          <div class="lvl-name">«Вижу, как это будет работать у меня»</div>
+          <p class="lvl-desc">Желаемое будущее продано: он понимает механику, видит себя внутри неё. Остались последние сомнения - их снимает финал бэкенда.</p>
+        </div>
+      </div>
+
+      <!-- Оффер -->
+      <div class="rung">
+        <div class="rail"><div class="cord"></div></div>
+        <div class="art">
+          <div class="art-k"><span>Финал · оффер</span><span class="status ok">метод есть · Хормози</span></div>
+          <h4>Снять сомнения и дать предложение, от которого не отмахнуться</h4>
+          <p>Оффер собираешь по «$100M Offers» Алекса Хормози. Тут тебе объяснять не надо - сам сказал: «всё понятно».</p>
+        </div>
+      </div>
+
+      <!-- L5 -->
+      <div class="lvl hot">
+        <div class="rail"><div class="num">5</div></div>
+        <div class="lvl-body">
+          <div class="lvl-q">Уровень 5 · состояние</div>
+          <div class="lvl-name">«Беру»</div>
+          <p class="lvl-desc">Покупка консалтинга. Конец лестницы - начало работы с клиентом.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout ok reveal" style="margin-top:10px"><span class="ic">∞</span><div><b class="t">Принцип связности, который ты сам сформулировал</b>Каждая статья - подводка к следующей. Каждая следующая - логичное продолжение предыдущей. Это полноценная воронка - просто из статей, без единого видео.</div></div>
+
+    <div class="block-label">Статья №1 крупным планом · что в ней должно быть (твои же смыслы)</div>
+    <div class="features cols-2 reveal">
+      <div class="feature">
+        <span class="ic">ЦЕЛЬ</span>
+        <h4>Задача статьи</h4>
+        <ul class="lst bullet" style="max-width:none">
+          <li>Вскрыть проблему: «у тебя она всё-таки есть»</li>
+          <li>Дать имя врагу-злодею: тупиковая модель</li>
+          <li>Доказать: логика, математика, цифры, примеры из жизни</li>
+          <li>Показать оба ограничителя: лимит клиентов + потолок чека</li>
+          <li>Добиться кивка: «действительно, я об этом не думал»</li>
+          <li>В конце - подводка к Статье №2</li>
+        </ul>
+      </div>
+      <div class="feature">
+        <span class="ic">СТАТУС</span>
+        <h4>Что есть / чего нет</h4>
+        <ul class="lst" style="max-width:none">
+          <li><span class="status ok">есть</span>&nbsp; понимание идеи - «я знаю, о чём писать»</li>
+          <li><span class="status ok">есть</span>&nbsp; целый список смыслов, которые надо донести</li>
+          <li><span class="status ok">есть</span>&nbsp; понимание, к чему подвести</li>
+          <li><span class="status bad">нет</span>&nbsp; структуры: КАК писать, где что написать</li>
+          <li><span class="status bad">нет</span>&nbsp; скрипта уровня Брансона для ранних ступеней</li>
+        </ul>
+      </div>
+    </div>
+    <p class="cap">Почему одна статья на два перехода: между «осознал проблему» (0→1) и «понял, что решения не знаю» (1→2) разница очень маленькая - достаточно как следует описать врага. Резать это на два текста - дробить без пользы.</p>
+
+    <div class="block-label">Статья №2 крупным планом · варианты и золотая антилопа</div>
+    <div class="features cols-2 reveal">
+      <div class="feature">
+        <span class="ic">ЦЕЛЬ</span>
+        <h4>Задача статьи</h4>
+        <ul class="lst bullet" style="max-width:none">
+          <li>Показать честные варианты: курс, работа в паре / услуга под ключ, своя школа-обучение новичков, студия / агентство - у каждого плюсы и минусы</li>
+          <li>Варианты - «резиновые»: подходят любому аватару</li>
+          <li>Потом «бац» - консалтинг: все минусы убраны, одни плюсы</li>
+          <li>Высокий чек, классные клиенты, не надо учить с нуля - работаешь с теми, кто уже в теме: «ты дошёл до результата - помоги повторить»</li>
+          <li>Математика дохода: чек от 150 000 ₽, две продажи - и база по финансам закрыта</li>
+          <li>Масштаб обещания: зарабатывать в десятки раз больше; миллион рублей - спокойно достижимая планка</li>
+          <li>Деньги другого качества: минимум обязательств, легче, чем услуги</li>
+          <li>Итог: он ПОВЕРИЛ, что консалтинг - это его вариант, и хочет понять, как это устроено</li>
+        </ul>
+      </div>
+      <div class="feature">
+        <span class="ic">СТАТУС</span>
+        <h4>Что есть / чего нет</h4>
+        <ul class="lst" style="max-width:none">
+          <li><span class="status ok">есть</span>&nbsp; полное понимание идеи и набора вариантов</li>
+          <li><span class="status ok">есть</span>&nbsp; математика дохода и аргументы за консалтинг</li>
+          <li><span class="status bad">нет</span>&nbsp; скрипта: в каком порядке и как это выкладывать</li>
+        </ul>
+        <p style="margin-top:14px">Уровень убедительности здесь - решающий: именно эта статья переводит человека через главную границу воронки, на третий уровень, где начинается универсальный бэкенд.</p>
+      </div>
+    </div>
+
+    <div class="block-label">Математика дохода глазами аватара · месяц против месяца</div>
+    <div class="split reveal">
+      <div class="before">
+        <h4>Его месяц сейчас · модель «всё сам»</h4>
+        <div class="mini-chips">
+          <span class="mini-chip">клиент</span><span class="mini-chip">клиент</span><span class="mini-chip">клиент</span><span class="mini-chip">клиент</span><span class="mini-chip">клиент</span><span class="mini-chip">клиент</span><span class="mini-chip">клиент</span><span class="mini-chip">клиент</span><span class="mini-chip">клиент</span><span class="mini-chip">клиент</span><span class="mini-chip">клиент</span><span class="mini-chip">клиент</span>
+        </div>
+        <ul>
+          <li>Конвейер клиентов по среднему чеку рынка</li>
+          <li>Время и внимание съедены полностью</li>
+          <li>Каждый клиент = обязательства и ведение</li>
+          <li>Потолок: больше клиентов физически не взять</li>
+        </ul>
+      </div>
+      <div class="after">
+        <h4>Месяц с консалтингом · обещание Статьи №2</h4>
+        <div class="big-tile">150 000 ₽<small>продажа №1</small></div>
+        <div class="big-tile">150 000 ₽<small>продажа №2 - база по финансам закрыта</small></div>
+        <ul>
+          <li>Два клиента вместо конвейера</li>
+          <li>Минимум обязательств: не ведёшь проекты руками</li>
+          <li>«Деньги другого качества» - тот же опыт, выше чек</li>
+        </ul>
+      </div>
+    </div>
+    <p class="cap">Это не прогноз и не твоя цена - это визуализация обещания, которое Статья №2 даёт аватару: на тех же знаниях в десятки раз больше, миллион рублей - спокойно достижимая планка. Картинка слева намеренно без конкретных цифр: у каждой профессии свой средний чек.</p>
+
+    <div class="block-label">Бэкенд крупным планом · где тактика уже есть</div>
+    <div class="card tint reveal">
+      <div class="card-title">Статьи уровней 3-4-5 + оффер</div>
+      <p class="body"><span class="hl-bold">Что делает:</span> объясняет, как устроен консалтинг изнутри - как зарабатываются деньги, как работает воронка, как всё настраивается, что для этого нужно. Продаёт желаемое будущее: «вот как это будет выстроено у тебя». Снимает сомнения. Завершается оффером.</p>
+      <p class="body"><span class="hl-bold">Чем собирается:</span> скрипты Рассела Брансона из DotCom Secrets - VSL, идеальный вебинар и другие. У Рассела работа начинается ровно с третьей ступени, поэтому с этого места его скрипты ложатся один в один: берёшь структуру за основу и как конструктор лего собираешь статью из блоков. Пятый уровень добивает Хормози - по нему собирается оффер.</p>
+      <p class="body"><span class="hl-bold">Единственный нюанс:</span> методологии МИКСА нет - что взять из VSL, что из вебинара, что из воронок. Сейчас это будет экспромт. Но это проблема другого порядка: есть на что опираться, есть на что смотреть. <span class="hl-accent">Решение в плане старта (раздел 08): собрать микс один раз и зафиксировать как СВОЙ канонический скрипт бэкенда.</span></p>
+      <div class="badges" style="margin-top:6px">
+        <span class="status ok">стратегия есть</span>
+        <span class="status ok">скрипты есть (Брансон)</span>
+        <span class="status ok">оффер по Хормози</span>
+        <span class="status warn">микс - пока экспромт</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 05 · АРХИТЕКТУРА ===================== -->
+<section id="arhitektura">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-num">05</span>
+      <h2 class="sec-title">Архитектура: много входов - один выход</h2>
+      <p class="sec-note">Главная конструктивная идея твоей воронки: персонализация НА ВХОДЕ, универсальность НА ВЫХОДЕ. Никакой общей рекламы «оказываешь услуги - тебе сюда»: человек должен узнать в статье СЕБЯ. А с третьего уровня все нитки сходятся в один общий бэкенд. По форме это песочные часы.</p>
+    </div>
+
+    <div class="map reveal">
+      <div class="map-row tint">
+        <div class="mr-k"><span><b>Слой 1</b> · аватары</span><span>10-20 профессий</span></div>
+        <div class="chips">
+          <span class="chip">Фотограф</span>
+          <span class="chip">Ведущий</span>
+          <span class="chip">Маркетолог</span>
+          <span class="chip">Спец по рекламе</span>
+          <span class="chip">Дизайнер</span>
+          <span class="chip">Авитолог</span>
+          <span class="chip">Юрист</span>
+          <span class="chip ghost">+ ещё</span>
+        </div>
+      </div>
+      <div class="map-link"><span class="arr">↓</span><span class="why">сколько аватаров - столько отдельных рекламных кампаний</span></div>
+
+      <div class="map-row tint">
+        <div class="mr-k"><span><b>Слой 2</b> · реклама</span><span>персональный заход на каждого</span></div>
+        <div class="chips">
+          <span class="chip">РК → фотографы</span>
+          <span class="chip">РК → маркетологи</span>
+          <span class="chip">РК → ведущие</span>
+          <span class="chip ghost">РК → ...</span>
+        </div>
+        <p class="cap" style="margin-top:10px">Задача объявления + заголовка: чтобы человек подумал «чёрт, это вообще про меня» - и перешёл.</p>
+      </div>
+      <div class="map-link"><span class="arr">↓</span><span class="why">каждое объявление ведёт на свою «дверь» - один из 20 заголовков</span></div>
+
+      <div class="map-row tint">
+        <div class="mr-k"><span><b>Слой 3</b> · двери = та же Статья №1</span><span>×20 заголовков на каждого аватара</span></div>
+        <div class="chips">
+          <span class="chip url">/zagolovok-01</span>
+          <span class="chip url">/zagolovok-02</span>
+          <span class="chip url">/zagolovok-03</span>
+          <span class="chip url ghost">... /zagolovok-20</span>
+        </div>
+        <p class="cap" style="margin-top:10px">Дверь - НЕ отдельная промежуточная страница. Это сама Статья №1, задублированная 20 раз с разными заголовками (технически - путь через слэш /zagolovok-N или поддомен). Контент один - восприятий двадцать: разные заголовки цепляют разные сегменты. Заголовок - 80% успеха.</p>
+      </div>
+      <div class="map-link"><span class="arr">↓</span><span class="why">за любой дверью человек уже ВНУТРИ Статьи №1 - просто с тем заголовком, который его зацепил</span></div>
+
+      <div class="map-row wash">
+        <div class="mr-k"><span><b>Слой 4</b> · фронтенд / Статья №1</span><span class="status bad">скрипта нет</span></div>
+        <p style="font-size:14.5px; line-height:1.55"><b>Уровни 0→2.</b> Глубокая персонализация: сцены из жизни конкретного аватара, его специфика, его картинка дня. Враг получает имя, математика потолка доказана. Читатель узнал себя и осознал проблему.</p>
+      </div>
+      <div class="map-link"><span class="arr">↓</span><span class="why">подводка: «какие есть варианты - разбираем дальше»</span></div>
+
+      <div class="map-row wash">
+        <div class="mr-k"><span><b>Слой 5</b> · фронтенд / Статья №2</span><span class="status bad">скрипта нет</span></div>
+        <p style="font-size:14.5px; line-height:1.55"><b>Уровень 2→3.</b> Персонализация легче: варианты «резиновые», подходят всем аватарам. Обзор путей → «бац» → консалтинг как золотая антилопа → математика дохода → вера.</p>
+      </div>
+      <div class="map-link"><span class="arr">↓</span><span class="why">здесь ВСЕ нитки всех аватаров сходятся в одну</span></div>
+
+      <div class="map-row ink">
+        <div class="mr-k"><span><b>Слой 6</b> · бэкенд · универсальный</span><span class="status ok" style="background:rgba(21,160,74,.18); color:#5ad388">скрипты есть</span></div>
+        <p style="font-size:14.5px; line-height:1.55"><b>Уровни 3→4→5.</b> Одна общая часть воронки для всех: как устроен консалтинг, желаемое будущее, снятие сомнений - по скриптам Брансона (VSL / идеальный вебинар). Финал - оффер по Хормози.</p>
+      </div>
+      <div class="map-link"><span class="arr">↓</span><span class="why"></span></div>
+
+      <div class="map-row" style="border-color:var(--pos); background:var(--pos-wash)">
+        <div class="mr-k"><span><b>Выход</b> · сделка</span></div>
+        <p style="font-size:14.5px; line-height:1.55; color:var(--pos-ink)"><b>Продажа твоего консалтинга.</b> Дальше - личная работа с клиентом: ты обучаешь, он внедряет. (Чек от 150 000 ₽ - это цифра ИЗ Статьи №2: обещание аватару про ЕГО будущий консалтинг. Цену своей сделки ты в стратегии пока не фиксировал.)</p>
+      </div>
+    </div>
+
+    <div class="block-label">Машина персонализации: как 2 статьи обслуживают 20 аватаров</div>
+    <p class="body reveal">Секрет в том, что проблема у всех аватаров ОДНА: тупиковая модель «всё делаю сам». Меняется только то, как она выглядит в жизни. Поэтому статья - не 20 разных текстов, а одно контентное тело с заменяемыми слотами:</p>
+    <div class="tpl reveal">
+      <p><span class="fix">Ты</span> <span class="slot">[ПРОФЕССИЯ]</span><span class="fix">, и ты хорошо знаешь это чувство:</span> <span class="slot">[СЦЕНА ИЗ ЖИЗНИ АВАТАРА]</span><span class="fix">. Ты делаешь всё сам - и упираешься в потолок: больше</span> <span class="slot">[ЛИМИТ КЛИЕНТОВ]</span> <span class="fix">в месяц физически не взять, а чек выше</span> <span class="slot">[СРЕДНИЙ ЧЕК ПО РЫНКУ]</span> <span class="fix">рынок не даст...</span></p>
+      <div class="legend">
+        <span><span class="sq" style="background:var(--accent-wash); border:1px dashed var(--accent)"></span>слот - меняется под аватара</span>
+        <span><span class="sq" style="background:var(--surface-2)"></span>тело - одно для всех</span>
+      </div>
+    </div>
+    <div class="features cols-2 reveal" style="margin-top:18px">
+      <div class="feature">
+        <span class="ic">№1</span>
+        <h4>Статья №1 - специфика СИЛЬНАЯ</h4>
+        <p>Человек должен узнать себя в деталях. <b>Фотограф:</b> носишься с оборудованием по всей Москве, зависаешь на студиях, после съёмки все ушли - а ты ещё час собираешься, камеры берёшь в аренду. <b>Маркетолог:</b> созвоны с клиентами в Zoom, что-то им доказываешь, чтобы купили, сидишь в рекламном кабинете, крутишь настройки, придумываешь креативы и заходы.</p>
+      </div>
+      <div class="feature">
+        <span class="ic">№2</span>
+        <h4>Статья №2 - специфика ЛЁГКАЯ</h4>
+        <p>Варианты подбираются «резиновые», чтобы подходили любому аватару без переписывания: курс может сделать и фотограф, и маркетолог; обучение новичков - и тот и другой; партнёрство - и тот и другой; агентство или студию открыть - тоже. Слоты почти не нужны.</p>
+      </div>
+    </div>
+    <div class="callout info reveal"><span class="ic">AI</span><div><b class="t">Адаптацию делают нейросети</b>Переписывать тело под нового аватара руками не нужно: статья проектируется легко редактируемой, а адаптацию слотов (профессия, сцены из жизни) выполняет нейросеть. Твоя работа - один раз написать сильное тело и проверять адаптации.</div></div>
+
+    <div class="block-label">Математика масштаба: что получается на 10 аватарах</div>
+    <div class="stats reveal">
+      <div class="stat"><div class="v" data-count="20">20</div><div class="k">единиц контента во фронтенде: 10 аватаров × 2 статьи</div></div>
+      <div class="stat"><div class="v up" data-count="200">200</div><div class="k">дверей-заголовков: каждый вход × 20 вариантов</div></div>
+      <div class="stat"><div class="v pos" data-count="1">1</div><div class="k">бэкенд на всех - пишется один раз</div></div>
+    </div>
+    <div class="block-label">Песочные часы: много входов - одно горлышко</div>
+    <div class="funnel reveal">
+      <div class="frow" style="width:100%"><b>200</b><span>дверей-заголовков · 10 аватаров × 20</span></div>
+      <div class="farr">↓</div>
+      <div class="frow" style="width:74%"><b>20</b><span>статей фронтенда · по 2 на аватара</span></div>
+      <div class="farr">↓</div>
+      <div class="frow ink" style="width:48%"><b>1</b><span>бэкенд · общий для всех</span></div>
+      <div class="farr">↓</div>
+      <div class="frow acc" style="width:48%"><b>1</b><span>оффер · по Хормози</span></div>
+    </div>
+    <p class="cap">Форма стратегии: максимально широкий вход (двери под каждый сегмент и каждое восприятие) - и одно узкое горлышко, которое пишется один раз и работает на все нитки сразу.</p>
+
+    <div class="table-scroll reveal" style="margin-top:16px">
+      <table class="data">
+        <thead><tr><th>Элемент</th><th>Сколько</th><th>Почему столько</th></tr></thead>
+        <tbody>
+          <tr><td>Аватары</td><td class="num">10-20</td><td>любой специалист-одиночка; добавляются по мере масштабирования</td></tr>
+          <tr><td>Рекламные кампании</td><td class="num">= аватарам</td><td>отдельная РК на каждую профессию - персональный заход</td></tr>
+          <tr><td>Статьи фронтенда</td><td class="num">2 × аватар</td><td>Статья №1 (0→2) + Статья №2 (2→3), адаптации одного тела</td></tr>
+          <tr><td>Двери-заголовки</td><td class="num">20 × вход</td><td>один контент, разные заголовки и восприятия</td></tr>
+          <tr><td>Бэкенд (статьи 3-4-5)</td><td class="num">1</td><td>универсален: персонализация после уровня 3 значения не имеет</td></tr>
+          <tr><td>Оффер</td><td class="num">1</td><td>по Хормози, общий для всех ниток</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="cap">Это и есть рычаг всей конструкции: творческая работа - конечная (2 скелета, 2 тела фронтенда, 1 бэкенд, 1 оффер), а точки входа масштабируются почти бесплатно (слоты + нейросети + дубли заголовков).</p>
+  </div>
+</section>
+
+<!-- ===================== 06 · ДОП-СТРАТЕГИЯ ===================== -->
+<section id="dop">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-num">06</span>
+      <h2 class="sec-title">Доп-стратегия: формировать спрос самому</h2>
+      <p class="sec-note">Вторая воронка, которую ты держишь в голове и никак не мог увидеть. Суть: не бороться за 3% рынка, которые уже ищут решение, - а ловить максимально холодный трафик через цепляющие темы и самому вести его по той же лестнице.</p>
+    </div>
+
+    <blockquote class="quote-bar reveal">
+      Все остальные дерутся за горячие 3% - тех, кто уже ищет. Ты заходишь к остальным 97% <span class="accent">через интерес, а не через спрос</span>: кликбейт-тема → статья сеет зерно → человек сам оказывается в твоей воронке, не заметив, как начал подниматься по лестнице.
+      <span class="by">логика холодного захода</span>
+    </blockquote>
+
+    <div class="block-label">Поле охоты: за кого дерутся все - и где играешь ты</div>
+    <div class="market reveal"><div class="hot"></div><div class="cold">97% рынка - холодные: спрос им ещё никто не сформировал. Твоё поле.</div></div>
+    <p class="cap">Красная полоска слева - те самые ~3% горячих, кто уже ищет решение: за их клики дерутся все рекламные бюджеты ниши. Твоя стратегия туда не идёт - она кликбейт-заходами вытаскивает людей из синей зоны и сама ведёт их по лестнице.</p>
+
+    <div class="block-label">Твои идеи-заходы (примеры из ~20 в голове)</div>
+    <div class="features reveal">
+      <div class="feature">
+        <span class="ic">01</span>
+        <h4>«Что обязан знать каждый [профессия] в 2026 году»</h4>
+        <p>Универсальный заход через важность и страх отстать.</p>
+      </div>
+      <div class="feature">
+        <span class="ic">02</span>
+        <h4>«[Профессия] - это призвание. Иначе как можно терпеть ЭТО?»</h4>
+        <p>Кликбейт через боль: человек заходит усмехнуться - а внутри узнаёт свой день и своё «терплю».</p>
+      </div>
+      <div class="feature">
+        <span class="ic">03</span>
+        <h4>«Как изменится жизнь [профессия] из-за [актуальная проблема] в 2026»</h4>
+        <p>Заход через новостной повод: законодательство, перемены на рынке.</p>
+      </div>
+      <div class="feature">
+        <span class="ic">04</span>
+        <h4>«Что случится с профессией [аватар] в 2026 из-за [закон]»</h4>
+        <p>Вариация новостного захода - через тревогу за будущее профессии.</p>
+      </div>
+      <div class="feature">
+        <span class="ic">05</span>
+        <h4>«3 причины, почему [профессия] никогда не заработает на машину и квартиру»</h4>
+        <p>Самый прямой заход в «врага»: потолок модели, названный бытовым языком.</p>
+      </div>
+      <div class="feature" style="border-style:dashed">
+        <span class="ic">+15</span>
+        <h4>...и ещё полтора десятка тем</h4>
+        <p>План: выбрать тему → написать 5-10 заголовков → под них максимально адаптивные статьи со слотами профессий.</p>
+      </div>
+    </div>
+
+    <div class="callout info reveal"><span class="ic">→</span><div><b class="t">Как это встраивается в основную воронку (важно: это НЕ отдельная система)</b>Каждая тема-статья - это ещё одна Статья №1: она стартует с нулевого уровня, закрывает сразу несколько уровней (0→2) и переводит читателя на Статью №2 своей профессии. Дальше - та же лестница, тот же бэкенд, тот же оффер. То есть доп-стратегия - это не вторая воронка, а <b>дополнительные двери в ту же самую</b>.</div></div>
+
+    <div class="callout bad reveal"><span class="ic">✕</span><div><b class="t">Статус: тот же самый затык</b>Ты сам сказал: «я знаю, ЧТО я хочу делать, но не знаю, что там писать». Это не новая проблема - это всё тот же недостающий скрипт Статьи №1. Закрываешь его один раз - и он закрывает и основную воронку, и все 20 тематических заходов.</div></div>
+  </div>
+</section>
+<!-- ===================== 07 · КАРТА ЗАТЫКА ===================== -->
+<section id="zatyk">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-num">07</span>
+      <h2 class="sec-title">Карта затыка: стратегия против тактики</h2>
+      <p class="sec-note">Твоя собственная формула: «стратегию я понимаю, а тактики у меня нет - тактика появляется только с третьего уровня». Вот эта формула, разложенная по всей воронке. Смотри, какая узкая на самом деле дыра.</p>
+    </div>
+
+    <p class="cap scroll-hint" style="margin:0 0 8px">таблица листается вбок →</p>
+    <div class="table-scroll reveal">
+      <table class="data">
+        <thead><tr><th>Зона воронки</th><th>Тактика (скрипт)</th><th>Стратегия</th><th>Смыслы</th><th>Источник тактики</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>Статья №1</b> · уровни 0→2</td>
+            <td><span class="status bad">НЕТ</span></td>
+            <td><span class="status ok">есть</span></td>
+            <td><span class="status ok">есть список</span></td>
+            <td class="muted">- ← главный блокер</td>
+          </tr>
+          <tr>
+            <td><b>Статья №2</b> · уровень 2→3</td>
+            <td><span class="status bad">НЕТ</span></td>
+            <td><span class="status ok">есть</span></td>
+            <td><span class="status ok">есть</span></td>
+            <td class="muted">-</td>
+          </tr>
+          <tr>
+            <td><b>Бэкенд</b> · уровни 3→4→5</td>
+            <td><span class="status ok">есть</span></td>
+            <td><span class="status ok">есть</span></td>
+            <td><span class="status ok">есть</span></td>
+            <td>Брансон: VSL, идеальный вебинар (микс - пока экспромт)</td>
+          </tr>
+          <tr>
+            <td><b>Оффер</b> · уровень 5</td>
+            <td><span class="status ok">есть</span></td>
+            <td><span class="status ok">есть</span></td>
+            <td><span class="status ok">есть</span></td>
+            <td>Хормози: «$100M Offers»</td>
+          </tr>
+          <tr>
+            <td><b>Двери-заголовки</b></td>
+            <td><span class="status warn">техника</span></td>
+            <td><span class="status ok">есть</span></td>
+            <td><span class="status ok">~20 идей</span></td>
+            <td>придумать списки - вопрос ремесла, не затык</td>
+          </tr>
+          <tr>
+            <td><b>Тематические заходы</b></td>
+            <td><span class="status bad">НЕТ</span></td>
+            <td><span class="status ok">есть</span></td>
+            <td><span class="status ok">есть</span></td>
+            <td class="muted">тот же скрипт Статьи №1</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="cap">Красная колонка - это ОДНА сущность, повторённая трижды: скрипт ранних уровней. Не «у меня ничего не готово», а «не хватает одного скрипта на 0→2 и одного на 2→3». Всё остальное - зелёное.</p>
+
+    <div class="block-label">Почему это ощущается как прокрастинация</div>
+    <p class="body reveal">Посмотри на свои же слова. Про уровни 3-5: «смотрю на скрипты Рассела - всё чётко понятно, что, где, в какой момент. Особо напрягаться не нужно». Про уровни 0-2: «сяду писать - не смогу и строчки написать». Один и тот же человек, одна и та же тема, одни и те же знания. Разница ровно одна: <span class="hl-underline">в первом случае есть скелет, во втором - чистый лист</span>.</p>
+    <p class="body reveal">Мозг не откладывает работу - он откладывает задачу без первого шага. «Напиши гениальную статью, которая закроет два уровня осознанности» - это не задача, это давление. «Заполни блок 3 из 9: опиши сцену из жизни фотографа» - это задача. Три месяца ты пытался начать первое. Начать нужно второе.</p>
+
+    <div class="plaque reveal" style="margin-top:18px">
+      Ты не прокрастинируешь работу. Ты прокрастинируешь <span class="accent">неопределённость</span>. Скрипт убирает неопределённость - и работа начинается сама. Поэтому недостающие скрипты - это не «часть задачи», это <span class="accent">первый deliverable</span>.
+      <span class="by">диагноз × план</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 08 · СТАРТ ===================== -->
+<section id="start">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-num">08</span>
+      <h2 class="sec-title">Как подступиться: пилотная нитка</h2>
+      <p class="sec-note">План, который превращает «запуск стратегии» (страшно, огромно) в последовательность задач размером с один вечер. Три принципа - и девять шагов.</p>
+    </div>
+
+    <div class="features reveal">
+      <div class="feature depth">
+        <span class="ic">П1</span>
+        <h4>Сначала скелет, потом текст</h4>
+        <p>Никогда не открывай пустой документ. Открывай скелет и заполняй блоки. Это ровно тот механизм, который делает скрипты Брансона рабочими, - распространи его на свои ранние уровни.</p>
+      </div>
+      <div class="feature depth">
+        <span class="ic">П2</span>
+        <h4>Одна нитка, потом тираж</h4>
+        <p>Первый проход - ОДИН аватар, вся нитка целиком: от рекламы до оффера. Не пиши на 10 аватаров сразу: масштабирование - это редактура слотов и нейросети, а не творчество. Тиражировать имеет смысл только проверенную нитку.</p>
+      </div>
+      <div class="feature depth">
+        <span class="ic">П3</span>
+        <h4>От смыслов к блокам</h4>
+        <p>Список смыслов у тебя уже есть. Работа над статьёй - не «писать с нуля», а раскладывать готовые смыслы по блокам скелета и дописывать связки. Это другая по тяжести задача.</p>
+      </div>
+    </div>
+
+    <div class="callout info reveal"><span class="ic">★</span><div><b class="t">Рекомендация по пилотному аватару: маркетолог / специалист по рекламе</b>Это твоя родная ниша: ты сам был этим аватаром, фактура его жизни у тебя из первых рук (Zoom-созвоны, рекламный кабинет, креативы), и первые консалтинг-клиенты пришли именно оттуда. Для пилота важна скорость и достоверность - тут она максимальна. Фотографа и остальных подключишь на тираже.</div></div>
+
+    <div class="block-label">Девять шагов · от скелета до тиража</div>
+    <div class="tl-nums reveal">
+      <div class="tl-num"><div class="n">0</div><div><h4>Утвердить скелеты Статьи №1 и Статьи №2</h4><p>Заготовки - в следующем разделе. Пройдись, поправь под себя, переставь блоки.</p><p class="crit">Готово, когда: на каждый блок скелета ты знаешь, какой смысл из твоего списка туда ложится.</p></div></div>
+      <div class="tl-num"><div class="n">1</div><div><h4>Написать Статью №1 для пилотного аватара (уровни 0→2)</h4><p>По скелету, блок за блоком: сцена из жизни, имя врага, математика потолка, примеры, кивок, мост.</p><p class="crit">Готово, когда: знакомый из этой профессии читает и говорит «это про меня».</p></div></div>
+      <div class="tl-num"><div class="n">2</div><div><h4>Написать Статью №2 для пилота (уровень 2→3)</h4><p>Варианты с плюсами/минусами → «бац» → золотая антилопа → математика дохода (150 000 ₽ × 2 продажи).</p><p class="crit">Готово, когда: после прочтения хочется спросить «а как это устроено?» - ровно тот вопрос, на который отвечает бэкенд.</p></div></div>
+      <div class="tl-num"><div class="n">3</div><div><h4>Собрать СВОЙ канон микса для бэкенда - один раз</h4><p>Сесть со скриптами Брансона (VSL + идеальный вебинар + воронки), выбрать блоки, зафиксировать порядок письменно. Экспромт превращается в твой собственный скрипт - больше к этому вопросу не возвращаешься.</p><p class="crit">Готово, когда: есть записанная последовательность блоков бэкенда.</p></div></div>
+      <div class="tl-num"><div class="n">4</div><div><h4>Написать бэкенд (уровни 3→4→5) по своему канону</h4><p>Как устроен консалтинг, как зарабатываются деньги, желаемое будущее, снятие сомнений. Сам говоришь: тут проблем нет.</p><p class="crit">Готово, когда: статья доводит до места, где просится оффер.</p></div></div>
+      <div class="tl-num"><div class="n">5</div><div><h4>Собрать оффер по Хормози</h4><p>Твоя зона уверенности: «тут мне объяснять не надо».</p><p class="crit">Готово, когда: оффер сформулирован и вшит в финал бэкенда.</p></div></div>
+      <div class="tl-num"><div class="n">6</div><div><h4>Сделать 20 дверей для пилота</h4><p>20 заголовков → 20 дублей страницы Статьи №1 (путь /zagolovok-01 ... /zagolovok-20 или поддомены). Контент один.</p><p class="crit">Готово, когда: каждая дверь открывается и ведёт по нитке дальше.</p></div></div>
+      <div class="tl-num"><div class="n">7</div><div><h4>Запустить рекламу на пилотного аватара</h4><p>Одна РК - на маркетологов. Нитка целиком в бою: реклама → дверь → Статья №1 → Статья №2 → бэкенд → оффер.</p><p class="crit">Готово, когда: по нитке идёт живой трафик и видно, где он останавливается.</p></div></div>
+      <div class="tl-num"><div class="n">8</div><div><h4>Тираж: адаптировать фронтенд под следующих аватаров</h4><p>Слоты + нейросети: фотограф, ведущий, авитолог... По одному, с проверкой адаптаций. Каждый новый аватар = новая РК + 20 дверей.</p><p class="crit">Готово, когда: конвейер «новый аватар за вечер» работает.</p></div></div>
+      <div class="tl-num"><div class="n">9</div><div><h4>Подключить тематические заходы (доп-стратегию)</h4><p>Когда основная нитка доказала себя: выбрать тему → 5-10 заголовков → адаптивные статьи по тому же скелету Статьи №1.</p><p class="crit">Готово, когда: первая тема-статья ведёт холодный трафик в ту же воронку.</p></div></div>
+    </div>
+
+    <div class="callout warn reveal"><span class="ic">!</span><div><b class="t">Правило против залипания</b>Если поймал себя на «не знаю, как начать» - это сигнал, что ты опять открыл пустой лист вместо скелета. Вернись на шаг 0: открой скелет, найди блок, на который у тебя уже есть смысл, и заполни ТОЛЬКО его. Порядок заполнения блоков не важен - важно, что каждый блок маленький.</div></div>
+  </div>
+</section>
+
+<!-- ===================== 09 · ДОКРУТКА: СКЕЛЕТЫ ===================== -->
+<section id="skelety">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-num">09</span>
+      <h2 class="sec-title">Докрутка: скелеты недостающих статей</h2>
+      <p class="sec-note">Это единственный раздел, где я не структурирую сказанное тобой, а ПРЕДЛАГАЮ (ты разрешил докручивать). Здесь нет упаковки оффера и нет обучения аудитории - здесь ровно та вещь, которой тебе не хватало: скрипт «где что написать» для уровней 0→2 и 2→3, собранный из ТВОИХ ЖЕ смыслов в духе скриптов Брансона. Не догма: блоки можно переставлять и выкидывать.</p>
+    </div>
+
+    <div class="block-label">Скелет Статьи №1 · уровни 0→2 · «Имя врага»</div>
+    <div class="skel reveal">
+      <div class="skel-block"><div class="bn">1</div><div><h5>Дверь: заголовок</h5><p>Один из 20. Цепляет любопытство или боль, обещает разговор про ЕГО жизнь, а не про твой продукт.</p><div class="src">← твой список идей-заголовков (раздел 06)</div></div></div>
+      <div class="skel-block"><div class="bn">2</div><div><h5>Идентификация: сцена из жизни</h5><p>Картинка его дня в деталях - чтобы внутри щёлкнуло «это про меня». Без выводов, просто узнаваемая жизнь.</p><div class="src">← твоя заготовка специфики аватара (фотограф с оборудованием, маркетолог в Zoom)</div></div></div>
+      <div class="skel-block"><div class="bn">3</div><div><h5>Признание силы</h5><p>Он молодец: навык настоящий, результаты есть, зарабатывает нормально. Это важно - читатель не должен защищаться от статьи. Враг будет не он, а модель.</p><div class="src new">+ моё предложение (опирается на твоё «он нормально зарабатывает, но всё держится на нём», но как отдельный ход в рассказе его не было)</div></div></div>
+      <div class="skel-block"><div class="bn">4</div><div><h5>Поворот: вопрос, который он сам себе задаёт</h5><p>«Было бы неплохо побольше клиентов...» - и разворот: а что, если больше клиентов не решит ничего? Зерно сомнения посеяно.</p><div class="src">← твой уровень 0: единственная мысль аватара</div></div></div>
+      <div class="skel-block"><div class="bn">5</div><div><h5>Имя врага</h5><p>Назвать злодея одной фразой: тупиковая модель «всё делаю сам». С этого момента у проблемы есть имя, и читатель видит её отдельно от себя.</p><div class="src">← твоё «дать имя этому врагу, этому злодею»</div></div></div>
+      <div class="skel-block"><div class="bn">6</div><div><h5>Математика потолка</h5><p>Два ограничителя цифрами: лимит клиентов в месяц × средний чек по рынку = потолок дохода. Посчитать прямо на его профессии. График из раздела 02 - сюда.</p><div class="src">← твоя «логика, математика, цифры»</div></div></div>
+      <div class="skel-block"><div class="bn">7</div><div><h5>Примеры из жизни</h5><p>Как потолок выглядит на дистанции лет: работаешь больше - доход тот же; отпуск = ноль дохода; болезнь = минус клиенты. Доказательство, что модель тупиковая, а не «просто месяц неудачный».</p><div class="src">← твои «примеры из жизни привести»</div></div></div>
+      <div class="skel-block"><div class="bn">8</div><div><h5>Кивок-фиксация: «дело не во мне - дело в модели»</h5><p>Снять вину и закрепить осознание: он не ленивый и не плохой специалист - он в модели с потолком. Читатель кивает: «действительно, я об этом не думал». Уровень 2 достигнут.</p><div class="src">← твоё «чтобы человек подумал: блин, да, действительно у меня есть проблема»</div></div></div>
+      <div class="skel-block bridge"><div class="bn">9</div><div><h5>Мост в Статью №2</h5><p>«Раз дело в модели - модель можно поменять. Какие вообще есть варианты для [профессии] - разобрал тут». Подводка, обещающая обзор решений, не продажу.</p><div class="src">← твой принцип «каждая статья - подводка к следующей»</div></div></div>
+    </div>
+
+    <div class="block-label">Скелет Статьи №2 · уровень 2→3 · «Золотая антилопа»</div>
+    <div class="skel reveal">
+      <div class="skel-block"><div class="bn">1</div><div><h5>Рекап врага</h5><p>Два-три абзаца: напомнить потолок модели (для пришедших с любой двери и с холодного захода). Коротко - враг уже назван в Статье №1.</p><div class="src">← связка со Статьёй №1</div></div></div>
+      <div class="skel-block"><div class="bn">2</div><div><h5>Критерии честного выбора</h5><p>Зафиксировать рамку: ищем способ зарабатывать больше НА ТЕХ ЖЕ знаниях и опыте - без новой профессии, без вложений в оборудование, без «начать жизнь заново». Эта рамка потом сама отсеет слабые варианты.</p><div class="src">← твоё «на тех же знаниях, не меняя ничего»</div></div></div>
+      <div class="skel-block"><div class="bn">3</div><div><h5>Варианты с плюсами и минусами</h5><p>Курс · работа в паре / услуга под ключ · своя школа-обучение новичков · студия / агентство. Каждый - честно: что даёт, что требует, где минусы (записи, продажи, команда, аренда...). Варианты «резиновые» - подходят любому аватару.</p><div class="src">← твой список вариантов из рассказа</div></div></div>
+      <div class="skel-block"><div class="bn">4</div><div><h5>Поворот: «есть ещё один вариант»</h5><p>Твоё «бац»: вариант, о котором почти никто из специалистов не думает, потому что считает его «не для себя».</p><div class="src">← твой драматургический ход «а потом - бац - подкидываю»</div></div></div>
+      <div class="skel-block"><div class="bn">5</div><div><h5>Золотая антилопа: консалтинг</h5><p>Описать максимально круто и подробно: все минусы предыдущих вариантов сняты, высокий чек, классные клиенты, не надо учить с нуля - работаешь с теми, кто уже в теме. «Ты дошёл до результата - просто помоги повторить».</p><div class="src">← твоя подача консалтинга</div></div></div>
+      <div class="skel-block"><div class="bn">6</div><div><h5>Математика дохода</h5><p>Чек от 150 000 ₽. Две продажи в месяц - и вся база по финансам закрыта. В десятки раз больше, чем в услугах; миллион рублей - спокойно достижимая планка. Сравнить с месяцем в его модели: сколько клиентов, сколько часов, сколько обязательств - против двух сделок. «Деньги другого качества».</p><div class="src">← твоя математика дохода</div></div></div>
+      <div class="skel-block"><div class="bn">7</div><div><h5>Прививка от главного сомнения</h5><p>«А у меня купят? Я же не гуру». Ответ из твоей же логики: ты продаёшь не статус, а пройденный путь; клиенты - такие же специалисты, у которых эта проблема уже болит.</p><div class="src new">+ моё предложение (такого хода в твоём рассказе не было; ответ построен на твоём «работаешь только с теми, у кого уже есть эта проблема»)</div></div></div>
+      <div class="skel-block bridge"><div class="bn">8</div><div><h5>Мост в бэкенд</h5><p>«Как это устроено изнутри - откуда клиенты, как выстроена система, что нужно, чтобы начать - разобрал тут». Читатель уходит на уровень 3 с вопросом, на который бэкенд и отвечает.</p><div class="src">← граница фронтенд/бэкенд из раздела 05</div></div></div>
+    </div>
+
+    <div class="callout ok reveal"><span class="ic">✓</span><div><b class="t">Что это даёт</b>Оба скелета - это твоё «делай раз». Я не написал ни строчки твоих статей: тексты, голос, фактура - твои. Блоки, собранные из твоего рассказа, подписаны «← твоё ...»; два блока, которые я добавил от себя, честно помечены оранжевым «+ моё предложение» - выкинешь, если не лягут. Теперь у уровней 0→2 и 2→3 есть то же самое, что у Брансона на уровнях 3-5: структура, в которую остаётся вставлять смыслы. Шаг 0 плана - пройтись по этим блокам и сверить со своим списком смыслов.</div></div>
+  </div>
+</section>
+
+<!-- ===================== 10 · ГЛОССАРИЙ ===================== -->
+<section id="glossary">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-num">10</span>
+      <h2 class="sec-title">Глоссарий: твоя система, названная по именам</h2>
+      <p class="sec-note">Термины, которыми ты говоришь о стратегии. Зафиксированы, чтобы в любом следующем разговоре (со мной, с подрядчиком, с самим собой) слова значили одно и то же.</p>
+    </div>
+    <div class="features cols-2 reveal">
+      <div class="feature"><span class="ic">Т</span><h4>Лестница Ханта</h4><p>Уровни осознанности 0-5 ОТНОСИТЕЛЬНО твоего продукта: от «нет проблемы» до «беру». Каркас всей воронки.</p></div>
+      <div class="feature"><span class="ic">Т</span><h4>Аватар</h4><p>Профессия клиента: фотограф, маркетолог, ведущий... Специалист-одиночка, чей навык = его бизнес. Не предприниматель.</p></div>
+      <div class="feature"><span class="ic">Т</span><h4>Фронтенд</h4><p>Персонализированная часть воронки: Статья №1 (уровни 0→2) и Статья №2 (2→3). По паре на каждого аватара.</p></div>
+      <div class="feature"><span class="ic">Т</span><h4>Бэкенд</h4><p>Универсальная часть воронки: статьи уровней 3→4→5 + оффер. Одна для всех аватаров, собирается по скриптам Брансона и Хормози.</p></div>
+      <div class="feature"><span class="ic">Т</span><h4>Враг (злодей)</h4><p>Тупиковая модель «всё делаю сам»: лимит клиентов × потолок чека. То, чему Статья №1 даёт имя.</p></div>
+      <div class="feature"><span class="ic">Т</span><h4>Золотая антилопа</h4><p>Подача консалтинга в Статье №2: вариант, в котором сняты все минусы остальных путей и остались одни плюсы.</p></div>
+      <div class="feature"><span class="ic">Т</span><h4>Дверь</h4><p>Один из ~20 заголовков, ведущих на одну и ту же статью (/zagolovok-N). Один контент - разные восприятия. Заголовок = 80% успеха.</p></div>
+      <div class="feature"><span class="ic">Т</span><h4>Тематический заход</h4><p>Кликбейт-тема («Что обязан знать каждый [профессия] в 2026»), открывающая дополнительный вход в ту же воронку с самого холодного трафика.</p></div>
+      <div class="feature"><span class="ic">Т</span><h4>Слот</h4><p>Заменяемое место в теле статьи (профессия, сцена из жизни), которое нейросеть адаптирует под нового аватара без переписывания текста.</p></div>
+      <div class="feature"><span class="ic">Т</span><h4>Пилотная нитка</h4><p>Полный путь одного аватара: РК → дверь → Статья №1 → Статья №2 → бэкенд → оффер. Сначала одна нитка в бою, потом тираж.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 11 · ФИНАЛ ===================== -->
+<section id="final" style="border-bottom:none">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-num">11</span>
+      <h2 class="sec-title">Итог: что есть и что дальше</h2>
+    </div>
+
+    <div class="split reveal">
+      <div class="before">
+        <h4>Что у тебя УЖЕ есть</h4>
+        <ul>
+          <li>Цельная стратегия: лестница + фронтенд/бэкенд + двери</li>
+          <li>Точное определение клиента и его «врага»</li>
+          <li>Список смыслов для Статьи №1</li>
+          <li>Скрипты Брансона на уровни 3-5</li>
+          <li>Метод Хормози на оффер</li>
+          <li>~20 идей тематических заходов</li>
+          <li>Своя история как фактура для статей</li>
+        </ul>
+      </div>
+      <div class="after">
+        <h4>Чего не хватало (теперь есть заготовка)</h4>
+        <ul>
+          <li>Скрипт Статьи №1 (0→2) → скелет в разделе 09</li>
+          <li>Скрипт Статьи №2 (2→3) → скелет в разделе 09</li>
+          <li>Канон микса для бэкенда → шаг 3 плана</li>
+          <li>Порядок действий → девять шагов в разделе 08</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="accent-band reveal" style="margin-top:26px">
+      <h3>Шаг №1 - на сегодня, не на «когда-нибудь»</h3>
+      <p>Открой скелет Статьи №1 (раздел 09) и разложи свой список смыслов по его девяти блокам: какой смысл в какой блок. Не писать статью - только разложить. Это час работы. И это конец трёх месяцев прокрастинации, потому что дальше у каждого вечера будет конкретный маленький блок, а не «надо наконец сесть и написать».</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Рабочий документ · стратегия запуска консалтинга · собрано из потока мыслей Заали 2026-06-10 · ai-clone/work/strategiya-zapuska-konsaltinga.html</p>
+    <p style="margin-top:6px">Стиль: холодный белый + один синий акцент (ai-clone/style/design-system.md). Сделано для чтения с телефона.</p>
+  </div>
+</footer>
+
+<script>
+// появление при скролле
+const io = new IntersectionObserver((entries)=>{
+  for(const e of entries){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }
+},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// оживающие счётчики в статах
+const cio = new IntersectionObserver((entries)=>{
+  for(const e of entries){
+    if(!e.isIntersecting) continue;
+    const el = e.target; cio.unobserve(el);
+    const target = parseInt(el.dataset.count,10);
+    if(!target || target<=1){ el.textContent = String(target); continue; }
+    const t0 = performance.now(), dur = 900;
+    const tick = (t)=>{
+      const p = Math.min(1,(t-t0)/dur);
+      el.textContent = String(Math.round(target*(1-Math.pow(1-p,3))));
+      if(p<1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+},{threshold:.5});
+document.querySelectorAll('[data-count]').forEach(el=>cio.observe(el));
+</script>
+
+</body>
+</html>
