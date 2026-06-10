@@ -260,12 +260,6 @@ table.data tr:hover td{background:var(--surface)}
 .chip.dark{background:#23262c; color:var(--on-dark); border-color:#23262c}
 .chip.url{font-family:var(--font-mono); font-weight:500; font-size:11.5px}
 
-/* ---------- шаблон со слотами ---------- */
-.tpl{border:1px solid var(--line-2); border-radius:var(--r-lg); background:var(--paper); padding:18px; font-size:14px; line-height:1.7}
-.tpl .slot{display:inline-block; background:var(--accent-wash); color:var(--accent-ink); border:1px dashed var(--accent); border-radius:var(--r); padding:0 7px; font-family:var(--font-mono); font-size:12px; font-weight:600; white-space:nowrap}
-.tpl .fix{color:var(--ink-soft)}
-.legend{display:flex; gap:14px; flex-wrap:wrap; margin-top:12px; font-size:12.5px; color:var(--ink-soft)}
-.legend .sq{display:inline-block; width:11px; height:11px; border-radius:3px; margin-right:5px; vertical-align:-1px}
 
 /* ---------- скелет статьи ---------- */
 .skel{display:flex; flex-direction:column; gap:8px}
@@ -305,15 +299,7 @@ svg.chart{display:block; width:100%; height:auto; overflow:visible}
 .frow.acc span{color:#dbe7ff}
 .farr{color:var(--ink-mute); font-size:17px; line-height:1}
 
-/* ---------- полоса рынка 3/97 ---------- */
-.market{border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; display:flex; height:42px}
-.market .hot{background:var(--neg); width:3%; min-width:16px}
-.market .cold{background:var(--accent-wash); flex:1; display:flex; align-items:center; justify-content:center; font-size:13.5px; font-weight:600; color:var(--accent-ink); padding:0 10px; text-align:center}
 
-/* ---------- большие схемы (на мобиле листаются вбок) ---------- */
-.bleed{position:relative; left:50%; transform:translateX(-50%); width:min(1220px, calc(100vw - 32px))}
-.diagram-scroll{overflow-x:auto; -webkit-overflow-scrolling:touch; border:1px solid var(--line); border-radius:var(--r-lg); background:var(--paper); padding:14px 10px}
-.diagram-scroll svg{display:block; height:auto; width:100%}
 
 /* ---------- появление при скролле ---------- */
 .reveal{opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1)}
@@ -375,147 +361,303 @@ svg.chart{display:block; width:100%; height:auto; overflow:visible}
     </div>
 
     <div class="block-label" id="karta">Вся стратегия одним взглядом</div>
-    <p class="cap scroll-hint" style="margin:0 0 8px">схема листается вбок →</p>
-    <div class="bleed">
-    <div class="diagram-scroll">
-      <svg viewBox="0 0 1180 750" style="min-width:1000px" role="img" aria-label="Мастер-карта стратегии: от аватаров через персонализированный фронтенд к универсальному бэкенду и сделке" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#878d96"/></marker>
-          <marker id="arRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d92d20"/></marker>
-        </defs>
+    <!-- viz: master: вся стратегия одним взглядом - веер аватаров через персональный фронтенд (два красных недостающих скрипта) и границу персонализации (уровень 3) в универсальный бэкенд до синей Сделки -->
+<style>
+/* ===== vz-master · мастер-схема стратегии · mobile-first, без JS ===== */
+.vz-master{color:var(--ink)}
+.vz-master *{box-sizing:border-box; min-width:0}
 
-        <!-- зоны -->
-        <rect x="395" y="85" width="480" height="480" rx="10" fill="#eaf0fe" opacity="0.5"/>
-        <rect x="885" y="85" width="285" height="480" rx="10" fill="#eceef2" opacity="0.75"/>
-        <text x="407" y="112" font-family="JetBrains Mono, monospace" font-size="12" font-weight="600" fill="#1d4ed8">ФРОНТЕНД · ПЕРСОНАЛИЗИРОВАННЫЙ</text>
-        <text x="407" y="130" font-family="JetBrains Mono, monospace" font-size="11" fill="#b42318">скриптов НЕТ - здесь весь затык</text>
-        <text x="897" y="112" font-family="JetBrains Mono, monospace" font-size="12" font-weight="600" fill="#14161a">БЭКЕНД · ОБЩИЙ</text>
-        <text x="897" y="130" font-family="JetBrains Mono, monospace" font-size="11" fill="#0f7d39">скрипты ЕСТЬ</text>
+/* заголовок-вывод */
+.vz-master-kicker{display:block; font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent-ink); font-weight:600}
+.vz-master-title{font-size:clamp(17px,2.6vw,20px); font-weight:800; letter-spacing:-.015em; line-height:1.3; margin:6px 0 18px; max-width:52ch}
 
-        <!-- линейка Ханта -->
-        <text x="25" y="59" font-family="JetBrains Mono, monospace" font-size="11" fill="#6d737c">ЛЕСТНИЦА ХАНТА · УРОВНИ →</text>
-        <line x1="395" y1="55" x2="1160" y2="55" stroke="#d3d7dd" stroke-width="1.5"/>
-        <g font-family="JetBrains Mono, monospace" font-size="12.5" font-weight="600" text-anchor="middle">
-          <circle cx="425" cy="55" r="12" fill="#ffffff" stroke="#d92d20" stroke-width="1.5"/><text x="425" y="59.5" fill="#b42318">0</text>
-          <circle cx="525" cy="55" r="12" fill="#ffffff" stroke="#d92d20" stroke-width="1.5"/><text x="525" y="59.5" fill="#b42318">1</text>
-          <circle cx="648" cy="55" r="12" fill="#ffffff" stroke="#d92d20" stroke-width="1.5"/><text x="648" y="59.5" fill="#b42318">2</text>
-          <circle cx="878" cy="55" r="12" fill="#2563eb" stroke="#2563eb"/><text x="878" y="59.5" fill="#ffffff">3</text>
-          <circle cx="1015" cy="55" r="12" fill="#ffffff" stroke="#15a04a" stroke-width="1.5"/><text x="1015" y="59.5" fill="#0f7d39">4</text>
-          <circle cx="1150" cy="55" r="12" fill="#ffffff" stroke="#15a04a" stroke-width="1.5"/><text x="1150" y="59.5" fill="#0f7d39">5</text>
-        </g>
+/* зоны: фоны нейтральные, статус несут чипы в шапке */
+.vz-master-zone{border:1px solid var(--line-2); border-radius:var(--r-lg); padding:12px}
+.vz-master-front{background:var(--surface-2)}
+.vz-master-back{background:var(--surface)}
+.vz-master-zhead{display:flex; align-items:center; gap:8px 12px; flex-wrap:wrap; margin-bottom:12px}
+.vz-master-zname{font-family:var(--font-mono); font-size:11px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:var(--ink-soft)}
 
-        <!-- заголовки колонок -->
-        <text x="30" y="168" font-family="JetBrains Mono, monospace" font-size="11" fill="#6d737c">АВАТАРЫ</text>
-        <text x="210" y="168" font-family="JetBrains Mono, monospace" font-size="11" fill="#6d737c">РЕКЛАМА</text>
+/* узлы конвейера */
+.vz-master-node{background:var(--paper); border:1px solid var(--line-2); border-radius:var(--r-lg); padding:13px 15px; box-shadow:0 1px 0 rgba(20,22,26,.04)} /* литерал = --shadow-hair канона: токена нет в контракте фрагмента, var() отвалился бы при переносе */
+.vz-master-node.vz-master-no{border-left:2px solid var(--neg)}
+.vz-master-node.vz-master-yes{border-left:2px solid var(--pos)}
+.vz-master-nh{display:flex; align-items:center; gap:6px 8px; flex-wrap:wrap}
+.vz-master-nt{font-size:15px; font-weight:700; letter-spacing:-.01em}
+.vz-master-ns{font-size:13px; color:var(--ink-soft); line-height:1.45; margin:4px 0 0}
+.vz-master-tag{font-family:var(--font-mono); font-size:10.5px; font-weight:600; letter-spacing:.05em; padding:2.5px 7px; border-radius:var(--r); background:var(--surface-2); border:1px solid var(--line-2); color:var(--ink-soft); white-space:nowrap}
+.vz-master-flag{font-size:11px; font-weight:700; padding:2.5px 9px; border-radius:100px; white-space:nowrap}
+.vz-master-flag.vz-master-no{background:var(--neg-wash); color:var(--neg-ink)}
+.vz-master-flag.vz-master-yes{background:var(--pos-wash); color:var(--pos-ink)}
 
-        <!-- ряд 1: фотограф -->
-        <rect x="25" y="187" width="150" height="56" rx="6" fill="#eceef2" stroke="#d3d7dd"/>
-        <text x="100" y="220" text-anchor="middle" font-family="Inter, sans-serif" font-size="15" font-weight="600" fill="#14161a">Фотограф</text>
-        <line x1="175" y1="215" x2="203" y2="215" stroke="#878d96" stroke-width="1.5" marker-end="url(#ar)"/>
-        <rect x="205" y="187" width="130" height="56" rx="6" fill="#ffffff" stroke="#14161a" stroke-width="1.5"/>
-        <text x="270" y="211" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#14161a">РК</text>
-        <text x="270" y="230" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#494f57">→ фотографы</text>
-        <line x1="335" y1="215" x2="413" y2="215" stroke="#878d96" stroke-width="1.5" marker-end="url(#ar)"/>
-        <rect x="415" y="183" width="220" height="64" rx="8" fill="#ffffff" stroke="#d92d20" stroke-width="2"/>
-        <text x="429" y="212" font-family="Inter, sans-serif" font-size="15" font-weight="800" fill="#14161a">СТАТЬЯ №1</text>
-        <text x="429" y="232" font-family="JetBrains Mono, monospace" font-size="11" fill="#494f57">0→2 · сцены из жизни</text>
-        <rect x="540" y="171" width="86" height="20" rx="10" fill="#eaf0fe" stroke="#2563eb" stroke-dasharray="3 3"/>
-        <text x="583" y="185" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#1d4ed8">×20 дверей</text>
-        <line x1="635" y1="215" x2="658" y2="215" stroke="#878d96" stroke-width="1.5" marker-end="url(#ar)"/>
-        <rect x="660" y="183" width="200" height="64" rx="8" fill="#ffffff" stroke="#d92d20" stroke-width="2"/>
-        <text x="674" y="212" font-family="Inter, sans-serif" font-size="15" font-weight="800" fill="#14161a">СТАТЬЯ №2</text>
-        <text x="674" y="232" font-family="JetBrains Mono, monospace" font-size="11" fill="#494f57">2→3 · антилопа</text>
+/* чипы аватаров */
+.vz-master-chips{display:flex; flex-wrap:wrap; gap:7px; margin-top:9px}
+.vz-master-chip{font-size:12.5px; font-weight:600; padding:4px 11px; border-radius:100px; background:var(--surface-2); border:1px solid var(--line-2); color:var(--ink)}
+.vz-master-chip.vz-master-ghost{background:var(--paper); border-style:dashed; color:var(--ink-mute); font-weight:500}
 
-        <!-- ряд 2: маркетолог -->
-        <rect x="25" y="287" width="150" height="56" rx="6" fill="#eceef2" stroke="#d3d7dd"/>
-        <text x="100" y="320" text-anchor="middle" font-family="Inter, sans-serif" font-size="15" font-weight="600" fill="#14161a">Маркетолог</text>
-        <line x1="175" y1="315" x2="203" y2="315" stroke="#878d96" stroke-width="1.5" marker-end="url(#ar)"/>
-        <rect x="205" y="287" width="130" height="56" rx="6" fill="#ffffff" stroke="#14161a" stroke-width="1.5"/>
-        <text x="270" y="311" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#14161a">РК</text>
-        <text x="270" y="330" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#494f57">→ маркетологи</text>
-        <line x1="335" y1="315" x2="413" y2="315" stroke="#878d96" stroke-width="1.5" marker-end="url(#ar)"/>
-        <rect x="415" y="283" width="220" height="64" rx="8" fill="#ffffff" stroke="#d92d20" stroke-width="2"/>
-        <text x="429" y="312" font-family="Inter, sans-serif" font-size="15" font-weight="800" fill="#14161a">СТАТЬЯ №1</text>
-        <text x="429" y="332" font-family="JetBrains Mono, monospace" font-size="11" fill="#494f57">0→2 · сцены из жизни</text>
-        <rect x="540" y="271" width="86" height="20" rx="10" fill="#eaf0fe" stroke="#2563eb" stroke-dasharray="3 3"/>
-        <text x="583" y="285" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#1d4ed8">×20 дверей</text>
-        <line x1="635" y1="315" x2="658" y2="315" stroke="#878d96" stroke-width="1.5" marker-end="url(#ar)"/>
-        <rect x="660" y="283" width="200" height="64" rx="8" fill="#ffffff" stroke="#d92d20" stroke-width="2"/>
-        <text x="674" y="312" font-family="Inter, sans-serif" font-size="15" font-weight="800" fill="#14161a">СТАТЬЯ №2</text>
-        <text x="674" y="332" font-family="JetBrains Mono, monospace" font-size="11" fill="#494f57">2→3 · антилопа</text>
+/* стрелки: вертикальная линия + CSS-треугольник + подпись под остриём */
+.vz-master-conn{display:flex; flex-direction:column; align-items:center; padding:5px 0 9px; text-align:center}
+.vz-master-stem{width:2px; height:28px; background:var(--ink-mute); position:relative; flex-shrink:0}
+.vz-master-stem::after{content:""; position:absolute; left:50%; transform:translateX(-50%); bottom:-7px; width:0; height:0; border:5px solid transparent; border-bottom:none; border-top:7px solid var(--ink-mute)}
+.vz-master-albl{margin-top:11px; font-size:12.5px; color:var(--ink-soft); line-height:1.4; max-width:320px}
+.vz-master-conn-tight{padding:2px 0 9px}
+.vz-master-conn-tight .vz-master-stem{height:18px}
+.vz-master-converge{display:none}
 
-        <!-- ряд 3: ведущий -->
-        <rect x="25" y="387" width="150" height="56" rx="6" fill="#eceef2" stroke="#d3d7dd"/>
-        <text x="100" y="420" text-anchor="middle" font-family="Inter, sans-serif" font-size="15" font-weight="600" fill="#14161a">Ведущий</text>
-        <line x1="175" y1="415" x2="203" y2="415" stroke="#878d96" stroke-width="1.5" marker-end="url(#ar)"/>
-        <rect x="205" y="387" width="130" height="56" rx="6" fill="#ffffff" stroke="#14161a" stroke-width="1.5"/>
-        <text x="270" y="411" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#14161a">РК</text>
-        <text x="270" y="430" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#494f57">→ ведущие</text>
-        <line x1="335" y1="415" x2="413" y2="415" stroke="#878d96" stroke-width="1.5" marker-end="url(#ar)"/>
-        <rect x="415" y="383" width="220" height="64" rx="8" fill="#ffffff" stroke="#d92d20" stroke-width="2"/>
-        <text x="429" y="412" font-family="Inter, sans-serif" font-size="15" font-weight="800" fill="#14161a">СТАТЬЯ №1</text>
-        <text x="429" y="432" font-family="JetBrains Mono, monospace" font-size="11" fill="#494f57">0→2 · сцены из жизни</text>
-        <rect x="540" y="371" width="86" height="20" rx="10" fill="#eaf0fe" stroke="#2563eb" stroke-dasharray="3 3"/>
-        <text x="583" y="385" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#1d4ed8">×20 дверей</text>
-        <line x1="635" y1="415" x2="658" y2="415" stroke="#878d96" stroke-width="1.5" marker-end="url(#ar)"/>
-        <rect x="660" y="383" width="200" height="64" rx="8" fill="#ffffff" stroke="#d92d20" stroke-width="2"/>
-        <text x="674" y="412" font-family="Inter, sans-serif" font-size="15" font-weight="800" fill="#14161a">СТАТЬЯ №2</text>
-        <text x="674" y="432" font-family="JetBrains Mono, monospace" font-size="11" fill="#494f57">2→3 · антилопа</text>
+/* приток: тематические заходы (мобайл: пунктирный блок с отступом + Г-коннектор + подпись под коленом) */
+.vz-master-branchwrap{margin-top:10px}
+.vz-master-branchbox{border:1.5px dashed var(--ink-mute); border-radius:var(--r-lg); background:var(--paper); padding:11px 13px; margin-left:20px}
+.vz-master-bk{font-family:var(--font-mono); font-size:10px; font-weight:600; letter-spacing:.09em; color:var(--ink-mute); margin-bottom:4px}
+.vz-master-bt{font-size:14px; font-weight:700; letter-spacing:-.005em}
+.vz-master-bs{font-size:12.5px; color:var(--ink-soft); line-height:1.45; margin:3px 0 0}
+.vz-master-inflow{display:block; position:relative; padding:8px 0 10px; min-height:40px}
+.vz-master-inflow::before{content:""; position:absolute; left:50%; transform:translateX(-50%); top:0; bottom:-7px; width:0; border-left:2px dashed var(--ink-mute)}
+.vz-master-inflow::after{content:""; position:absolute; left:50%; transform:translateX(-50%); bottom:-7px; width:0; height:0; border:5px solid transparent; border-bottom:none; border-top:7px solid var(--ink-mute)}
+.vz-master-inflow-cap{display:block; width:calc(50% - 14px); text-align:right; font-size:12.5px; color:var(--ink-soft); line-height:1.4}
+.vz-master-junction-cap{display:none}
 
-        <!-- ряд 4: тираж (пунктир) -->
-        <rect x="25" y="487" width="150" height="56" rx="6" fill="#ffffff" stroke="#878d96" stroke-dasharray="5 4"/>
-        <text x="100" y="520" text-anchor="middle" font-family="Inter, sans-serif" font-size="13.5" font-weight="600" fill="#6d737c">+ ещё 7-17</text>
-        <line x1="175" y1="515" x2="203" y2="515" stroke="#878d96" stroke-width="1.2" stroke-dasharray="4 4"/>
-        <rect x="205" y="487" width="130" height="56" rx="6" fill="#ffffff" stroke="#878d96" stroke-dasharray="5 4"/>
-        <text x="270" y="520" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11.5" fill="#6d737c">РК → ...</text>
-        <line x1="335" y1="515" x2="413" y2="515" stroke="#878d96" stroke-width="1.2" stroke-dasharray="4 4"/>
-        <rect x="415" y="487" width="220" height="56" rx="8" fill="#ffffff" stroke="#878d96" stroke-dasharray="5 4"/>
-        <text x="525" y="514" text-anchor="middle" font-family="Inter, sans-serif" font-size="12.5" fill="#6d737c">та же статья, слоты + нейросети</text>
-        <text x="525" y="531" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#878d96">тираж после пилота</text>
-        <line x1="635" y1="515" x2="658" y2="515" stroke="#878d96" stroke-width="1.2" stroke-dasharray="4 4"/>
-        <rect x="660" y="487" width="200" height="56" rx="8" fill="#ffffff" stroke="#878d96" stroke-dasharray="5 4"/>
-        <text x="760" y="520" text-anchor="middle" font-family="Inter, sans-serif" font-size="12.5" fill="#6d737c">адаптация</text>
+/* граница зон: уровень 3 + воронковая математика */
+.vz-master-border-in{display:flex; flex-direction:column; align-items:center}
+.vz-master-bbox{background:var(--paper); border:1px solid var(--line-2); border-radius:var(--r-lg); padding:12px 14px; text-align:center; width:100%; max-width:460px}
+.vz-master-bbk{font-family:var(--font-mono); font-size:10.5px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-mute)}
+.vz-master-bbm{font-size:14px; font-weight:700; letter-spacing:-.005em; line-height:1.4; margin-top:5px}
 
-        <!-- схождение в бэкенд -->
-        <path d="M860,215 C876,215 882,212 891,206" fill="none" stroke="#878d96" stroke-width="1.6" marker-end="url(#ar)"/>
-        <path d="M860,315 C878,315 884,260 890,232" fill="none" stroke="#878d96" stroke-width="1.6" marker-end="url(#ar)"/>
-        <path d="M860,415 C880,415 886,300 890,256" fill="none" stroke="#878d96" stroke-width="1.6" marker-end="url(#ar)"/>
-        <path d="M860,515 C882,515 888,330 890,276" fill="none" stroke="#878d96" stroke-width="1.2" stroke-dasharray="4 4"/>
+/* единственный синий блок - Сделка */
+.vz-master-deal{background:var(--accent); border-color:var(--accent); box-shadow:none}
+.vz-master-deal .vz-master-nt{color:var(--accent-on,#fff); font-size:16px}
+.vz-master-deal .vz-master-ns{color:var(--accent-on,#fff); opacity:.85}
 
-        <!-- бэкенд-стек -->
-        <rect x="895" y="160" width="255" height="110" rx="8" fill="#14161a"/>
-        <text x="909" y="196" font-family="Inter, sans-serif" font-size="16" font-weight="800" fill="#f5f6f8">БЭКЕНД</text>
-        <text x="909" y="219" font-family="JetBrains Mono, monospace" font-size="11.5" fill="#aeb4bd">статьи 3-4-5 · одни для всех</text>
-        <text x="909" y="238" font-family="JetBrains Mono, monospace" font-size="11.5" fill="#aeb4bd">скрипты Брансона: VSL · вебинар</text>
-        <line x1="1022" y1="270" x2="1022" y2="298" stroke="#878d96" stroke-width="1.6" marker-end="url(#ar)"/>
-        <rect x="895" y="300" width="255" height="62" rx="8" fill="#ffffff" stroke="#15a04a" stroke-width="2"/>
-        <text x="909" y="327" font-family="Inter, sans-serif" font-size="15" font-weight="800" fill="#14161a">ОФФЕР</text>
-        <text x="909" y="348" font-family="JetBrains Mono, monospace" font-size="11" fill="#0f7d39">по Хормози · $100M Offers</text>
-        <line x1="1022" y1="362" x2="1022" y2="390" stroke="#878d96" stroke-width="1.6" marker-end="url(#ar)"/>
-        <rect x="895" y="392" width="255" height="62" rx="8" fill="#2563eb"/>
-        <text x="909" y="419" font-family="Inter, sans-serif" font-size="15" font-weight="800" fill="#ffffff">СДЕЛКА</text>
-        <text x="909" y="440" font-family="JetBrains Mono, monospace" font-size="11" fill="#dbe7ff">твой консалтинг · личная работа</text>
+/* легенда: два статусных пилла */
+.vz-master-legend{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px}
+.vz-master-pill{display:inline-flex; align-items:center; gap:8px; font-size:12.5px; font-weight:600; padding:6px 13px; border-radius:var(--r-lg); line-height:1.35; max-width:100%}
+.vz-master-pill i{width:8px; height:8px; border-radius:50%; flex-shrink:0; font-style:normal}
+.vz-master-pill.vz-master-no{background:var(--neg-wash); color:var(--neg-ink)}
+.vz-master-pill.vz-master-no i{background:var(--neg)}
+.vz-master-pill.vz-master-yes{background:var(--pos-wash); color:var(--pos-ink)}
+.vz-master-pill.vz-master-yes i{background:var(--pos)}
 
-        <!-- тематические заходы -->
-        <rect x="415" y="595" width="445" height="70" rx="8" fill="#ffffff" stroke="#d92d20" stroke-width="1.5" stroke-dasharray="6 4"/>
-        <text x="429" y="622" font-family="Inter, sans-serif" font-size="13.5" font-weight="700" fill="#14161a">ТЕМАТИЧЕСКИЕ ЗАХОДЫ · ~20 тем</text>
-        <text x="429" y="643" font-family="JetBrains Mono, monospace" font-size="11" fill="#494f57">кликбейт-статьи = ещё двери · работают как Статья №1</text>
-        <line x1="637" y1="593" x2="637" y2="570" stroke="#d92d20" stroke-width="1.6" marker-end="url(#arRed)"/>
-        <text x="650" y="582" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#b42318">вливаются в ту же воронку</text>
+/* рельса Ханта - только десктоп */
+.vz-master-railline,.vz-master-dot,.vz-master-raillbl{display:none}
 
-        <!-- легенда -->
-        <g font-family="Inter, sans-serif" font-size="12.5" fill="#494f57">
-          <rect x="25" y="700" width="26" height="16" rx="4" fill="#ffffff" stroke="#d92d20" stroke-width="2"/>
-          <text x="60" y="713">скрипта нет - две красные статьи = весь затык</text>
-          <rect x="415" y="700" width="26" height="16" rx="4" fill="#ffffff" stroke="#15a04a" stroke-width="2"/>
-          <text x="450" y="713">скрипты есть · Брансон + Хормози</text>
-          <rect x="740" y="700" width="26" height="16" rx="4" fill="#ffffff" stroke="#878d96" stroke-dasharray="4 3"/>
-          <text x="775" y="713">добавляется при тираже</text>
-        </g>
+/* мобайл: уровни Ханта - бусины на стволе у переходов 0/2/3/5 (на десктопе их несёт рельса) */
+.vz-master-conn-lvl .vz-master-stem{height:46px}
+.vz-master-mdot{position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); display:grid; place-items:center; width:24px; height:24px; border-radius:50%; background:var(--paper); border:1.5px solid var(--line-2); color:var(--ink-mute); font-family:var(--font-mono); font-size:12px; font-weight:600}
+.vz-master-mdot-3{background:var(--accent); border-color:var(--accent); color:var(--accent-on,#fff)}
+
+/* ===== десктоп: рельса 56px / позвоночник / ветка 220px ===== */
+@media(min-width:721px){
+  /* геометрия колонок - менять ТОЛЬКО здесь, стык junction считается от этих же переменных */
+  .vz-master{--vz-master-rail:56px; --vz-master-branch:220px; --vz-master-gap:18px}
+  .vz-master-zone{display:grid; grid-template-columns:var(--vz-master-rail) minmax(0,1fr) var(--vz-master-branch); column-gap:var(--vz-master-gap); padding:16px}
+  .vz-master-zhead{grid-column:2/4; grid-row:1; margin-bottom:14px}
+  .vz-master-raillbl{display:block; grid-column:1; grid-row:1; justify-self:center; align-self:start; font-family:var(--font-mono); font-size:10px; font-weight:600; letter-spacing:.09em; color:var(--ink-mute)}
+  .vz-master-railline{display:block; grid-column:1; justify-self:center; width:2px; background:var(--line-2)}
+  .vz-master-front .vz-master-railline{grid-row:2/11}
+  .vz-master-back .vz-master-railline{grid-row:2/7}
+  /* кружки уровней нейтральные; акцентом залит только «3» на границе зон */
+  .vz-master-dot{display:grid; place-items:center; grid-column:1; justify-self:center; align-self:center; width:26px; height:26px; border-radius:50%; background:var(--paper); border:1.5px solid var(--line-2); color:var(--ink-mute); font-family:var(--font-mono); font-size:12.5px; font-weight:600; z-index:1}
+  .vz-master-dot-0{grid-row:2}
+  .vz-master-dot-1{grid-row:8}
+  .vz-master-dot-2{grid-row:10}
+  .vz-master-dot-4{grid-row:4}
+  .vz-master-dot-5{grid-row:6}
+  .vz-master-dot-3{grid-row:1; background:var(--accent); border-color:var(--accent); color:var(--accent-on,#fff); align-self:center}
+  .vz-master-mdot{display:none}
+  .vz-master-conn-lvl .vz-master-stem{height:28px}
+  .vz-master-front > .vz-master-node, .vz-master-front > .vz-master-conn,
+  .vz-master-back > .vz-master-node, .vz-master-back > .vz-master-conn{grid-column:2}
+  /* веер аватаров: чипы в ряд + сходящиеся линии в Рекламу */
+  .vz-master-avatars{border:none; background:transparent; box-shadow:none; padding:0; justify-self:center; width:100%}
+  .vz-master-avatars .vz-master-nh{justify-content:center}
+  .vz-master-avatars .vz-master-nt{font-family:var(--font-mono); font-size:11px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:var(--ink-soft)}
+  .vz-master-avatars .vz-master-chips{justify-content:center}
+  .vz-master-converge{display:block; width:min(440px,100%); height:30px}
+  .vz-master-converge line{stroke:var(--ink-mute); stroke-width:1.5px; vector-effect:non-scaling-stroke}
+  .vz-master-conn-fan .vz-master-stem{height:10px}
+  /* ветка тем.заходов справа от оси */
+  .vz-master-branchwrap{grid-column:3; grid-row:7/9; align-self:end; margin-top:0}
+  .vz-master-branchbox{margin-left:0}
+  .vz-master-inflow{display:none}
+  /* стык: вертикальная стрелка позвоночника + Г-коннектор притока.
+     Геометрия выведена из --vz-master-branch / --vz-master-gap: правый край = центр ветки, левый = центр ствола */
+  .vz-master-junction{grid-column:2/4; position:relative; display:grid; grid-template-columns:minmax(0,1fr) var(--vz-master-branch); column-gap:var(--vz-master-gap)}
+  .vz-master-junction > .vz-master-conn{grid-column:1}
+  .vz-master-junction .vz-master-stem{height:46px}
+  .vz-master-junction::after{content:""; position:absolute; top:0; height:30px; left:calc((100% - var(--vz-master-branch) - var(--vz-master-gap))/2); right:calc(var(--vz-master-branch)/2 - 1px); border-right:2px dashed var(--ink-mute); border-bottom:2px dashed var(--ink-mute); border-bottom-right-radius:10px}
+  .vz-master-junction::before{content:""; position:absolute; top:24px; left:calc((100% - var(--vz-master-branch) - var(--vz-master-gap))/2 - 6px); width:0; height:0; border:5px solid transparent; border-right:7px solid var(--ink-mute); border-left:none; z-index:1}
+  .vz-master-junction-cap{display:block; grid-column:2; margin-top:36px; font-size:12px; color:var(--ink-mute); text-align:center; line-height:1.35; padding:0 6px}
+  /* граница зон в той же сетке: свой отрезок рельсы на всю высоту, кружок «3» сидит на нём */
+  .vz-master-border{display:grid; grid-template-columns:var(--vz-master-rail) minmax(0,1fr) var(--vz-master-branch); column-gap:var(--vz-master-gap); padding:0 17px}
+  .vz-master-border .vz-master-railline{grid-row:1}
+  .vz-master-border-in{grid-column:2}
+  .vz-master-legend{justify-content:flex-start}
+}
+</style>
+<div class="viz vz-master">
+
+  <span class="vz-master-kicker">Мастер-схема · вся стратегия одним взглядом</span>
+  <p class="vz-master-title">Вся воронка собрана - красным горят только два недостающих скрипта.</p>
+
+  <!-- ЗОНА 1: ФРОНТЕНД -->
+  <div class="vz-master-zone vz-master-front">
+    <div class="vz-master-zhead">
+      <span class="vz-master-zname">Фронтенд · персональный под аватара · уровни Ханта 0-2</span>
+      <span class="vz-master-flag vz-master-no">скриптов НЕТ - весь затык здесь</span>
+    </div>
+    <span class="vz-master-raillbl" aria-hidden="true">ХАНТ</span>
+    <span class="vz-master-railline" aria-hidden="true"></span>
+    <span class="vz-master-dot vz-master-dot-0" aria-hidden="true">0</span>
+    <span class="vz-master-dot vz-master-dot-1" aria-hidden="true">1</span>
+    <span class="vz-master-dot vz-master-dot-2" aria-hidden="true">2</span>
+
+    <div class="vz-master-node vz-master-avatars">
+      <div class="vz-master-nh"><span class="vz-master-nt">Аватары ×10-20</span></div>
+      <div class="vz-master-chips">
+        <span class="vz-master-chip">фотограф</span>
+        <span class="vz-master-chip">маркетолог</span>
+        <span class="vz-master-chip">ведущий</span>
+        <span class="vz-master-chip vz-master-ghost">+ ещё 7-17</span>
+      </div>
+    </div>
+
+    <div class="vz-master-conn vz-master-conn-fan vz-master-conn-lvl">
+      <svg class="vz-master-converge" viewBox="0 0 100 30" preserveAspectRatio="none" aria-hidden="true">
+        <line x1="13" y1="2" x2="50" y2="28"></line>
+        <line x1="38" y1="2" x2="50" y2="28"></line>
+        <line x1="62" y1="2" x2="50" y2="28"></line>
+        <line x1="87" y1="2" x2="50" y2="28"></line>
       </svg>
+      <span class="vz-master-stem" aria-hidden="true"><span class="vz-master-mdot">0</span></span>
+      <span class="vz-master-albl">сколько аватаров - столько рекламных кампаний</span>
     </div>
+
+    <div class="vz-master-node">
+      <div class="vz-master-nh"><span class="vz-master-nt">Реклама: своя РК на каждого</span></div>
+      <p class="vz-master-ns">человек узнаёт себя в заголовке объявления</p>
     </div>
-    <p class="cap">Читается слева направо: каждый аватар получает свою рекламу и свою пару статей (фронтенд, красная зона - скриптов пока нет), все нитки сходятся в один общий бэкенд (скрипты есть) и заканчиваются сделкой. Сверху - уровни лестницы Ханта, по которым человек поднимается, двигаясь вправо. Снизу - тематические заходы: дополнительные двери в ту же воронку. Каждый элемент схемы подробно разобран в своём разделе ниже.</p>
+
+    <div class="vz-master-conn">
+      <span class="vz-master-stem" aria-hidden="true"></span>
+      <span class="vz-master-albl">клик по заголовку: «это про меня»</span>
+    </div>
+
+    <div class="vz-master-node">
+      <div class="vz-master-nh"><span class="vz-master-nt">Двери ×20</span></div>
+      <p class="vz-master-ns">20 заголовков → одна и та же статья · заголовок = 80% успеха</p>
+    </div>
+
+    <div class="vz-master-conn">
+      <span class="vz-master-stem" aria-hidden="true"></span>
+      <span class="vz-master-albl">все 20 дверей ведут в одно контентное тело</span>
+    </div>
+
+    <div class="vz-master-node vz-master-no">
+      <div class="vz-master-nh">
+        <span class="vz-master-nt">Статья №1</span>
+        <span class="vz-master-tag">ХАНТ 0→2</span>
+        <span class="vz-master-flag vz-master-no">скрипта НЕТ</span>
+      </div>
+      <p class="vz-master-ns">враг назван: тупиковая модель · сцены из жизни аватара</p>
+    </div>
+
+    <aside class="vz-master-branchwrap">
+      <div class="vz-master-branchbox">
+        <div class="vz-master-bk">ДОП. ВХОД</div>
+        <div class="vz-master-bt">Тематические заходы ~20 тем</div>
+        <p class="vz-master-bs">кликбейт «Что обязан знать каждый [профессия] в 2026» · сами закрывают 0→2</p>
+      </div>
+      <div class="vz-master-inflow">
+        <span class="vz-master-inflow-cap">вливаются в ту же воронку, уровень уже 2</span>
+      </div>
+    </aside>
+
+    <div class="vz-master-junction">
+      <div class="vz-master-conn vz-master-conn-lvl">
+        <span class="vz-master-stem" aria-hidden="true"><span class="vz-master-mdot">2</span></span>
+        <span class="vz-master-albl">0→2: проблема осознана, решения ещё нет</span>
+      </div>
+      <span class="vz-master-junction-cap">вливаются в ту же воронку, уровень уже 2</span>
+    </div>
+
+    <div class="vz-master-node vz-master-no">
+      <div class="vz-master-nh">
+        <span class="vz-master-nt">Статья №2</span>
+        <span class="vz-master-tag">ХАНТ 2→3</span>
+        <span class="vz-master-flag vz-master-no">скрипта НЕТ</span>
+      </div>
+      <p class="vz-master-ns">варианты решения → консалтинг = золотая антилопа</p>
+    </div>
+  </div>
+
+  <!-- ГРАНИЦА ЗОН: уровень 3 + математика схождения -->
+  <div class="vz-master-border">
+    <span class="vz-master-railline" aria-hidden="true"></span>
+    <span class="vz-master-dot vz-master-dot-3" aria-hidden="true">3</span>
+    <div class="vz-master-border-in">
+      <div class="vz-master-conn vz-master-conn-lvl">
+        <span class="vz-master-stem" aria-hidden="true"><span class="vz-master-mdot vz-master-mdot-3">3</span></span>
+        <span class="vz-master-albl">2→3: идея консалтинга продана - персонализация заканчивается</span>
+      </div>
+      <div class="vz-master-bbox">
+        <div class="vz-master-bbk">граница персонализации · уровень 3</div>
+        <div class="vz-master-bbm">10-20 аватаров × 20 дверей = до 400 входов → одна воронка</div>
+      </div>
+      <div class="vz-master-conn vz-master-conn-tight">
+        <span class="vz-master-stem" aria-hidden="true"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ЗОНА 2: БЭКЕНД -->
+  <div class="vz-master-zone vz-master-back">
+    <div class="vz-master-zhead">
+      <span class="vz-master-zname">Бэкенд · один для всех · уровни Ханта 3-5</span>
+      <span class="vz-master-flag vz-master-yes">скрипты ЕСТЬ</span>
+    </div>
+    <span class="vz-master-railline" aria-hidden="true"></span>
+    <span class="vz-master-dot vz-master-dot-4" aria-hidden="true">4</span>
+    <span class="vz-master-dot vz-master-dot-5" aria-hidden="true">5</span>
+
+    <div class="vz-master-node vz-master-yes">
+      <div class="vz-master-nh">
+        <span class="vz-master-nt">Статьи №3-4-5</span>
+        <span class="vz-master-tag">ХАНТ 3→5</span>
+        <span class="vz-master-flag vz-master-yes">скрипт ЕСТЬ</span>
+      </div>
+      <p class="vz-master-ns">скрипты Брансона: VSL, Perfect Webinar</p>
+    </div>
+
+    <div class="vz-master-conn vz-master-conn-lvl">
+      <span class="vz-master-stem" aria-hidden="true"><span class="vz-master-mdot">5</span></span>
+      <span class="vz-master-albl">3→5: понял, как это устроено, и поверил</span>
+    </div>
+
+    <div class="vz-master-node vz-master-yes">
+      <div class="vz-master-nh">
+        <span class="vz-master-nt">Оффер</span>
+        <span class="vz-master-flag vz-master-yes">скрипт ЕСТЬ</span>
+      </div>
+      <p class="vz-master-ns">по Хормози · $100M Offers</p>
+    </div>
+
+    <div class="vz-master-conn">
+      <span class="vz-master-stem" aria-hidden="true"></span>
+      <span class="vz-master-albl">оффер принят - покупка</span>
+    </div>
+
+    <div class="vz-master-node vz-master-deal">
+      <div class="vz-master-nh"><span class="vz-master-nt">Сделка: консалтинг</span></div>
+      <p class="vz-master-ns">личная работа: ты обучаешь - клиент внедряет</p>
+    </div>
+  </div>
+
+  <!-- ЛЕГЕНДА -->
+  <div class="vz-master-legend">
+    <span class="vz-master-pill vz-master-no"><i aria-hidden="true"></i>скрипта НЕТ - статьи №1 и №2 (весь затык)</span>
+    <span class="vz-master-pill vz-master-yes"><i aria-hidden="true"></i>скрипт ЕСТЬ - Брансон + Хормози</span>
+  </div>
+
+</div>
 
     <div class="block-label">Карта документа</div>
     <ol class="lst num reveal">
@@ -765,71 +907,226 @@ svg.chart{display:block; width:100%; height:auto; overflow:visible}
     <div class="callout info reveal"><span class="ic">№</span><div><b class="t">Сначала наведём порядок в нумерации</b>В устном рассказе уровни-состояния и статьи-переходы легко смешиваются («ступень 0-1», «статья второго уровня»), поэтому фиксируем раз и навсегда. Уровни Ханта - это СОСТОЯНИЯ человека: 0, 1, 2, 3, 4, 5. Статьи - это ПЕРЕХОДЫ между состояниями. В этом документе всегда так: <b>Статья №1</b> закрывает переходы 0→1→2 (одним текстом), <b>Статья №2</b> закрывает переход 2→3, <b>Бэкенд</b> закрывает 3→4→5, <b>Оффер</b> добивает уровень 5.</div></div>
 
     <div class="block-label">Лестница одним взглядом</div>
-    <p class="cap scroll-hint" style="margin:0 0 8px">схема листается вбок →</p>
-    <div class="bleed">
-    <div class="diagram-scroll">
-      <svg viewBox="0 0 1080 545" style="min-width:880px" role="img" aria-label="Лестница Ханта: шесть уровней-ступеней, под ними скобки статей-переходов" xmlns="http://www.w3.org/2000/svg">
-        <!-- силуэт лестницы -->
-        <path d="M30,438 L30,408 L202,408 L202,350 L374,350 L374,292 L546,292 L546,234 L718,234 L718,176 L890,176 L890,118 L1062,118 L1062,438 Z" fill="#f5f6f8" stroke="#d3d7dd" stroke-width="1.5"/>
+    <!-- viz: ladder: лестница Ханта 0-5 - шесть состояний клиента с дословными репликами, статьи-перевозчики табличками на цветных линиях-стрелках; красная линия = скрипта нет (весь затык), зелёная = скрипт/метод есть, синий блок = идея продана -->
+<style>
+/* ===== vz-ladder · база = десктоп (~820px колонка), мобайл в @media(max-width:720px) ===== */
+/* ширины блоков (--vzl-bw) посчитаны под border-box - не зависим от reset хост-страницы */
+.vz-ladder, .vz-ladder *, .vz-ladder *::before, .vz-ladder *::after{box-sizing:border-box}
+.vz-ladder{
+  --vzl-col:44px;                                            /* колонка под скобки зон слева */
+  --vzl-step:clamp(56px, 9.4vw, 78px);                       /* сдвиг ступени вправо (~80px) */
+  --vzl-bw:min(340px, calc(100% - var(--vzl-col) - 5*var(--vzl-step))); /* ширина блока, без переполнения */
+}
+.vz-ladder-title{font-size:18px; font-weight:800; letter-spacing:-.01em; line-height:1.35; max-width:62ch}
+.vz-ladder-title .vz-ladder-title-no{color:var(--neg-ink)}
+.vz-ladder-axis{display:none; font-family:var(--font-mono); font-size:13px; color:var(--ink-mute); margin-top:8px}
+.vz-ladder-chain{position:relative; margin-top:22px}
+.vz-ladder-axis-v{position:absolute; top:2px; right:0; writing-mode:vertical-rl; transform:rotate(180deg); font-family:var(--font-mono); font-size:13px; letter-spacing:.05em; color:var(--ink-mute); white-space:nowrap}
 
-        <!-- ступень 0 -->
-        <circle cx="62" cy="384" r="15" fill="#fdeceb" stroke="#d92d20" stroke-width="1.5"/>
-        <text x="62" y="389" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13.5" font-weight="600" fill="#b42318">0</text>
-        <text x="88" y="380" font-family="Inter, sans-serif" font-size="14.5" font-weight="700" fill="#14161a">Проблемы нет</text>
-        <text x="88" y="398" font-family="Inter, sans-serif" font-size="11.5" fill="#6d737c">«хочу больше клиентов»</text>
+/* ---- зоны: тонкие скобки-канты слева, без заливки ---- */
+.vz-ladder-zone{position:relative}
+.vz-ladder-zone + .vz-ladder-zone{margin-top:18px}
+.vz-ladder-zone::before{content:""; position:absolute; left:34px; top:0; bottom:0; width:7px; border:1px solid; border-right:none; border-radius:2px 0 0 2px}
+.vz-ladder-zf::before{border-color:color-mix(in srgb, var(--neg) 45%, transparent)}
+.vz-ladder-zb::before{border-color:color-mix(in srgb, var(--pos) 45%, transparent)}
+.vz-ladder-ztag{position:absolute; left:0; top:0; bottom:0; width:30px; writing-mode:vertical-rl; transform:rotate(180deg); display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:13px; letter-spacing:.04em; color:var(--ink-soft); white-space:nowrap}
+.vz-ladder-zf .vz-ladder-ztag b, .vz-ladder-zf .vz-ladder-ztag .vz-ladder-zst{color:var(--neg-ink)}
+.vz-ladder-zb .vz-ladder-ztag b, .vz-ladder-zb .vz-ladder-ztag .vz-ladder-zst{color:var(--pos-ink)}
 
-        <!-- ступень 1 -->
-        <circle cx="234" cy="326" r="15" fill="#fdeceb" stroke="#d92d20" stroke-width="1.5"/>
-        <text x="234" y="331" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13.5" font-weight="600" fill="#b42318">1</text>
-        <text x="260" y="322" font-family="Inter, sans-serif" font-size="14.5" font-weight="700" fill="#14161a">Проблема есть!</text>
-        <text x="260" y="340" font-family="Inter, sans-serif" font-size="11.5" fill="#6d737c">«дело в модели»</text>
+/* ---- блоки-состояния ---- */
+.vz-ladder-state{position:relative; width:var(--vzl-bw); min-height:54px; background:var(--paper); border:1px solid var(--line-2); border-radius:var(--r-lg); padding:12px 14px}
+.vz-ladder-srow{display:flex; align-items:baseline; gap:9px; flex-wrap:wrap}
+.vz-ladder-chipn{font-family:var(--font-mono); font-size:13px; font-weight:600; line-height:20px; padding:0 7px; border-radius:var(--r); background:var(--surface-2); border:1px solid var(--line-2); color:var(--ink-soft); align-self:center; flex-shrink:0}
+.vz-ladder-say{font-size:15.5px; font-weight:700; letter-spacing:-.005em}
+.vz-ladder-sub{font-size:13px; color:var(--ink-soft); line-height:1.45; margin-top:4px}
 
-        <!-- ступень 2 -->
-        <circle cx="406" cy="268" r="15" fill="#fdeceb" stroke="#d92d20" stroke-width="1.5"/>
-        <text x="406" y="273" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13.5" font-weight="600" fill="#b42318">2</text>
-        <text x="432" y="264" font-family="Inter, sans-serif" font-size="14.5" font-weight="700" fill="#14161a">Ищу решение</text>
-        <text x="432" y="282" font-family="Inter, sans-serif" font-size="11.5" fill="#6d737c">«какие варианты?»</text>
+/* транзитный уровень 1: уменьшенный, красная линия проходит сквозь */
+.vz-ladder-transit{padding:7px 12px 7px 46px; min-height:0; background:var(--surface)}
+.vz-ladder-transit::before{content:""; position:absolute; left:28px; top:20px; bottom:0; width:2px; background:var(--neg)}
+.vz-ladder-transit .vz-ladder-say{font-size:15px}
+.vz-ladder-tnote{font-family:var(--font-mono); font-size:13px; color:var(--ink-mute)}
 
-        <!-- ступень 3 -->
-        <circle cx="578" cy="210" r="15" fill="#2563eb"/>
-        <text x="578" y="215" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13.5" font-weight="600" fill="#ffffff">3</text>
-        <text x="604" y="206" font-family="Inter, sans-serif" font-size="14.5" font-weight="700" fill="#14161a">Консалтинг!</text>
-        <text x="604" y="224" font-family="Inter, sans-serif" font-size="11.5" fill="#6d737c">«как это устроено?»</text>
+/* уровень 3: единственный синий залитый - ключевая точка.
+   #ffffff - текст на акценте, токена для него в контракте нет; остальное - производные от --accent */
+.vz-ladder-key{background:var(--accent); border-color:var(--accent)}
+.vz-ladder-key .vz-ladder-say{color:#ffffff}
+.vz-ladder-key .vz-ladder-sub{color:color-mix(in srgb, #ffffff 85%, var(--accent))}
+.vz-ladder-key .vz-ladder-chipn{background:rgba(255,255,255,.14); border-color:rgba(255,255,255,.42); color:#ffffff}
 
-        <!-- ступень 4 -->
-        <circle cx="750" cy="152" r="15" fill="#e9f7ee" stroke="#15a04a" stroke-width="1.5"/>
-        <text x="750" y="157" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13.5" font-weight="600" fill="#0f7d39">4</text>
-        <text x="776" y="148" font-family="Inter, sans-serif" font-size="14.5" font-weight="700" fill="#14161a">Вижу систему</text>
-        <text x="776" y="166" font-family="Inter, sans-serif" font-size="11.5" fill="#6d737c">«хочу так же»</text>
+/* уровень 5: тёмная плашка-финал. Текст на тёмном - var(--surface) (контрактный, = #f5f6f8),
+   полутона - производные от --surface/--surface-ink, выживут при смене палитры */
+.vz-ladder-final{background:var(--surface-ink); border-color:var(--surface-ink)}
+.vz-ladder-final .vz-ladder-say{color:var(--surface)}
+.vz-ladder-final .vz-ladder-sub{color:color-mix(in srgb, var(--surface) 70%, var(--surface-ink))}
+.vz-ladder-final .vz-ladder-chipn{background:color-mix(in srgb, var(--surface) 10%, var(--surface-ink)); border-color:color-mix(in srgb, var(--surface) 17%, var(--surface-ink)); color:var(--surface)}
+.vz-ladder-price{color:var(--paper); font-weight:700; white-space:nowrap}
 
-        <!-- ступень 5 -->
-        <circle cx="922" cy="94" r="15" fill="#15a04a"/>
-        <text x="922" y="99" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13.5" font-weight="600" fill="#ffffff">5</text>
-        <text x="948" y="90" font-family="Inter, sans-serif" font-size="14.5" font-weight="700" fill="#14161a">Беру</text>
-        <text x="948" y="108" font-family="Inter, sans-serif" font-size="11.5" fill="#6d737c">«оффер принят»</text>
+/* ---- ступени: сдвиг вправо на десктопе ---- */
+.vz-ladder-s0, .vz-ladder-l01{margin-left:var(--vzl-col)}
+.vz-ladder-s1, .vz-ladder-l12{margin-left:calc(var(--vzl-col) + var(--vzl-step))}
+.vz-ladder-s2, .vz-ladder-l23{margin-left:calc(var(--vzl-col) + 2*var(--vzl-step))}
+.vz-ladder-s3, .vz-ladder-l34{margin-left:calc(var(--vzl-col) + 3*var(--vzl-step))}
+.vz-ladder-s4, .vz-ladder-l45{margin-left:calc(var(--vzl-col) + 4*var(--vzl-step))}
+.vz-ladder-s5{margin-left:calc(var(--vzl-col) + 5*var(--vzl-step))}
 
-        <!-- скобки статей под лестницей -->
-        <line x1="116" y1="438" x2="116" y2="468" stroke="#d92d20" stroke-width="1.2" stroke-dasharray="3 3"/>
-        <line x1="460" y1="438" x2="460" y2="468" stroke="#d92d20" stroke-width="1.2" stroke-dasharray="3 3"/>
-        <line x1="116" y1="468" x2="460" y2="468" stroke="#d92d20" stroke-width="2.5"/>
-        <text x="288" y="490" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" font-weight="600" fill="#b42318">СТАТЬЯ №1 · 0→1→2 · скрипта НЕТ</text>
+/* ---- линии-переходы: на десктопе Г-образные (вниз -> вправо -> стрелка в левый торец) ---- */
+.vz-ladder-link{position:relative; width:var(--vzl-bw); padding:12px 0 14px 40px; --vzl-ext:26px}
+.vz-ladder-red{--vzl-c:var(--neg)}
+.vz-ladder-green{--vzl-c:var(--pos)}
+.vz-ladder-link::before{content:""; position:absolute; left:28px; top:0; width:calc(var(--vzl-step) - 28px); height:calc(100% + var(--vzl-ext)); border-left:2px solid var(--vzl-c); border-bottom:2px solid var(--vzl-c)}
+.vz-ladder-link::after{content:""; position:absolute; left:calc(var(--vzl-step) - 6px); bottom:calc(-1*var(--vzl-ext) - 4px); width:0; height:0; border-top:5px solid transparent; border-bottom:5px solid transparent; border-left:7px solid var(--vzl-c); border-right:none}
+.vz-ladder-l23{--vzl-ext:44px} /* переход 2->3 пересекает зазор между зонами */
 
-        <line x1="460" y1="498" x2="460" y2="510" stroke="#d92d20" stroke-width="1.2" stroke-dasharray="3 3"/>
-        <line x1="632" y1="438" x2="632" y2="510" stroke="#d92d20" stroke-width="1.2" stroke-dasharray="3 3"/>
-        <line x1="460" y1="510" x2="632" y2="510" stroke="#d92d20" stroke-width="2.5"/>
-        <text x="548" y="532" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" font-weight="600" fill="#b42318">СТАТЬЯ №2 · 2→3 · скрипта НЕТ</text>
+/* ---- таблички статей на линиях ---- */
+.vz-ladder-card{background:var(--paper); border:1px solid var(--line); border-left:3px solid var(--vzl-c); border-radius:var(--r); padding:10px 12px}
+.vz-ladder-red .vz-ladder-card{background:var(--neg-wash); border-color:color-mix(in srgb, var(--neg) 20%, transparent); border-left-color:var(--neg)}
+.vz-ladder-green .vz-ladder-card{background:var(--pos-wash); border-color:color-mix(in srgb, var(--pos) 22%, transparent); border-left-color:var(--pos)}
+.vz-ladder-card-k{display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-family:var(--font-mono); font-size:13px; font-weight:600; letter-spacing:.04em; text-transform:uppercase}
+.vz-ladder-red .vz-ladder-card-k{color:var(--neg-ink)}
+.vz-ladder-green .vz-ladder-card-k{color:var(--pos-ink)}
+.vz-ladder-card p{font-size:13px; color:var(--ink-soft); line-height:1.45; margin:5px 0 0}
+.vz-ladder-card-res{font-family:var(--font-mono); font-size:13px; font-weight:500; margin-top:6px}
+.vz-ladder-red .vz-ladder-card-res{color:var(--neg-ink)}
+.vz-ladder-green .vz-ladder-card-res{color:var(--pos-ink)}
+.vz-ladder-pill{display:inline-block; font-size:13px; font-weight:600; line-height:1; padding:3px 8px; border-radius:100px; background:var(--paper); text-transform:none; letter-spacing:0; font-family:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif}
+.vz-ladder-pill-no{color:var(--neg-ink); border:1px solid color-mix(in srgb, var(--neg) 32%, transparent)}
+.vz-ladder-pill-yes{color:var(--pos-ink); border:1px solid color-mix(in srgb, var(--pos) 32%, transparent)}
 
-        <line x1="648" y1="438" x2="648" y2="468" stroke="#15a04a" stroke-width="1.2" stroke-dasharray="3 3"/>
-        <line x1="976" y1="438" x2="976" y2="468" stroke="#15a04a" stroke-width="1.2" stroke-dasharray="3 3"/>
-        <line x1="648" y1="468" x2="976" y2="468" stroke="#15a04a" stroke-width="2.5"/>
-        <text x="812" y="490" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" font-weight="600" fill="#0f7d39">БЭКЕНД · 3→4→5 · СКРИПТЫ ЕСТЬ</text>
+/* микро-подпись транзита на короткой линии */
+.vz-ladder-l12{padding:8px 0 12px 40px}
+.vz-ladder-microl{font-family:var(--font-mono); font-size:13px; color:var(--ink-soft); line-height:1.4}
 
-        <rect x="884" y="498" width="178" height="26" rx="13" fill="#e9f7ee" stroke="#15a04a" stroke-width="1.5"/>
-        <text x="973" y="515" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11.5" font-weight="600" fill="#0f7d39">ОФФЕР · Хормози</text>
-      </svg>
+/* ---- легенда ---- */
+.vz-ladder-legend{display:flex; flex-wrap:wrap; gap:10px 20px; margin:20px 0 0 var(--vzl-col); font-size:13px; color:var(--ink-soft)}
+.vz-ladder-leg{display:inline-flex; align-items:center; gap:7px; font-weight:500}
+.vz-ladder-leg i{flex-shrink:0; display:inline-block}
+.vz-ladder-leg-no i, .vz-ladder-leg-yes i{width:16px; height:3px; border-radius:2px}
+.vz-ladder-leg-no i{background:var(--neg)}
+.vz-ladder-leg-yes i{background:var(--pos)}
+.vz-ladder-leg-key i{width:11px; height:11px; border-radius:3px; background:var(--accent)}
+
+/* ===== МОБАЙЛ: одна flex-колонка, рельса слева, таблички на линии ===== */
+@media(max-width:720px){
+  .vz-ladder-title{font-size:16.5px}
+  .vz-ladder-axis{display:block}
+  .vz-ladder-axis-v{display:none}
+  .vz-ladder-chain{margin-top:16px}
+
+  .vz-ladder-state, .vz-ladder-link{width:auto; margin-left:0}
+
+  /* зоны -> тонкие плашки с цветным кантом */
+  .vz-ladder-zone::before{display:none}
+  .vz-ladder-zone + .vz-ladder-zone{margin-top:0}
+  .vz-ladder-ztag{position:static; width:auto; writing-mode:horizontal-tb; transform:none; display:block; white-space:normal; background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:6px 10px; margin:0 0 8px; line-height:1.4}
+  .vz-ladder-zf .vz-ladder-ztag{border-left:3px solid var(--neg)}
+  .vz-ladder-zb .vz-ladder-ztag{border-left:3px solid var(--pos); margin-top:8px}
+
+  /* тег зоны бэкенда - ПОСЛЕ блока 3: красная стрелка 2->3 упирается прямо в синий блок,
+     а не в плашку-ярлык зоны */
+  .vz-ladder-zb{display:flex; flex-direction:column}
+  .vz-ladder-zb .vz-ladder-s3{order:-1}
+
+  /* линии -> вертикальная рельса слева + треугольник вниз */
+  .vz-ladder-link{padding:10px 0 18px 40px}
+  .vz-ladder-link::before{left:18px; top:0; bottom:0; width:2px; height:auto; border:none; background:var(--vzl-c)}
+  .vz-ladder-link::after{left:13px; bottom:1px; border-left:6px solid transparent; border-right:6px solid transparent; border-top:8px solid var(--vzl-c); border-bottom:none}
+  .vz-ladder-l12{padding:8px 0 16px 40px}
+
+  /* красная линия проходит сквозь транзитный блок 1 */
+  .vz-ladder-transit::before{left:18px; top:-1px; bottom:-1px}
+
+  .vz-ladder-legend{flex-direction:column; gap:7px; margin-left:0}
+}
+</style>
+<div class="viz vz-ladder">
+  <p class="vz-ladder-title">Лестница Ханта: четыре текста переводят человека из «проблемы нет» в «беру». <span class="vz-ladder-title-no">Скрипта нет только у двух красных</span> - там и весь затык.</p>
+  <div class="vz-ladder-axis">&#8595; вниз по странице = вверх по осознанности 0 &#8594; 5</div>
+
+  <div class="vz-ladder-chain">
+    <div class="vz-ladder-axis-v">вниз по странице = вверх по осознанности 0 &#8594; 5</div>
+
+    <!-- ЗОНА: фронтенд -->
+    <div class="vz-ladder-zone vz-ladder-zf">
+      <div class="vz-ladder-ztag"><b>ФРОНТЕНД</b> &middot; персонализированный &middot; <span class="vz-ladder-zst">скриптов нет</span></div>
+
+      <div class="vz-ladder-state vz-ladder-s0">
+        <div class="vz-ladder-srow"><span class="vz-ladder-chipn">0</span><span class="vz-ladder-say">«У меня нет проблемы»</span></div>
+        <div class="vz-ladder-sub">живёт спокойно &middot; сюда падает холодный трафик</div>
+      </div>
+
+      <div class="vz-ladder-link vz-ladder-red vz-ladder-l01">
+        <div class="vz-ladder-card">
+          <div class="vz-ladder-card-k">Статья №1 &middot; везёт 0&#8594;2 <span class="vz-ladder-pill vz-ladder-pill-no">скрипта нет</span></div>
+          <p>вскрывает проблему, даёт врагу имя: тупиковая модель - лимит клиентов + потолок чека</p>
+          <div class="vz-ladder-card-res">&#8594; «дело не в клиентах - в модели»</div>
+        </div>
+      </div>
+
+      <div class="vz-ladder-state vz-ladder-transit vz-ladder-s1">
+        <div class="vz-ladder-srow"><span class="vz-ladder-chipn">1</span><span class="vz-ladder-say">«Проблема есть!»</span><span class="vz-ladder-tnote">враг назван</span></div>
+      </div>
+
+      <div class="vz-ladder-link vz-ladder-red vz-ladder-l12">
+        <div class="vz-ladder-microl">та же Статья №1 &middot; без остановки - отдельная не нужна</div>
+      </div>
+
+      <div class="vz-ladder-state vz-ladder-s2">
+        <div class="vz-ladder-srow"><span class="vz-ladder-chipn">2</span><span class="vz-ladder-say">«Ищу решение»</span></div>
+        <div class="vz-ladder-sub">«какие есть варианты?» &middot; открыт к предложениям</div>
+      </div>
+
+      <div class="vz-ladder-link vz-ladder-red vz-ladder-l23">
+        <div class="vz-ladder-card">
+          <div class="vz-ladder-card-k">Статья №2 &middot; везёт 2&#8594;3 <span class="vz-ladder-pill vz-ladder-pill-no">скрипта нет</span></div>
+          <p>честный обзор вариантов - курс, партнёрство, школа - и «бац»: консалтинг как золотая антилопа</p>
+          <div class="vz-ladder-card-res">&#8594; продала ИДЕЮ консалтинга</div>
+        </div>
+      </div>
     </div>
+
+    <!-- ЗОНА: бэкенд -->
+    <div class="vz-ladder-zone vz-ladder-zb">
+      <div class="vz-ladder-ztag"><b>БЭКЕНД</b> &middot; универсальный &middot; <span class="vz-ladder-zst">скрипты есть</span></div>
+
+      <div class="vz-ladder-state vz-ladder-key vz-ladder-s3">
+        <div class="vz-ladder-srow"><span class="vz-ladder-chipn">3</span><span class="vz-ladder-say">«Решение - консалтинг»</span></div>
+        <div class="vz-ladder-sub">«а как это устроено?» &middot; персонализация заканчивается</div>
+      </div>
+
+      <div class="vz-ladder-link vz-ladder-green vz-ladder-l34">
+        <div class="vz-ladder-card">
+          <div class="vz-ladder-card-k">Бэкенд &middot; статьи 3-5 &middot; везёт 3&#8594;4 <span class="vz-ladder-pill vz-ladder-pill-yes">скрипт есть</span></div>
+          <p>одна воронка для всех аватаров &middot; Брансон, DotCom Secrets: VSL + идеальный вебинар</p>
+          <div class="vz-ladder-card-res">&#8594; показал механику, продал желаемое будущее</div>
+        </div>
+      </div>
+
+      <div class="vz-ladder-state vz-ladder-s4">
+        <div class="vz-ladder-srow"><span class="vz-ladder-chipn">4</span><span class="vz-ladder-say">«Вижу систему»</span></div>
+        <div class="vz-ladder-sub">«хочу так же у себя» &middot; последние сомнения</div>
+      </div>
+
+      <div class="vz-ladder-link vz-ladder-green vz-ladder-l45">
+        <div class="vz-ladder-card">
+          <div class="vz-ladder-card-k">Оффер &middot; везёт 4&#8594;5 <span class="vz-ladder-pill vz-ladder-pill-yes">метод есть</span></div>
+          <p>предложение, от которого не отмахнуться &middot; Хормози, $100M Offers</p>
+          <div class="vz-ladder-card-res">&#8594; снял последние сомнения</div>
+        </div>
+      </div>
+
+      <div class="vz-ladder-state vz-ladder-final vz-ladder-s5">
+        <div class="vz-ladder-srow"><span class="vz-ladder-chipn">5</span><span class="vz-ladder-say">«Беру»</span></div>
+        <div class="vz-ladder-sub">сделка: личная работа &middot; <span class="vz-ladder-price">ты обучаешь - клиент внедряет</span></div>
+      </div>
     </div>
-    <p class="cap">Человек поднимается по ступеням-состояниям, статьи - это перила между ними. Красные скобки - переходы, на которые скрипта пока нет (затык), зелёная - зона, где скрипты Брансона ложатся один в один.</p>
+  </div>
+
+  <div class="vz-ladder-legend">
+    <span class="vz-ladder-leg vz-ladder-leg-no"><i></i>красный = скрипта нет (затык)</span>
+    <span class="vz-ladder-leg vz-ladder-leg-yes"><i></i>зелёный = скрипт/метод есть</span>
+    <span class="vz-ladder-leg vz-ladder-leg-key"><i></i>синий = ключевая точка воронки</span>
+  </div>
+</div>
 
     <div class="block-label">Теперь по шагам · каждый уровень и каждая статья</div>
     <div class="ladder reveal" style="margin-top:26px">
@@ -1110,27 +1407,400 @@ svg.chart{display:block; width:100%; height:auto; overflow:visible}
     </div>
 
     <div class="block-label">Машина персонализации: как 2 статьи обслуживают 20 аватаров</div>
-    <p class="body reveal">Секрет в том, что проблема у всех аватаров ОДНА: тупиковая модель «всё делаю сам». Меняется только то, как она выглядит в жизни. Поэтому статья - не 20 разных текстов, а одно контентное тело с заменяемыми слотами:</p>
-    <div class="tpl reveal">
-      <p><span class="fix">Ты</span> <span class="slot">[ПРОФЕССИЯ]</span><span class="fix">, и ты хорошо знаешь это чувство:</span> <span class="slot">[СЦЕНА ИЗ ЖИЗНИ АВАТАРА]</span><span class="fix">. Ты делаешь всё сам - и упираешься в потолок: больше</span> <span class="slot">[ЛИМИТ КЛИЕНТОВ]</span> <span class="fix">в месяц физически не взять, а чек выше</span> <span class="slot">[СРЕДНИЙ ЧЕК ПО РЫНКУ]</span> <span class="fix">рынок не даст...</span></p>
-      <div class="legend">
-        <span><span class="sq" style="background:var(--accent-wash); border:1px dashed var(--accent)"></span>слот - меняется под аватара</span>
-        <span><span class="sq" style="background:var(--surface-2)"></span>тело - одно для всех</span>
+    <!-- viz: personalization: машина персонализации - 2 контентных тела со слотами (персонализированный фронтенд), нейросеть-горлышко размножает их на 10-20 аватаров (20-40 дверей), все персональные двери сходятся в один общий бэкенд (песочные часы: размер блока = трудозатраты) -->
+<style>
+/* ============ vz-personalization · песочные часы персонализации ============ */
+.viz.vz-personalization{margin:6px 0; box-sizing:border-box}
+.vz-personalization *{box-sizing:border-box} /* самодостаточность: не полагаемся на глобальный reset страницы */
+
+/* --- заголовок-вывод + формула --- */
+.vz-personalization .vzp-title{font-weight:800; font-size:17px; letter-spacing:-.01em; line-height:1.3; margin:0}
+.vz-personalization .vzp-formula{font-family:var(--font-mono); font-size:12.5px; color:var(--ink-soft); margin:4px 0 14px}
+
+/* --- блок-предпосылка (вход) --- */
+.vz-personalization .vzp-premise{background:var(--surface); border:1px solid var(--line-2); border-radius:var(--r-lg); padding:10px 14px; text-align:center}
+.vz-personalization .vzp-premise b{font-size:14.5px}
+.vz-personalization .vzp-premise .s{display:block; font-size:12.5px; color:var(--ink-soft); margin-top:2px; line-height:1.4}
+
+/* --- вертикальная стрелка с подписью (мобайл и общие переходы) --- */
+.vz-personalization .vzp-arr{display:flex; flex-direction:column; align-items:center; padding:3px 0}
+.vz-personalization .vzp-arr i{display:block}
+.vz-personalization .vzp-arr .st{width:1.5px; height:9px; background:var(--ink-mute)}
+.vz-personalization .vzp-arr .lbl{font-size:12px; color:var(--ink-soft); text-align:center; line-height:1.35; padding:2px 10px; max-width:46ch}
+.vz-personalization .vzp-arr .ah{width:0; height:0; border-left:5px solid transparent; border-right:5px solid transparent; border-top:7px solid var(--ink-mute)}
+.vz-personalization .vzp-arr.m{display:none} /* мобильные дубли коннекторов: на десктопе скрыты */
+
+/* --- зона (рамка с mono-заголовком) --- */
+.vz-personalization .vzp-zone{border:1px solid var(--line-2); border-radius:var(--r-lg); padding:12px; background:var(--paper)}
+.vz-personalization .vzp-zone .zk{font-family:var(--font-mono); font-size:11px; letter-spacing:.07em; text-transform:uppercase; color:var(--ink-mute); display:flex; justify-content:space-between; gap:6px 14px; flex-wrap:wrap; margin-bottom:10px}
+.vz-personalization .vzp-zone .zk b{color:var(--ink)}
+
+/* --- два КРУПНЫХ тела (серое = тело) --- */
+.vz-personalization .vzp-bodies{display:grid; grid-template-columns:1fr 1fr; gap:12px; align-items:stretch}
+.vz-personalization .vzp-body{background:var(--surface); border:1px solid var(--line-2); border-radius:var(--r-lg); padding:14px; display:flex; flex-direction:column; gap:8px}
+.vz-personalization .vzp-body .bk{font-family:var(--font-mono); font-size:11.5px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; color:var(--ink)}
+.vz-personalization .vzp-body .bm{font-size:12px; font-weight:600; color:var(--ink-soft); display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+.vz-personalization .cnt{font-family:var(--font-mono); font-size:11px; font-weight:600; padding:1px 8px; border-radius:100px}
+.vz-personalization .cnt.acc{background:var(--accent-wash); color:var(--accent-ink); border:1.5px dashed var(--accent)}
+.vz-personalization .cnt.mute{background:var(--surface-2); color:var(--ink-mute); border:1px solid var(--line-2)}
+.vz-personalization .vzp-tpl{font-size:13.5px; line-height:1.75; color:var(--ink)}
+.vz-personalization .vzp-slot{display:inline-block; border:1.5px dashed var(--accent); background:var(--accent-wash); color:var(--accent-ink); border-radius:var(--r); padding:0 6px; font-family:var(--font-mono); font-size:11.5px; font-weight:600; white-space:nowrap; line-height:1.7}
+.vz-personalization .vzp-body .bsub{font-size:12px; color:var(--ink-mute); line-height:1.4; margin-top:auto}
+.vz-personalization .badge-soft{display:inline-block; align-self:flex-start; font-size:11.5px; font-weight:600; background:var(--surface-2); color:var(--ink-soft); border:1px solid var(--line-2); border-radius:100px; padding:2px 10px; margin-top:auto}
+
+/* --- тёмные плашки: машина и общий бэкенд (горлышки) --- */
+.vz-personalization .vzp-dark{background:var(--surface-ink); color:var(--paper); border-radius:var(--r-lg); padding:11px 16px; text-align:center; width:40%; margin:0 auto}
+.vz-personalization .vzp-dark b{display:block; font-size:14.5px}
+.vz-personalization .vzp-dark .s{display:block; font-size:12px; color:color-mix(in srgb, var(--paper) 70%, var(--surface-ink)); margin-top:3px; line-height:1.45}
+.vz-personalization .vzp-dark.backend{width:46%}
+
+/* --- маленькие карточки-аватары (мини-тело + заполненный слот) --- */
+.vz-personalization .vzp-avs{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; align-items:stretch}
+.vz-personalization .vzp-av{background:var(--surface); border:1px solid var(--line-2); border-radius:var(--r); padding:9px 10px; display:flex; flex-direction:column; gap:6px}
+.vz-personalization .vzp-av .nm{align-self:flex-start; border:1.5px dashed var(--accent); background:var(--accent-wash); color:var(--accent-ink); border-radius:var(--r); padding:0 6px; font-family:var(--font-mono); font-size:11.5px; font-weight:600; line-height:1.7; white-space:nowrap}
+.vz-personalization .vzp-av .q{font-size:13px; color:var(--ink-soft); line-height:1.4}
+
+/* --- финал: читатель --- */
+.vz-personalization .vzp-reader{width:60%; margin:0 auto; background:var(--paper); border:1.5px solid var(--ink); border-radius:var(--r-lg); padding:11px 16px; text-align:center}
+.vz-personalization .vzp-reader .rk{font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-mute)}
+.vz-personalization .vzp-reader b{display:block; font-size:15.5px; letter-spacing:-.01em; margin-top:2px}
+.vz-personalization .vzp-reader .s{display:block; font-size:12px; color:var(--ink-soft); margin-top:2px}
+
+/* --- десктоп-коннекторы ромба: схождение 2->1 и расхождение 1->4 --- */
+.vz-personalization .vzp-conv,
+.vz-personalization .vzp-divg{position:relative; height:54px; margin:1px 0}
+.vz-personalization .vzp-conv i,
+.vz-personalization .vzp-divg i{display:block; position:absolute; background:var(--ink-mute)}
+/* центры карточек смещены внутрь зоны на 13px (padding 12px + border 1px):
+   тела (2 кол., gap 12): 25%+3.5px и 75%-3.5px; аватары (4 кол., gap 10): 12.5%+6px / 37.5%+2px / 62.5%-2px / 87.5%-6px.
+   Стойки 1.5px: left = центр - .75px; стрелки 10px: left = центр - 5px */
+.vz-personalization .vzp-conv .v25{left:calc(25% + 2.75px); top:0; height:15px; width:1.5px}
+.vz-personalization .vzp-conv .v75{left:calc(75% - 4.25px); top:0; height:15px; width:1.5px}
+.vz-personalization .vzp-conv .hl{left:calc(25% + 2.75px); right:calc(25% + 2.75px); top:15px; height:1.5px}
+.vz-personalization .vzp-conv .dn{left:calc(50% - .75px); top:15px; bottom:7px; width:1.5px}
+.vz-personalization .vzp-divg .up{left:calc(50% - .75px); top:0; height:15px; width:1.5px}
+.vz-personalization .vzp-divg .hl{left:calc(12.5% + 5.25px); right:calc(12.5% + 5.25px); top:15px; height:1.5px}
+.vz-personalization .vzp-divg .d1{left:calc(12.5% + 5.25px); top:15px; bottom:7px; width:1.5px}
+.vz-personalization .vzp-divg .d2{left:calc(37.5% + 1.25px); top:15px; bottom:7px; width:1.5px}
+.vz-personalization .vzp-divg .d3{left:calc(62.5% - 2.75px); top:15px; bottom:7px; width:1.5px}
+.vz-personalization .vzp-divg .d4{left:calc(87.5% - 6.75px); top:15px; bottom:7px; width:1.5px}
+.vz-personalization .vzp-conv .ah,
+.vz-personalization .vzp-divg .ah{background:none; bottom:0; width:0; height:0; border-left:5px solid transparent; border-right:5px solid transparent; border-top:7px solid var(--ink-mute)}
+.vz-personalization .vzp-conv .ah{left:calc(50% - 5px)}
+.vz-personalization .vzp-divg .a1{left:calc(12.5% + 1px)}
+.vz-personalization .vzp-divg .a2{left:calc(37.5% - 3px)}
+.vz-personalization .vzp-divg .a3{left:calc(62.5% - 7px)}
+.vz-personalization .vzp-divg .a4{left:calc(87.5% - 11px)}
+.vz-personalization .vzp-conv .lbl,
+.vz-personalization .vzp-divg .lbl{position:absolute; left:50%; top:21px; transform:translateX(-50%); background:var(--paper); padding:1px 9px; font-size:12px; color:var(--ink-soft); white-space:nowrap; z-index:1}
+
+/* --- легенда --- */
+.vz-personalization .vzp-legend{display:flex; gap:8px 18px; flex-wrap:wrap; justify-content:center; margin-top:14px; font-size:12px; color:var(--ink-soft)}
+.vz-personalization .vzp-legend .it{display:flex; align-items:center; gap:6px}
+.vz-personalization .vzp-legend .sw{width:12px; height:12px; border-radius:3px; flex-shrink:0}
+.vz-personalization .vzp-legend .sw.slot{border:1.5px dashed var(--accent); background:var(--accent-wash)}
+.vz-personalization .vzp-legend .sw.body{background:var(--surface-2); border:1px solid var(--line-2)}
+.vz-personalization .vzp-legend .sw.dark{background:var(--surface-ink)}
+
+/* --- мобайл: одна колонка, простые стрелки вместо коннекторов --- */
+@media(max-width:720px){
+  .vz-personalization .vzp-conv,
+  .vz-personalization .vzp-divg{display:none}
+  .vz-personalization .vzp-arr.m{display:flex}
+  .vz-personalization .vzp-bodies{grid-template-columns:1fr}
+  .vz-personalization .vzp-avs{grid-template-columns:1fr 1fr; gap:8px}
+  .vz-personalization .vzp-dark,
+  .vz-personalization .vzp-dark.backend{width:min(70%, 280px)}
+  .vz-personalization .vzp-reader{width:100%}
+  .vz-personalization .vzp-title{font-size:16px}
+}
+</style>
+
+<div class="viz vz-personalization">
+  <p class="vzp-title">Пишешь один раз - персонализируешь под двадцать: тело общее, нейросеть меняет только слоты</p>
+  <p class="vzp-formula">2 тела &times; 10-20 аватаров &rarr; 1 бэкенд</p>
+
+  <!-- предпосылка -->
+  <div class="vzp-premise">
+    <b>Проблема у всех аватаров ОДНА - тупиковая модель</b>
+    <span class="s">«всё делаю сам» - меняется только специфика жизни</span>
+  </div>
+
+  <div class="vzp-arr">
+    <i class="st"></i>
+    <span class="lbl">поэтому не 20 текстов, а 2 тела со слотами</span>
+    <i class="st"></i><i class="ah"></i>
+  </div>
+
+  <!-- зона: пишешь один раз -->
+  <div class="vzp-zone">
+    <div class="zk"><b>Пишешь ОДИН раз</b><span>фронтенд (персонализированный) &middot; вся ручная работа = 2 контентных тела</span></div>
+    <div class="vzp-bodies">
+      <div class="vzp-body">
+        <span class="bk">Статья №1 &middot; тело (0&rarr;2)</span>
+        <span class="bm"><span class="cnt acc">2 слота</span> специфика СИЛЬНАЯ</span>
+        <p class="vzp-tpl">Каждый <span class="vzp-slot">[ПРОФЕССИЯ]</span> в одиночку упирается в потолок: <span class="vzp-slot">[СЦЕНА ИЗ ЖИЗНИ]</span></p>
+        <span class="bsub">враг &middot; математика потолка - тело одно, слоты подставляются</span>
+      </div>
+      <div class="vzp-body">
+        <span class="bk">Статья №2 &middot; тело (2&rarr;3)</span>
+        <span class="bm"><span class="cnt mute">минимум слотов</span> специфика ЛЁГКАЯ</span>
+        <p class="vzp-tpl">Курс, партнёрство, агентство - варианты подходят всем как есть</p>
+        <span class="badge-soft">варианты резиновые - слоты почти не нужны</span>
       </div>
     </div>
-    <div class="features cols-2 reveal" style="margin-top:18px">
-      <div class="feature">
-        <span class="ic">№1</span>
-        <h4>Статья №1 - специфика СИЛЬНАЯ</h4>
-        <p>Человек должен узнать себя в деталях. <b>Фотограф:</b> носишься с оборудованием по всей Москве, зависаешь на студиях, после съёмки все ушли - а ты ещё час собираешься, камеры берёшь в аренду. <b>Маркетолог:</b> созвоны с клиентами в Zoom, что-то им доказываешь, чтобы купили, сидишь в рекламном кабинете, крутишь настройки, придумываешь креативы и заходы.</p>
+  </div>
+
+  <!-- переход: тела -> нейросеть (десктоп: схождение 2->1) -->
+  <div class="vzp-conv" aria-hidden="true">
+    <i class="v25"></i><i class="v75"></i><i class="hl"></i><i class="dn"></i><i class="ah"></i>
+    <span class="lbl">тело не трогаем - меняются только слоты</span>
+  </div>
+  <div class="vzp-arr m">
+    <i class="st"></i>
+    <span class="lbl">тело не трогаем - меняются только слоты</span>
+    <i class="st"></i><i class="ah"></i>
+  </div>
+
+  <!-- горлышко: нейросеть -->
+  <div class="vzp-dark">
+    <b>Нейросеть</b>
+    <span class="s">подставляет профессию и сцены из жизни - ты не переписываешь, только проверяешь</span>
+  </div>
+
+  <!-- переход: нейросеть -> аватары (десктоп: расхождение 1->4) -->
+  <div class="vzp-divg" aria-hidden="true">
+    <i class="up"></i><i class="hl"></i><i class="d1"></i><i class="d2"></i><i class="d3"></i><i class="d4"></i>
+    <i class="ah a1"></i><i class="ah a2"></i><i class="ah a3"></i><i class="ah a4"></i>
+    <span class="lbl">&times; 10-20 аватаров</span>
+  </div>
+  <div class="vzp-arr m">
+    <i class="st"></i>
+    <span class="lbl">&times; 10-20 аватаров</span>
+    <i class="st"></i><i class="ah"></i>
+  </div>
+
+  <!-- зона: под каждого аватара -->
+  <div class="vzp-zone">
+    <div class="zk"><b>Под КАЖДОГО аватара</b><span>фронтенд (персонализированный) &middot; 10-20 аватаров &times; 2 статьи = 20-40 дверей</span></div>
+    <div class="vzp-avs">
+      <div class="vzp-av">
+        <span class="nm">Фотограф</span>
+        <span class="q">«носишься с оборудованием по всей Москве»</span>
       </div>
-      <div class="feature">
-        <span class="ic">№2</span>
-        <h4>Статья №2 - специфика ЛЁГКАЯ</h4>
-        <p>Варианты подбираются «резиновые», чтобы подходили любому аватару без переписывания: курс может сделать и фотограф, и маркетолог; обучение новичков - и тот и другой; партнёрство - и тот и другой; агентство или студию открыть - тоже. Слоты почти не нужны.</p>
+      <div class="vzp-av">
+        <span class="nm">Маркетолог</span>
+        <span class="q">«созвоны в Zoom, живёшь в рекламном кабинете»</span>
+      </div>
+      <div class="vzp-av">
+        <span class="nm">Ведущий</span>
+        <span class="q">своя сцена из жизни</span>
+      </div>
+      <div class="vzp-av">
+        <span class="nm">+ ещё 7-17</span>
+        <span class="q">аватар добавляется без переписывания тела</span>
       </div>
     </div>
-    <div class="callout info reveal"><span class="ic">AI</span><div><b class="t">Адаптацию делают нейросети</b>Переписывать тело под нового аватара руками не нужно: статья проектируется легко редактируемой, а адаптацию слотов (профессия, сцены из жизни) выполняет нейросеть. Твоя работа - один раз написать сильное тело и проверять адаптации.</div></div>
+  </div>
+
+  <div class="vzp-arr">
+    <i class="st"></i>
+    <span class="lbl">реклама на аватара ведёт на ЕГО версию статьи</span>
+    <i class="st"></i><i class="ah"></i>
+  </div>
+
+  <!-- финал: читатель -->
+  <div class="vzp-reader">
+    <span class="rk">Читатель узнаёт себя</span>
+    <b>«чёрт, это про меня»</b>
+    <span class="s">персональный вход в одну общую воронку</span>
+  </div>
+
+  <div class="vzp-arr">
+    <i class="st"></i>
+    <span class="lbl">все нитки - в одно горлышко</span>
+    <i class="st"></i><i class="ah"></i>
+  </div>
+
+  <!-- второе сужение: общий бэкенд -->
+  <div class="vzp-dark backend">
+    <b>Один общий бэкенд</b>
+    <span class="s">уровни 3-5 &middot; Брансон + Хормози - одна воронка для всех</span>
+  </div>
+
+  <!-- легенда -->
+  <div class="vzp-legend">
+    <span class="it"><span class="sw slot"></span>синий пунктир = слот, меняется под аватара</span>
+    <span class="it"><span class="sw body"></span>серое = тело, одно для всех</span>
+    <span class="it"><span class="sw dark"></span>тёмное = машина / общий бэкенд</span>
+  </div>
+</div>
+
+    <div class="block-label">Множитель дверей · 1 статья × 20 заголовков</div>
+    <!-- viz: doors: одна статья × 20 заголовков = 20 дверей-восприятий (small multiples: синяя плашка меняется, серое тело одно), все сходятся в Статью №1 (0→2) и дальше по воронке -->
+<style>
+  .vz-doors{color:var(--ink);line-height:1.4}
+  .vz-doors *{box-sizing:border-box}
+
+  .vz-doors-title{margin:0 auto 16px;max-width:680px;font-size:16px;font-weight:700;line-height:1.35;text-align:center}
+
+  /* вход: РК */
+  .vz-doors-rk{width:40%;margin:0 auto;background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r-lg);padding:12px 14px;text-align:center}
+  .vz-doors-rk b{display:block;font-size:14px}
+  .vz-doors-rk span{display:block;font-size:13px;color:var(--ink-soft);margin-top:2px}
+
+  /* вертикальная стрелка с подписью */
+  .vz-doors-link{display:flex;flex-direction:column;align-items:center;padding:2px 0}
+  .vz-doors-link::before{content:"";width:0;height:12px;border-left:1.5px solid var(--ink-mute)}
+  .vz-doors-link .lbl{font-size:13px;color:var(--ink-soft);text-align:center;max-width:320px;padding:3px 8px}
+  .vz-doors-link .stem{width:0;height:12px;border-left:1.5px solid var(--ink-mute)}
+  .vz-doors-link::after{content:"";width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:7px solid var(--ink-mute)}
+
+  /* зона дверей */
+  .vz-doors-zone{border:1px solid var(--line-2);border-radius:var(--r-lg);background:var(--surface);padding:12px}
+  .vz-doors-zhead{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 10px;text-align:center}
+  .vz-doors-zttl{font-size:14px;font-weight:700}
+  .vz-doors-badge{font-family:var(--font-mono);font-size:13px;color:var(--accent-ink);background:var(--accent-wash);border-radius:var(--r);padding:2px 8px}
+  .vz-doors-decode{margin:6px 0 0;font-size:13px;color:var(--ink-soft);text-align:center}
+  .vz-doors-decode .cb{color:var(--accent-ink);font-weight:600}
+  .vz-doors-decode .cg{color:var(--ink-mute);font-weight:600}
+  .vz-doors-decode .sw{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+  .vz-doors-decode .sw-b{background:var(--accent)}
+  .vz-doors-decode .sw-g{background:var(--line-2)}
+
+  /* орг-чарт коннекторы: распределитель и коллектор (десктоп - 4 колонки, мобайл - 2) */
+  .vz-doors-rail{position:relative;display:grid;grid-template-columns:repeat(4,1fr);height:20px}
+  .vz-doors-rail i{position:relative;display:block}
+  .vz-doors-rail i b{position:absolute;bottom:0;left:50%;margin-left:-3px;width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;border-top:6px solid var(--ink-mute)}
+  .vz-doors-railtop{margin-top:16px}
+  .vz-doors-railtop::before{content:"";position:absolute;top:-12px;left:50%;height:12px;border-left:1.5px solid var(--ink-mute)}
+  .vz-doors-railtop i::before{content:"";position:absolute;top:0;left:0;right:0;border-top:1.5px solid var(--ink-mute)}
+  .vz-doors-railtop i:first-child::before{left:50%}
+  .vz-doors-railtop i:last-child::before{right:50%}
+  .vz-doors-railtop i::after{content:"";position:absolute;top:0;bottom:0;left:50%;border-left:1.5px solid var(--ink-mute)}
+  .vz-doors-railbot::after{content:"";position:absolute;bottom:-12px;left:50%;height:12px;border-left:1.5px solid var(--ink-mute)}
+  .vz-doors-railbot i::before{content:"";position:absolute;bottom:0;left:0;right:0;border-top:1.5px solid var(--ink-mute)}
+  .vz-doors-railbot i:first-child::before{left:50%}
+  .vz-doors-railbot i:last-child::before{right:50%}
+  .vz-doors-railbot i::after{content:"";position:absolute;top:0;bottom:0;left:50%;border-left:1.5px solid var(--ink-mute)}
+
+  /* двери: small multiples одной страницы */
+  .vz-doors-grid{display:grid;grid-template-columns:repeat(4,1fr)}
+  .vz-doors-door{margin:0 7px;display:flex;flex-direction:column}
+  .vz-doors-door .cap{font-family:var(--font-mono);font-size:13px;color:var(--ink-mute);margin:0 0 4px;text-align:center}
+  .vz-doors-door .pg{flex:1;display:flex;flex-direction:column;background:var(--paper);border:1px solid var(--line-2);border-radius:var(--r);overflow:hidden}
+  .vz-doors-door .plate{min-height:56px;background:var(--accent);color:var(--accent-on,#fff);font-size:13px;font-weight:600;line-height:1.25;padding:8px 9px}
+  .vz-doors-door .body{flex:1;display:flex;flex-direction:column;gap:6px;padding:10px 9px}
+  .vz-doors-door .bar{display:block;height:7px;border-radius:3px;background:var(--line-2)}
+  .vz-doors-door .bar:nth-child(3){width:62%}
+  .vz-doors-door .addr{font-family:var(--font-mono);font-size:13px;color:var(--ink-soft);text-align:center;margin-top:4px}
+  .vz-doors-door.is-rest .pg{border-style:dashed}
+  .vz-doors-door.is-rest .plate{background:var(--accent-wash);color:var(--accent-ink);border-bottom:1px dashed var(--accent)}
+
+  /* горлышко: одно тело */
+  .vz-doors-article{width:55%;margin:0 auto;background:var(--paper);border:1.5px solid var(--ink);border-radius:var(--r-lg);padding:14px;text-align:center}
+  .vz-doors-article b{display:block;font-size:15px}
+  .vz-doors-article .bars{display:flex;flex-direction:column;gap:6px;max-width:340px;margin:10px auto 0}
+  .vz-doors-article .bar{display:block;height:7px;border-radius:3px;background:var(--line-2)}
+  .vz-doors-article .bar:nth-child(3){width:62%}
+  .vz-doors-article .sub{margin-top:10px;font-size:13px;color:var(--ink-soft)}
+
+  .vz-doors-next{width:55%;margin:0 auto;background:var(--surface-2);border:1px solid var(--line-2);border-radius:var(--r);padding:8px 12px;font-size:13px;color:var(--ink-soft);text-align:center}
+
+  @media(max-width:720px){
+    .vz-doors-rk{width:100%}
+    .vz-doors-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+    .vz-doors-door{margin:0}
+    .vz-doors-door .cap{min-height:36px;display:flex;align-items:flex-end;justify-content:center}
+    /* рельсы остаются: 2 колонки, выровнены по колонкам сетки дверей */
+    .vz-doors-rail{grid-template-columns:repeat(2,1fr);gap:10px}
+    .vz-doors-rail i:nth-child(n+3){display:none}
+    .vz-doors-rail i:first-child::before{right:-10px}
+    .vz-doors-rail i:nth-child(2)::before{right:50%}
+    .vz-doors-article,.vz-doors-next{width:100%}
+  }
+</style>
+<div class="viz vz-doors">
+  <p class="vz-doors-title">Заголовок - 80% успеха: поэтому не 20 статей, а 1 статья &times; 20 заголовков = 20 дверей в одну воронку</p>
+
+  <div class="vz-doors-rk">
+    <b>РК на одного аватара</b>
+    <span>каждое объявление ведёт на свою дверь</span>
+  </div>
+
+  <div class="vz-doors-link">
+    <span class="lbl">трафик расходится по заголовкам-восприятиям</span>
+    <i class="stem" aria-hidden="true"></i>
+  </div>
+
+  <div class="vz-doors-zone">
+    <div class="vz-doors-zhead">
+      <span class="vz-doors-zttl">&times;20 дверей - одна страница, 20 заголовков</span>
+      <span class="vz-doors-badge">заголовок = 80% успеха (Брансон)</span>
+    </div>
+    <p class="vz-doors-decode"><i class="sw sw-b" aria-hidden="true"></i><b class="cb">синее</b> = заголовок, меняется &middot; <i class="sw sw-g" aria-hidden="true"></i><b class="cg">серое</b> = тело, одно на всех</p>
+
+    <div class="vz-doors-rail vz-doors-railtop" aria-hidden="true"><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i></div>
+
+    <div class="vz-doors-grid">
+      <figure class="vz-doors-door">
+        <figcaption class="cap">Дверь 01 &middot; боль</figcaption>
+        <div class="pg">
+          <div class="plate">Упёрся в потолок - дело не в клиентах</div>
+          <div class="body" aria-hidden="true"><i class="bar"></i><i class="bar"></i><i class="bar"></i></div>
+        </div>
+        <div class="addr">/zagolovok-01</div>
+      </figure>
+
+      <figure class="vz-doors-door">
+        <figcaption class="cap">Дверь 02 &middot; любопытство</figcaption>
+        <div class="pg">
+          <div class="plate">Почему твоя модель тупиковая</div>
+          <div class="body" aria-hidden="true"><i class="bar"></i><i class="bar"></i><i class="bar"></i></div>
+        </div>
+        <div class="addr">/zagolovok-02</div>
+      </figure>
+
+      <figure class="vz-doors-door">
+        <figcaption class="cap">Дверь 03 &middot; выгода</figcaption>
+        <div class="pg">
+          <div class="plate">Те же знания - другие деньги</div>
+          <div class="body" aria-hidden="true"><i class="bar"></i><i class="bar"></i><i class="bar"></i></div>
+        </div>
+        <div class="addr">/zagolovok-03</div>
+      </figure>
+
+      <figure class="vz-doors-door is-rest">
+        <figcaption class="cap">Двери 04-20</figcaption>
+        <div class="pg">
+          <div class="plate">ещё 17 восприятий</div>
+          <div class="body" aria-hidden="true"><i class="bar"></i><i class="bar"></i><i class="bar"></i></div>
+        </div>
+        <div class="addr">/zagolovok-04&hellip;20</div>
+      </figure>
+    </div>
+
+    <div class="vz-doors-rail vz-doors-railbot" aria-hidden="true"><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i></div>
+  </div>
+
+  <div class="vz-doors-link">
+    <span class="lbl">все 20 открываются в одно тело</span>
+    <i class="stem" aria-hidden="true"></i>
+  </div>
+
+  <div class="vz-doors-article">
+    <b>СТАТЬЯ №1 &middot; одно контентное тело</b>
+    <div class="bars" aria-hidden="true"><i class="bar"></i><i class="bar"></i><i class="bar"></i></div>
+    <div class="sub">пишется один раз &middot; закрывает 0&rarr;2 &rarr; дальше Статья №2 (2&rarr;3)</div>
+  </div>
+
+  <div class="vz-doors-link">
+    <span class="lbl">читатель прошёл 0&rarr;2 - идёт на Статью №2</span>
+    <i class="stem" aria-hidden="true"></i>
+  </div>
+
+  <div class="vz-doors-next">Дальше по той же воронке: Статья №2 (2&rarr;3) &rarr; бэкенд &rarr; оффер</div>
+</div>
 
     <div class="block-label">Математика масштаба: что получается на 10 аватарах</div>
     <div class="stats reveal">
@@ -1181,9 +1851,293 @@ svg.chart{display:block; width:100%; height:auto; overflow:visible}
       <span class="by">логика холодного захода</span>
     </blockquote>
 
-    <div class="block-label">Поле охоты: за кого дерутся все - и где играешь ты</div>
-    <div class="market reveal"><div class="hot"></div><div class="cold">97% рынка - холодные: спрос им ещё никто не сформировал. Твоё поле.</div></div>
-    <p class="cap">Красная полоска слева - те самые ~3% горячих, кто уже ищет решение: за их клики дерутся все рекламные бюджеты ниши. Твоя стратегия туда не идёт - она кликбейт-заходами вытаскивает людей из синей зоны и сама ведёт их по лестнице.</p>
+    <!-- viz: thematic: ~20 кликбейт-тем = дополнительные двери в ТУ ЖЕ воронку - за 3% горячих не бьёмся (✕ тупик), 97% холодных цепляем интересом; все темы сходятся в тема-статью (скрипта нет, красное), один скрипт Статьи №1 снимет красное разом; в общей воронке у Статьи №2 скрипта тоже нет (2-й недостающий) -->
+<style>
+/* ============ vz-thematic · поле рынка → ~20 дверей → та же воронка ============
+   Цветовой канон (одна роль на цвет):
+   красный = скрипта нет (затык) · серый пунктир (ink-mute) = снимается одним скриптом
+   синий = твоё поле (97%) · почти чёрный (surface-ink) = та же воронка
+   Сегмент «3%» - тёмно-серый (ink-soft), НЕ красный: это тупик, а не затык.
+   Текст на тёмном - var(--surface) (#f5f6f8): канонный on-dark в пределах контракта. */
+
+.vz-thematic{background:var(--paper); border:1px solid var(--line); border-radius:var(--r-lg); padding:22px; color:var(--ink); font-size:13.5px; line-height:1.45}
+
+/* --- заголовок-вывод --- */
+.vz-thematic-kicker{font-family:var(--font-mono); font-size:13px; letter-spacing:.07em; text-transform:uppercase; color:var(--ink-mute); margin-bottom:6px}
+.vz-thematic-headline{font-size:19px; font-weight:800; letter-spacing:-.01em; line-height:1.3; margin-bottom:16px; max-width:46ch}
+
+/* --- 1. полоса рынка --- */
+.vz-thematic-market{display:flex; gap:6px; align-items:stretch}
+.vz-thematic-seg{border-radius:var(--r); padding:10px 8px}
+.vz-thematic-seg-hot{flex:0 0 200px; min-width:44px; background:var(--ink-soft); color:var(--surface); display:flex; flex-direction:column; align-items:flex-start; justify-content:center; gap:2px; text-align:left; padding:12px 14px}
+.vz-thematic-seg-cold{flex:1 1 auto; min-width:0; background:var(--accent-wash); border:1.5px solid var(--accent); color:var(--accent-ink); display:flex; flex-direction:column; justify-content:center; gap:3px; padding:10px 14px}
+.vz-thematic-pct{font-weight:800; font-size:15px; line-height:1.1}
+.vz-thematic-x{font-weight:800; font-size:13px; line-height:1}
+.vz-thematic-seg-hot .vz-thematic-x{display:none}
+.vz-thematic-seg-in{display:block; font-size:13px; font-weight:500; line-height:1.4}
+.vz-thematic-seg-hot .vz-thematic-seg-in{color:var(--surface)}
+.vz-thematic-seg-cold .vz-thematic-seg-in{color:var(--accent-ink)}
+
+/* подписи сегментов ПОД полосой (только мобайл) */
+.vz-thematic-market-keys{display:none; margin-top:10px}
+.vz-thematic-key{display:flex; gap:8px; align-items:flex-start; font-size:13px; color:var(--ink-soft); margin-top:6px}
+.vz-thematic-key b{color:var(--ink); font-weight:700}
+.vz-thematic-key-sw{flex:0 0 12px; width:12px; height:12px; border-radius:3px; margin-top:3px}
+.vz-thematic-key-sw-hot{background:var(--ink-soft)}
+.vz-thematic-key-sw-cold{background:var(--accent-wash); border:1.5px solid var(--accent)}
+
+/* --- вертикальный коннектор потока (мобайл и перед финалом) --- */
+.vz-thematic-vcon{display:flex; flex-direction:column; align-items:center; gap:4px; padding:2px 0}
+.vz-thematic-vcon i{display:block; font-style:normal; width:2px; height:12px; background:var(--ink-mute)}
+.vz-thematic-vcon i.vz-thematic-a{position:relative; height:16px; margin-bottom:7px}
+.vz-thematic-vcon i.vz-thematic-a::after{content:""; position:absolute; left:50%; transform:translateX(-50%); bottom:-7px; width:0; height:0; border-left:5px solid transparent; border-right:5px solid transparent; border-top:7px solid var(--ink-mute)}
+.vz-thematic-vcon-lbl{font-size:13px; color:var(--ink-soft); text-align:center; line-height:1.35; max-width:32ch; padding:0 8px}
+
+/* мобильные вертикальные коннекторы: на десктопе спрятаны, вместо них веера */
+.vz-thematic-m{display:none}
+
+/* --- веер (десктоп): шина + 3 спуска, у КАЖДОГО спуска наконечник --- */
+.vz-thematic-fan{display:block; position:relative}
+.vz-thematic-fan-top{height:66px}
+.vz-thematic-fan-top::before{content:""; position:absolute; left:17%; right:17%; top:30px; height:2px; background:var(--ink-mute)}
+.vz-thematic-fan-top::after{content:""; position:absolute; left:50%; transform:translateX(-50%); top:0; width:2px; height:30px; background:var(--ink-mute)}
+.vz-thematic-fan i{font-style:normal}
+.vz-thematic-fan .vz-thematic-d{position:absolute; top:32px; width:2px; height:26px; background:var(--ink-mute)}
+.vz-thematic-fan .vz-thematic-d::after{content:""; position:absolute; left:50%; transform:translateX(-50%); bottom:-7px; width:0; height:0; border-left:5px solid transparent; border-right:5px solid transparent; border-top:7px solid var(--ink-mute)}
+.vz-thematic-fan .vz-thematic-d1{left:calc(17% - 1px)}
+.vz-thematic-fan .vz-thematic-d2{left:calc(50% - 1px)}
+.vz-thematic-fan .vz-thematic-d3{left:calc(83% - 1px)}
+.vz-thematic-fan-lbl{position:absolute; left:50%; top:30px; transform:translate(-50%,-50%); z-index:1; background:var(--paper); border:1px solid var(--line); border-radius:100px; padding:3px 12px; font-size:13px; color:var(--ink-soft); white-space:nowrap}
+
+/* нижняя шина: спуски от дверей (наконечники в шину, высота 24+7=31px),
+   центральный спуск - НАД ЦЕНТРОМ КРАСНОГО БЛОКА, не на 50% ширины:
+   красный блок в гриде 1.8fr/100px/1fr, его центр = (100% - 100px)*1.8/2.8/2
+   от левого края → calc((100% - 100px)*0.3214). Стрелка входит точно в блок.
+   Подпись-пилюлю опускаем ПОД шину (top:48px), чтобы не накрывала наконечник d2. */
+.vz-thematic-fan-bot{height:72px}
+.vz-thematic-fan-bot::before{content:""; position:absolute; left:17%; right:17%; top:30px; height:2px; background:var(--ink-mute)}
+.vz-thematic-fan-bot .vz-thematic-d{top:0; height:24px}
+.vz-thematic-fan-bot::after{content:""; position:absolute; left:calc((100% - 100px)*0.3214 - 1px); top:32px; width:2px; height:31px; background:var(--ink-mute)}
+.vz-thematic-fan-bot .vz-thematic-dn{position:absolute; left:calc((100% - 100px)*0.3214); transform:translateX(-50%); top:63px; width:0; height:0; border-left:5px solid transparent; border-right:5px solid transparent; border-top:7px solid var(--ink-mute)}
+.vz-thematic-fan-bot .vz-thematic-fan-lbl{top:48px}
+
+/* --- 3. группа дверей (десктоп: грид 3 колонки между шинами) --- */
+.vz-thematic-doors{border:1px solid var(--line-2); border-radius:var(--r-lg); padding:12px; background:var(--paper)}
+.vz-thematic-doors-title{font-family:var(--font-mono); font-size:13px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--ink); margin-bottom:12px; text-align:center}
+.vz-thematic-doorlist{position:relative; display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px}
+.vz-thematic-door{position:relative; border:1px solid var(--line-2); border-radius:var(--r); background:var(--surface); padding:10px 12px; min-width:0}
+.vz-thematic-door-more{border-style:dashed; background:var(--paper)}
+.vz-thematic-door-tag{display:block; font-family:var(--font-mono); font-size:13px; color:var(--ink-mute); margin-bottom:3px}
+.vz-thematic-door-name{display:block; font-size:14px; font-weight:600; line-height:1.4}
+.vz-thematic-door-sub{display:block; font-size:13px; color:var(--ink-soft); margin-top:3px}
+.vz-thematic-slot{font-style:normal; font-family:var(--font-mono); font-size:13px; background:var(--surface-2); border-radius:3px; padding:0 4px; white-space:nowrap}
+
+/* --- 4-5. красный блок + статус-блок (десктоп: статус справа в гриде) --- */
+.vz-thematic-row{display:grid; grid-template-columns:1.8fr 100px 1fr; align-items:stretch}
+.vz-thematic-red{background:var(--paper); border:1.5px solid var(--neg); border-radius:var(--r-lg); padding:13px 15px; display:flex; flex-direction:column; justify-content:center}
+.vz-thematic-red-top{display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-bottom:9px}
+.vz-thematic-badge-neg{font-family:var(--font-mono); font-size:13px; font-weight:600; letter-spacing:.05em; text-transform:uppercase; background:var(--neg); color:var(--paper); border-radius:100px; padding:2px 10px; white-space:nowrap}
+.vz-thematic-lvl{font-family:var(--font-mono); font-size:13px; color:var(--ink-soft); white-space:nowrap}
+.vz-thematic-lvl i{font-style:normal; display:inline-block; border:1px solid var(--line-2); background:var(--surface); border-radius:3px; padding:0 5px; margin-left:3px; font-weight:600; color:var(--ink)}
+.vz-thematic-red-name{display:block; font-size:15.5px; font-weight:700; letter-spacing:-.01em; line-height:1.3}
+.vz-thematic-red-sub{display:block; font-size:13px; color:var(--ink-soft); margin-top:4px}
+
+/* пунктирная связь «снимет красное» (десктоп: горизонтальная, стрелка влево к красному) */
+.vz-thematic-fixcon{position:relative}
+.vz-thematic-fixcon::before{content:""; position:absolute; left:0; right:0; top:50%; height:0; border-top:2px dashed var(--ink-mute)}
+.vz-thematic-fixcon::after{content:""; position:absolute; left:0; top:50%; transform:translateY(-50%); width:0; height:0; border-top:5px solid transparent; border-bottom:5px solid transparent; border-right:7px solid var(--ink-mute)}
+.vz-thematic-fixcon-lbl{position:absolute; left:0; right:0; bottom:calc(50% + 8px); font-family:var(--font-mono); font-size:13px; color:var(--ink-soft); text-align:center; line-height:1.3}
+
+/* пунктирный статус-блок: скрипта ещё НЕТ, это будущее лекарство.
+   Пунктир тем же ink-mute, что связь-fixcon и сватч легенды: один код = один серый. */
+.vz-thematic-statusblk{background:var(--paper); border:1.5px dashed var(--ink-mute); border-radius:var(--r-lg); padding:13px 15px}
+.vz-thematic-statusblk-k{display:block; font-family:var(--font-mono); font-size:13px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-mute); margin-bottom:5px}
+.vz-thematic-statusblk-name{display:block; font-family:var(--font-mono); font-size:13.5px; font-weight:600; line-height:1.45; color:var(--ink)}
+.vz-thematic-statusblk-sub{display:block; font-size:13px; color:var(--ink-soft); margin-top:5px}
+
+/* --- 7. тёмный финал: та же воронка --- */
+.vz-thematic-final{background:var(--surface-ink); color:var(--surface); border-radius:var(--r-lg); padding:16px}
+.vz-thematic-final-name{display:block; font-size:16px; font-weight:800; letter-spacing:-.01em; line-height:1.3}
+.vz-thematic-final-sub{display:block; font-size:13px; color:var(--ink-mute); margin-top:4px}
+.vz-thematic-chain{display:flex; flex-direction:row; align-items:stretch; gap:6px; margin-top:14px}
+.vz-thematic-chip{flex:1 1 0; border:1px solid color-mix(in srgb, var(--surface) 30%, transparent); border-radius:var(--r); padding:8px 12px; display:flex; flex-direction:column; align-items:flex-start; justify-content:center; gap:3px; min-width:0}
+.vz-thematic-chip b{font-size:13.5px; font-weight:600}
+.vz-thematic-chip i{font-style:normal; font-family:var(--font-mono); font-size:13px; color:var(--ink-mute); white-space:nowrap}
+/* Статья №2 - 2-й недостающий скрипт: тот же красный код, что у тема-статьи */
+.vz-thematic-chip-neg{border-color:var(--neg)}
+.vz-thematic-chip-neg i{white-space:normal}
+.vz-thematic-chain .vz-thematic-arr{align-self:center; font-family:var(--font-mono); font-size:14px; line-height:1; color:var(--ink-mute)}
+.vz-thematic-chain .vz-thematic-arr::before{content:"→"}
+
+/* --- легенда: 5 кодов (два тёмных тона различены явно) --- */
+.vz-thematic-legend{display:flex; flex-wrap:wrap; gap:8px 18px; margin-top:18px; padding-top:14px; border-top:1px solid var(--line); font-size:13px; color:var(--ink-soft)}
+.vz-thematic-legend span{display:inline-flex; align-items:center; gap:7px}
+.vz-thematic-legend i{font-style:normal; flex:0 0 12px; width:12px; height:12px; border-radius:3px}
+.vz-thematic-sw-neg{background:var(--paper); border:1.5px solid var(--neg)}
+.vz-thematic-sw-dash{background:var(--paper); border:1.5px dashed var(--ink-mute)}
+.vz-thematic-sw-blue{background:var(--accent-wash); border:1.5px solid var(--accent)}
+.vz-thematic-sw-hot{background:var(--ink-soft)}
+.vz-thematic-sw-dark{background:var(--surface-ink)}
+
+/* ================= мобайл (контракт: max-width:720px) ================= */
+@media(max-width:720px){
+  .vz-thematic{padding:16px 14px 18px}
+  .vz-thematic-headline{font-size:17px; max-width:none}
+
+  /* подписи 3%/97% уходят из сегментов под полосу */
+  .vz-thematic-seg-hot{flex:0 0 44px; align-items:center; text-align:center; padding:10px 8px}
+  .vz-thematic-seg-hot .vz-thematic-x{display:block}
+  .vz-thematic-seg-in{display:none}
+  .vz-thematic-pct{font-size:14px}
+  .vz-thematic-market-keys{display:block}
+
+  /* веера прячем - вместо них вертикальные коннекторы */
+  .vz-thematic-m{display:flex}
+  .vz-thematic-fan{display:none}
+
+  /* двери: колонка со спиной-шиной и отводами */
+  .vz-thematic-doors-title{text-align:left}
+  .vz-thematic-doorlist{display:flex; flex-direction:column; gap:10px; padding-left:24px}
+  .vz-thematic-doorlist::before{content:""; position:absolute; left:8px; top:28px; bottom:32px; width:2px; background:var(--ink-mute)}
+  .vz-thematic-door::before{content:""; position:absolute; left:-16px; top:50%; width:16px; height:2px; background:var(--ink-mute)}
+
+  /* красный блок и статус-блок в колонку, пунктир вертикальный, стрелка вверх к красному */
+  .vz-thematic-row{display:flex; flex-direction:column}
+  .vz-thematic-red{display:block}
+  .vz-thematic-red-top{margin-bottom:8px}
+  .vz-thematic-fixcon{height:52px; width:100%}
+  .vz-thematic-fixcon::before{left:50%; right:auto; top:9px; bottom:0; width:0; height:auto; border-top:none; border-left:2px dashed var(--ink-mute)}
+  .vz-thematic-fixcon::after{left:50%; top:0; transform:translateX(-50%); border-top:0; border-bottom:7px solid var(--ink-mute); border-left:5px solid transparent; border-right:5px solid transparent}
+  .vz-thematic-fixcon-lbl{left:calc(50% + 14px); right:auto; bottom:auto; top:50%; transform:translateY(-50%); text-align:left; white-space:nowrap}
+
+  /* финал: цепочка вертикально */
+  .vz-thematic-chain{flex-direction:column}
+  .vz-thematic-chip{flex:none; flex-direction:row; align-items:baseline; justify-content:space-between; gap:10px}
+  .vz-thematic-chain .vz-thematic-arr::before{content:"↓"}
+}
+</style>
+
+<div class="viz vz-thematic">
+  <div class="vz-thematic-kicker">Тематические заходы · поле рынка и ~20 дверей</div>
+  <div class="vz-thematic-headline">За 3% горячих дерутся все - твои ~20 тем-дверей сами ведут 97% холодных в ту же воронку</div>
+
+  <!-- 1. полоса рынка -->
+  <div class="vz-thematic-market">
+    <div class="vz-thematic-seg vz-thematic-seg-hot">
+      <span class="vz-thematic-pct">3%</span>
+      <span class="vz-thematic-x">✕</span>
+      <span class="vz-thematic-seg-in">горячие · уже ищут решение<br>✕ не идём - здесь дерутся все бюджеты ниши</span>
+    </div>
+    <div class="vz-thematic-seg vz-thematic-seg-cold">
+      <span class="vz-thematic-pct">97%</span>
+      <span class="vz-thematic-seg-in">холодные · ничего не ищут, листают ленту - спрос им никто не сформировал. Твоё поле.</span>
+    </div>
+  </div>
+
+  <!-- подписи под полосой (мобайл) -->
+  <div class="vz-thematic-market-keys">
+    <div class="vz-thematic-key"><i class="vz-thematic-key-sw vz-thematic-key-sw-hot"></i><span><b>3% горячих - ✕ не идём:</b> здесь дерутся все бюджеты</span></div>
+    <div class="vz-thematic-key"><i class="vz-thematic-key-sw vz-thematic-key-sw-cold"></i><span><b>97% холодных:</b> ничего не ищут - твоё поле</span></div>
+  </div>
+
+  <!-- 2. вход в двери: мобайл - вертикальная стрелка, десктоп - верхняя шина веером -->
+  <div class="vz-thematic-vcon vz-thematic-m">
+    <i></i>
+    <span class="vz-thematic-vcon-lbl">цепляем интересом, не спросом</span>
+    <i class="vz-thematic-a"></i>
+  </div>
+  <div class="vz-thematic-fan vz-thematic-fan-top">
+    <i class="vz-thematic-d vz-thematic-d1"></i>
+    <i class="vz-thematic-d vz-thematic-d2"></i>
+    <i class="vz-thematic-d vz-thematic-d3"></i>
+    <span class="vz-thematic-fan-lbl">цепляем интересом, не спросом</span>
+  </div>
+
+  <!-- 3. группа дверей -->
+  <div class="vz-thematic-doors">
+    <div class="vz-thematic-doors-title">~20 кликбейт-тем = ~20 дверей</div>
+    <div class="vz-thematic-doorlist">
+      <div class="vz-thematic-door">
+        <span class="vz-thematic-door-tag">дверь · страх отстать</span>
+        <span class="vz-thematic-door-name">«Что обязан знать каждый <i class="vz-thematic-slot">[профессия]</i> в 2026»</span>
+      </div>
+      <div class="vz-thematic-door">
+        <span class="vz-thematic-door-tag">дверь · боль: потолок модели</span>
+        <span class="vz-thematic-door-name">«3 причины, почему <i class="vz-thematic-slot">[профессия]</i> не заработает на квартиру»</span>
+      </div>
+      <div class="vz-thematic-door vz-thematic-door-more">
+        <span class="vz-thematic-door-tag">слоты <i class="vz-thematic-slot">[профессия]</i> под любого аватара</span>
+        <span class="vz-thematic-door-name">+ ещё ~18 тем</span>
+        <span class="vz-thematic-door-sub">новостные поводы · законы · «призвание»</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- схождение дверей: мобайл - одна стрелка из низа группы, десктоп - нижняя шина в центр красного -->
+  <div class="vz-thematic-vcon vz-thematic-m">
+    <i></i>
+    <span class="vz-thematic-vcon-lbl">20 заголовков - одно контентное тело</span>
+    <i class="vz-thematic-a"></i>
+  </div>
+  <div class="vz-thematic-fan vz-thematic-fan-bot">
+    <i class="vz-thematic-d vz-thematic-d1"></i>
+    <i class="vz-thematic-d vz-thematic-d2"></i>
+    <i class="vz-thematic-d vz-thematic-d3"></i>
+    <i class="vz-thematic-dn"></i>
+    <span class="vz-thematic-fan-lbl">20 заголовков - одно контентное тело</span>
+  </div>
+
+  <!-- 4-5. красный блок (скрипта нет) + пунктирный статус-блок -->
+  <div class="vz-thematic-row">
+    <div class="vz-thematic-red">
+      <div class="vz-thematic-red-top">
+        <span class="vz-thematic-badge-neg">скрипта нет</span>
+        <span class="vz-thematic-lvl">Хант <i>0</i><i>1</i><i>2</i></span>
+      </div>
+      <span class="vz-thematic-red-name">Тема-статья = ещё одна Статья №1</span>
+      <span class="vz-thematic-red-sub">сеет зерно - враг: «твоя модель тупиковая»</span>
+    </div>
+    <div class="vz-thematic-fixcon">
+      <span class="vz-thematic-fixcon-lbl">снимет красное</span>
+    </div>
+    <div class="vz-thematic-statusblk">
+      <span class="vz-thematic-statusblk-k">статус · скрипта ещё нет</span>
+      <span class="vz-thematic-statusblk-name">Один скрипт Статьи №1 откроет все ~20 дверей разом</span>
+      <span class="vz-thematic-statusblk-sub">пишется один раз - и для основной воронки, и для всех тем-дверей</span>
+    </div>
+  </div>
+
+  <!-- 6. переход в общий путь -->
+  <div class="vz-thematic-vcon">
+    <i></i>
+    <span class="vz-thematic-vcon-lbl">читатель вышел на уровень 2 - дальше путь общий</span>
+    <i class="vz-thematic-a"></i>
+  </div>
+
+  <!-- 7. тёмный финал: та же воронка (у Статьи №2 скрипта тоже нет - 2-й недостающий) -->
+  <div class="vz-thematic-final">
+    <span class="vz-thematic-final-name">ТА ЖЕ воронка - не вторая система</span>
+    <span class="vz-thematic-final-sub">тематические заходы лишь добавляют входы в существующую лестницу</span>
+    <div class="vz-thematic-chain">
+      <span class="vz-thematic-chip vz-thematic-chip-neg"><b>Статья №2</b><i>2→3 · скрипта нет</i></span>
+      <span class="vz-thematic-arr"></span>
+      <span class="vz-thematic-chip"><b>бэкенд 3-5</b><i>Брансон</i></span>
+      <span class="vz-thematic-arr"></span>
+      <span class="vz-thematic-chip"><b>оффер</b><i>Хормози</i></span>
+      <span class="vz-thematic-arr"></span>
+      <span class="vz-thematic-chip"><b>сделка</b></span>
+    </div>
+  </div>
+
+  <!-- легенда: 5 кодов -->
+  <div class="vz-thematic-legend">
+    <span><i class="vz-thematic-sw-neg"></i>красная рамка = скрипта нет (затык)</span>
+    <span><i class="vz-thematic-sw-dash"></i>серый пунктир = снимается одним скриптом</span>
+    <span><i class="vz-thematic-sw-blue"></i>синий = твоё поле (97%)</span>
+    <span><i class="vz-thematic-sw-hot"></i>тёмно-серый = 3% горячих (тупик, не идём)</span>
+    <span><i class="vz-thematic-sw-dark"></i>почти чёрный = та же воронка</span>
+  </div>
+</div>
 
     <div class="block-label">Твои идеи-заходы (примеры из ~20 в голове)</div>
     <div class="features reveal">
@@ -1219,9 +2173,7 @@ svg.chart{display:block; width:100%; height:auto; overflow:visible}
       </div>
     </div>
 
-    <div class="callout info reveal"><span class="ic">→</span><div><b class="t">Как это встраивается в основную воронку (важно: это НЕ отдельная система)</b>Каждая тема-статья - это ещё одна Статья №1: она стартует с нулевого уровня, закрывает сразу несколько уровней (0→2) и переводит читателя на Статью №2 своей профессии. Дальше - та же лестница, тот же бэкенд, тот же оффер. То есть доп-стратегия - это не вторая воронка, а <b>дополнительные двери в ту же самую</b>.</div></div>
-
-    <div class="callout bad reveal"><span class="ic">✕</span><div><b class="t">Статус: тот же самый затык</b>Ты сам сказал: «я знаю, ЧТО я хочу делать, но не знаю, что там писать». Это не новая проблема - это всё тот же недостающий скрипт Статьи №1. Закрываешь его один раз - и он закрывает и основную воронку, и все 20 тематических заходов.</div></div>
+    
   </div>
 </section>
 <!-- ===================== 07 · КАРТА ЗАТЫКА ===================== -->
@@ -1233,57 +2185,203 @@ svg.chart{display:block; width:100%; height:auto; overflow:visible}
       <p class="sec-note">Твоя собственная формула: «стратегию я понимаю, а тактики у меня нет - тактика появляется только с третьего уровня». Вот эта формула, разложенная по всей воронке. Смотри, какая узкая на самом деле дыра.</p>
     </div>
 
-    <p class="cap scroll-hint" style="margin:0 0 8px">таблица листается вбок →</p>
-    <div class="table-scroll reveal">
-      <table class="data">
-        <thead><tr><th>Зона воронки</th><th>Тактика (скрипт)</th><th>Стратегия</th><th>Смыслы</th><th>Источник тактики</th></tr></thead>
-        <tbody>
-          <tr>
-            <td><b>Статья №1</b> · уровни 0→2</td>
-            <td><span class="status bad">НЕТ</span></td>
-            <td><span class="status ok">есть</span></td>
-            <td><span class="status ok">есть список</span></td>
-            <td class="muted">- ← главный блокер</td>
-          </tr>
-          <tr>
-            <td><b>Статья №2</b> · уровень 2→3</td>
-            <td><span class="status bad">НЕТ</span></td>
-            <td><span class="status ok">есть</span></td>
-            <td><span class="status ok">есть</span></td>
-            <td class="muted">-</td>
-          </tr>
-          <tr>
-            <td><b>Бэкенд</b> · уровни 3→4→5</td>
-            <td><span class="status ok">есть</span></td>
-            <td><span class="status ok">есть</span></td>
-            <td><span class="status ok">есть</span></td>
-            <td>Брансон: VSL, идеальный вебинар (микс - пока экспромт)</td>
-          </tr>
-          <tr>
-            <td><b>Оффер</b> · уровень 5</td>
-            <td><span class="status ok">есть</span></td>
-            <td><span class="status ok">есть</span></td>
-            <td><span class="status ok">есть</span></td>
-            <td>Хормози: «$100M Offers»</td>
-          </tr>
-          <tr>
-            <td><b>Двери-заголовки</b></td>
-            <td><span class="status warn">техника</span></td>
-            <td><span class="status ok">есть</span></td>
-            <td><span class="status ok">~20 идей</span></td>
-            <td>придумать списки - вопрос ремесла, не затык</td>
-          </tr>
-          <tr>
-            <td><b>Тематические заходы</b></td>
-            <td><span class="status bad">НЕТ</span></td>
-            <td><span class="status ok">есть</span></td>
-            <td><span class="status ok">есть</span></td>
-            <td class="muted">тот же скрипт Статьи №1</td>
-          </tr>
-        </tbody>
-      </table>
+    <!-- viz: zatyk: труба воронки 0→5 со слоями «что сказать / как писать» - три красных чипа «скрипта нет» стабами входят в красную шину и сходятся в одну дыру (скрипт ранних уровней), которую закрывает единственный синий блок «2 скелета статей» с возвратом в Статью №1 -->
+<style>
+/* локальные геометрические константы фрагмента (определены здесь же - НЕ зависимость от страницы):
+   гэп колонок грида, ширина жёлоба шины, x линии шины внутри жёлоба.
+   Все стыки «линия-в-линию» считаются из них - изменение одной величины не рвёт соединения */
+.vz-zatyk{background:var(--paper); border:1px solid var(--line); border-radius:var(--r-lg); padding:18px; --vz-zatyk-gap:24px; --vz-zatyk-gutter:18px; --vz-zatyk-busx:7px}
+.vz-zatyk-kicker{font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-mute); font-weight:600}
+.vz-zatyk-head{font-size:16px; font-weight:800; letter-spacing:-.015em; line-height:1.35; color:var(--ink); margin-top:6px; max-width:62ch}
+.vz-zatyk-legend{display:flex; flex-wrap:wrap; gap:6px 18px; margin-top:12px; padding-bottom:12px; margin-bottom:16px; border-bottom:1px dashed var(--line-2); font-size:12px; font-weight:500; color:var(--ink-soft)}
+.vz-zatyk-legend span{display:inline-flex; align-items:center; gap:7px}
+.vz-zatyk-dot{display:inline-block; width:9px; height:9px; border-radius:2px; flex:none}
+.vz-zatyk-dot--neg{background:var(--neg)}
+.vz-zatyk-dot--pos{background:var(--pos)}
+.vz-zatyk-dot--acc{background:var(--accent)}
+
+/* каркас: десктоп = труба воронки | цепь диагноза */
+.vz-zatyk-grid{display:grid; grid-template-columns:minmax(0,1fr) 300px; column-gap:var(--vz-zatyk-gap); align-items:start}
+
+/* труба: колонка блоков + жёлоб 18px под красную шину; шина = flex/grid-структура жёлоба, не absolute-offset */
+.vz-zatyk-pipe{display:grid; grid-template-columns:minmax(0,1fr) var(--vz-zatyk-gutter)}
+.vz-zatyk-zone{grid-column:1; border:1px solid var(--line-2); border-radius:var(--r-lg); background:var(--paper); padding:12px}
+.vz-zatyk-zone--ghost{border-style:dashed; background:transparent}
+.vz-zatyk-zone-t{font-size:13.5px; font-weight:800; letter-spacing:.01em; color:var(--ink)}
+.vz-zatyk-zone-lvl{font-family:var(--font-mono); font-size:11.5px; font-weight:600; color:var(--ink-mute); white-space:nowrap}
+.vz-zatyk-zone-sub{font-size:12.5px; color:var(--ink-soft); line-height:1.45; margin-top:3px}
+.vz-zatyk-chip{position:relative; display:block; margin-top:8px; padding:6px 9px; border-radius:var(--r); font-size:13px; line-height:1.45; border:1px solid var(--line-2)}
+.vz-zatyk-chip b{font-weight:700}
+.vz-zatyk-chip--ok{background:var(--pos-wash); border-color:color-mix(in srgb, var(--pos) 35%, var(--paper)); color:var(--pos-ink)}
+/* nowrap: красный чип всегда в 1 строку (тексты короткие) - его высота детерминирована,
+   к ней привязан конец шины (busseg--last) */
+.vz-zatyk-chip--no{background:var(--neg-wash); border-color:color-mix(in srgb, var(--neg) 45%, var(--paper)); color:var(--neg-ink); font-weight:700; white-space:nowrap}
+/* стаб эмитится САМИМ красным чипом: геометрия привязана к чипу, при переносах текста не плывёт.
+   Длина 15px + busx: паддинг зоны 12 + бордер зоны 1 + толщина линии шины 2 + заход до правого края шины */
+.vz-zatyk-chip--no::after{content:""; position:absolute; box-sizing:border-box; top:50%; right:calc(-15px - var(--vz-zatyk-busx)); width:calc(15px + var(--vz-zatyk-busx)); margin-top:-1px; border-top:2px dashed var(--neg)}
+/* наконечник стаба: направление «чип → шина», остриё упирается в линию шины */
+.vz-zatyk-chip--no::before{content:""; position:absolute; top:50%; right:calc(-14px - var(--vz-zatyk-busx)); margin-top:-5px; width:0; height:0; border-top:5px solid transparent; border-bottom:5px solid transparent; border-left:9px solid var(--neg)}
+/* первый красный чип САМ начинает шину: его стаб превращается в уголок вниз до низа строки грида.
+   50% держит вертикаль на центре чипа при ЛЮБОЙ его высоте; 16px = бордер чипа 1 + паддинг зоны 12
+   + бордер зоны 1 + ~2px перекрытия со следующим сегментом шины. Висячего старта «из ниоткуда» нет */
+.vz-zatyk-chip--busstart::after{height:calc(50% + 16px); border-right:2px dashed var(--neg)}
+
+/* вертикальные стрелки трубы и цепи диагноза.
+   Цвет: var(--ink-mute) - тот же #878d96, что и --neutral, но --neutral нет в контракте брифа */
+.vz-zatyk-varr{grid-column:1; display:flex; gap:10px; min-height:46px}
+.vz-zatyk-vline{position:relative; flex:none; width:2px; margin-left:26px; background:var(--ink-mute)}
+.vz-zatyk-vline::after{content:""; position:absolute; bottom:0; left:-4px; width:0; height:0; border-left:5px solid transparent; border-right:5px solid transparent; border-top:6px solid var(--ink-mute)}
+.vz-zatyk-vlbl{align-self:center; font-size:12.5px; color:var(--ink-soft); line-height:1.35; padding:4px 0}
+
+/* красная шина в жёлобе: сегменты тянутся по строкам грида, без absolute-высот */
+.vz-zatyk-busseg{grid-column:2; position:relative}
+.vz-zatyk-busseg::before{content:""; position:absolute; left:var(--vz-zatyk-busx); top:0; bottom:0; border-left:2px dashed var(--neg)}
+.vz-zatyk-busseg--start::before{display:none} /* строку Статьи №1 шина НЕ рисует: её начинает уголок самого красного чипа (--busstart) - старт привязан к стабу, а не к проценту */
+.vz-zatyk-busseg--last::before{bottom:28px}   /* десктоп: конец шины = центр последнего стаба; 28px = бордер зоны 1 + паддинг 12 + полвысоты однострочного чипа ~16px - 1px перекрытия (чип nowrap, высота фиксирована) */
+.vz-zatyk-busdrop{grid-column:1 / -1; position:relative; height:22px; display:none} /* мобила: колено шины к ЦЕНТРУ блока «ОДНА ДЫРА» */
+.vz-zatyk-busdrop::before{content:""; position:absolute; top:0; bottom:5px; left:50%; right:calc(var(--vz-zatyk-gutter) - var(--vz-zatyk-busx) - 2px); border-right:2px dashed var(--neg); border-bottom:2px dashed var(--neg)} /* вниз по оси шины, затем влево к центру строки */
+.vz-zatyk-busdrop::after{content:""; position:absolute; left:calc(50% - 5px); bottom:0; width:0; height:0; border-left:5px solid transparent; border-right:5px solid transparent; border-top:6px solid var(--neg)} /* наконечник по центру блока; цвет = цвет шины */
+.vz-zatyk-gap{grid-column:1; height:16px}
+
+/* цепь диагноза; канал 28px под синюю петлю зарезервирован СПРАВА (десктоп):
+   красный вход в дыру идёт слева - синяя вертикаль и красный пунктир НЕ пересекаются */
+.vz-zatyk-diag{position:relative; padding:0 28px 0 0}
+.vz-zatyk-diag::before{content:""; position:absolute; right:13px; top:22px; bottom:18px; border-left:2px dashed var(--accent)} /* вертикаль петли в правом канале */
+.vz-zatyk-diag::after{content:""; position:absolute; left:-34px; top:21px; right:13px; border-top:2px dashed var(--accent)}   /* верхнее плечо к Статье №1: проходит над пустой зоной ВЫШЕ дыры и выше старта шины */
+.vz-zatyk-loop{position:absolute; left:-43px; top:17px; width:0; height:0; border-top:5px solid transparent; border-bottom:5px solid transparent; border-right:9px solid var(--accent-ink)} /* наконечник в Статью №1 */
+.vz-zatyk-loop-lbl{position:absolute; right:6px; top:36%; writing-mode:vertical-rl; transform:rotate(180deg); background:var(--paper); padding:10px 0; font-size:10.5px; font-weight:600; letter-spacing:.05em; color:var(--accent-ink); line-height:1.3; white-space:nowrap}
+
+.vz-zatyk-node{border:1px solid var(--line-2); border-radius:var(--r-lg); background:var(--surface); padding:12px 14px}
+.vz-zatyk-node-t{font-size:13.5px; font-weight:800; line-height:1.3; color:var(--ink)}
+.vz-zatyk-node-s{font-size:12.5px; color:var(--ink-soft); line-height:1.45; margin-top:4px}
+/* ИНВАРИАНТ: центр дыры (y входа) обязан лежать МЕЖДУ стабом Статьи №1 и стабом Статьи №2 -
+   только там шина гарантированно существует. 140px даёт >=50px запаса при переносах текста
+   в зоне Статьи №1 на всей сетке 721-1280px (при 96px запас был 17px и рвался) */
+.vz-zatyk-node--hole{position:relative; margin-top:140px; background:var(--neg-wash); border-color:var(--neg)}
+.vz-zatyk-node--hole .vz-zatyk-node-t{color:var(--neg-ink)}
+/* горизонтальный вход «шина → узел»: y привязан к центру узла; длина = гэп грида + жёлоб - x шины,
+   считается из ТЕХ ЖЕ переменных, что и сам жёлоб: изменение гэпа/жёлоба/оси не рвёт стык */
+.vz-zatyk-node--hole::before{content:""; position:absolute; top:50%; left:calc(-1*(var(--vz-zatyk-gap) + var(--vz-zatyk-gutter) - var(--vz-zatyk-busx))); width:calc(var(--vz-zatyk-gap) + var(--vz-zatyk-gutter) - var(--vz-zatyk-busx)); margin-top:-1px; border-top:2px dashed var(--neg)}
+.vz-zatyk-node--hole::after{content:""; position:absolute; top:50%; left:-9px; margin-top:-5px; width:0; height:0; border-top:5px solid transparent; border-bottom:5px solid transparent; border-left:9px solid var(--neg)}
+.vz-zatyk-node--cure{position:relative; background:var(--accent-wash); border-color:var(--accent)}
+.vz-zatyk-node--cure .vz-zatyk-node-t{color:var(--accent-ink)}
+.vz-zatyk-node--cure::after{content:""; position:absolute; right:-16px; bottom:16px; width:16px; border-top:2px dashed var(--accent)} /* нижнее плечо петли от ЛЕКАРСТВА к правому каналу */
+
+/* чипы-возвраты (fallback spec 9): замыкают контур на мобиле, на десктопе их заменяет петля */
+.vz-zatyk-loopchips{display:none}
+.vz-zatyk-loopchip{display:block; font-size:13px; font-weight:600; color:var(--accent-ink); background:var(--paper); border:1px dashed var(--accent); border-radius:var(--r); padding:6px 9px}
+
+.vz-zatyk-cap{font-size:12px; color:var(--ink-mute); line-height:1.5; margin-top:14px; padding-top:10px; border-top:1px dashed var(--line-2)}
+
+@media(max-width:720px){
+  .vz-zatyk{padding:14px 12px}
+  .vz-zatyk-grid{display:block}
+  .vz-zatyk-diag{padding:0}
+  .vz-zatyk-diag::before, .vz-zatyk-diag::after, .vz-zatyk-loop, .vz-zatyk-loop-lbl{display:none}
+  .vz-zatyk-node--hole{margin-top:2px}
+  .vz-zatyk-node--hole::before, .vz-zatyk-node--hole::after, .vz-zatyk-node--cure::after{display:none}
+  .vz-zatyk-busseg--last::before{bottom:0}
+  .vz-zatyk-busdrop{display:block}
+  .vz-zatyk-loopchips{display:grid; gap:6px; margin-top:10px; padding-top:10px; border-top:1px dashed color-mix(in srgb, var(--accent) 45%, var(--paper))}
+}
+</style>
+<div class="viz vz-zatyk">
+  <div class="vz-zatyk-kicker">карта затыка · воронка по лестнице Ханта · уровни 0→5</div>
+  <div class="vz-zatyk-head">Стратегия есть вся - дыра одна: скрипт ранних уровней. Два скелета закрывают её целиком.</div>
+  <div class="vz-zatyk-legend">
+    <span><i class="vz-zatyk-dot vz-zatyk-dot--neg"></i>красный - скрипта нет</span>
+    <span><i class="vz-zatyk-dot vz-zatyk-dot--pos"></i>зелёный - скрипт есть</span>
+    <span><i class="vz-zatyk-dot vz-zatyk-dot--acc"></i>синий - действие</span>
+  </div>
+
+  <div class="vz-zatyk-grid">
+
+    <!-- труба воронки + жёлоб красной шины -->
+    <div class="vz-zatyk-pipe">
+
+      <div class="vz-zatyk-zone">
+        <div class="vz-zatyk-zone-t">СТАТЬЯ №1 <span class="vz-zatyk-zone-lvl">· уровни 0→2 · фронтенд</span></div>
+        <div class="vz-zatyk-chip vz-zatyk-chip--ok"><b>что сказать: есть ✓</b> · стратегия + список смыслов · враг назван: тупиковая модель, математика потолка</div>
+        <div class="vz-zatyk-chip vz-zatyk-chip--no vz-zatyk-chip--busstart">как писать: скрипта НЕТ ✕</div>
+      </div>
+      <div class="vz-zatyk-busseg vz-zatyk-busseg--start" aria-hidden="true"></div>
+
+      <div class="vz-zatyk-varr"><span class="vz-zatyk-vline" aria-hidden="true"></span><span class="vz-zatyk-vlbl">читатель поднят на уровень 2</span></div>
+      <div class="vz-zatyk-busseg" aria-hidden="true"></div>
+
+      <div class="vz-zatyk-zone">
+        <div class="vz-zatyk-zone-t">СТАТЬЯ №2 <span class="vz-zatyk-zone-lvl">· уровень 2→3 · фронтенд</span></div>
+        <div class="vz-zatyk-chip vz-zatyk-chip--ok"><b>что сказать: есть ✓</b> · варианты решения + золотая антилопа</div>
+        <div class="vz-zatyk-chip vz-zatyk-chip--no">как писать: скрипта НЕТ ✕</div>
+      </div>
+      <div class="vz-zatyk-busseg" aria-hidden="true"></div>
+
+      <div class="vz-zatyk-varr"><span class="vz-zatyk-vline" aria-hidden="true"></span><span class="vz-zatyk-vlbl">идея консалтинга продана</span></div>
+      <div class="vz-zatyk-busseg" aria-hidden="true"></div>
+
+      <div class="vz-zatyk-zone">
+        <div class="vz-zatyk-zone-t">БЭКЕНД <span class="vz-zatyk-zone-lvl">· уровни 3→4→5 · универсальный</span></div>
+        <div class="vz-zatyk-chip vz-zatyk-chip--ok"><b>что сказать: есть ✓</b></div>
+        <div class="vz-zatyk-chip vz-zatyk-chip--ok"><b>скрипт: есть ✓</b> · Брансон - VSL, идеальный вебинар</div>
+      </div>
+      <div class="vz-zatyk-busseg" aria-hidden="true"></div>
+
+      <div class="vz-zatyk-varr"><span class="vz-zatyk-vline" aria-hidden="true"></span><span class="vz-zatyk-vlbl">уровни 3-5 закрыты по скриптам</span></div>
+      <div class="vz-zatyk-busseg" aria-hidden="true"></div>
+
+      <div class="vz-zatyk-zone">
+        <div class="vz-zatyk-zone-t">ОФФЕР <span class="vz-zatyk-zone-lvl">· уровень 5</span></div>
+        <div class="vz-zatyk-chip vz-zatyk-chip--ok"><b>что сказать: есть ✓</b></div>
+        <div class="vz-zatyk-chip vz-zatyk-chip--ok"><b>скрипт: есть ✓</b> · Хормози, «$100M Offers»</div>
+      </div>
+      <div class="vz-zatyk-busseg" aria-hidden="true"></div>
+
+      <div class="vz-zatyk-gap" aria-hidden="true"></div>
+      <div class="vz-zatyk-busseg" aria-hidden="true"></div>
+
+      <div class="vz-zatyk-zone vz-zatyk-zone--ghost">
+        <div class="vz-zatyk-zone-t">ТЕМАТИЧЕСКИЕ ЗАХОДЫ <span class="vz-zatyk-zone-lvl">· ~20 тем</span></div>
+        <div class="vz-zatyk-zone-sub">доп. вход в ту же воронку - вливается выше, в Статью №1 (уровни 0→2)</div>
+        <div class="vz-zatyk-chip vz-zatyk-chip--no">ждут тот же скрипт ✕</div>
+      </div>
+      <div class="vz-zatyk-busseg vz-zatyk-busseg--last" aria-hidden="true"></div>
+
+      <div class="vz-zatyk-busdrop" aria-hidden="true"></div>
     </div>
-    <p class="cap">Красная колонка - это ОДНА сущность, повторённая трижды: скрипт ранних уровней. Не «у меня ничего не готово», а «не хватает одного скрипта на 0→2 и одного на 2→3». Всё остальное - зелёное.</p>
+
+    <!-- цепь диагноза -->
+    <div class="vz-zatyk-diag">
+      <span class="vz-zatyk-loop" aria-hidden="true"></span>
+      <span class="vz-zatyk-loop-lbl">скелеты закрывают красный слой</span>
+
+      <div class="vz-zatyk-node vz-zatyk-node--hole">
+        <div class="vz-zatyk-node-t">ОДНА ДЫРА: скрипт ранних уровней</div>
+        <div class="vz-zatyk-node-s">не три проблемы - одна сущность, повторённая ×3</div>
+      </div>
+
+      <div class="vz-zatyk-varr"><span class="vz-zatyk-vline" aria-hidden="true"></span><span class="vz-zatyk-vlbl">без «делай раз» - ни строчки</span></div>
+
+      <div class="vz-zatyk-node">
+        <div class="vz-zatyk-node-t">3 МЕСЯЦА ПРОКРАСТИНАЦИИ</div>
+        <div class="vz-zatyk-node-s">«сяду писать - не смогу и строчки написать»: задача без первого шага</div>
+      </div>
+
+      <div class="vz-zatyk-varr"><span class="vz-zatyk-vline" aria-hidden="true"></span><span class="vz-zatyk-vlbl">снимается не волей, а скриптом</span></div>
+
+      <div class="vz-zatyk-node vz-zatyk-node--cure">
+        <div class="vz-zatyk-node-t">ЛЕКАРСТВО: 2 СКЕЛЕТА СТАТЕЙ</div>
+        <div class="vz-zatyk-node-s">раздел 09 · скрипт убирает неопределённость - воронка целиком зелёная</div>
+        <div class="vz-zatyk-loopchips">
+          <span class="vz-zatyk-loopchip">↺ скелет №1 → Статья №1 (0→2)</span>
+          <span class="vz-zatyk-loopchip">↺ скелет №2 → Статья №2 (2→3)</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="vz-zatyk-cap">Три красные метки - не три проблемы: все стабы входят в одну шину и одну дыру. Всё остальное уже зелёное, и лечится дыра одним синим действием - два скелета из раздела 09.</p>
+</div>
 
     <div class="block-label">Почему это ощущается как прокрастинация</div>
     <p class="body reveal">Посмотри на свои же слова. Про уровни 3-5: «смотрю на скрипты Рассела - всё чётко понятно, что, где, в какой момент. Особо напрягаться не нужно». Про уровни 0-2: «сяду писать - не смогу и строчки написать». Один и тот же человек, одна и та же тема, одни и те же знания. Разница ровно одна: <span class="hl-underline">в первом случае есть скелет, во втором - чистый лист</span>.</p>
@@ -1325,19 +2423,512 @@ svg.chart{display:block; width:100%; height:auto; overflow:visible}
 
     <div class="callout info reveal"><span class="ic">★</span><div><b class="t">Рекомендация по пилотному аватару: маркетолог / специалист по рекламе</b>Это твоя родная ниша: ты сам был этим аватаром, фактура его жизни у тебя из первых рук (Zoom-созвоны, рекламный кабинет, креативы), и первые консалтинг-клиенты пришли именно оттуда. Для пилота важна скорость и достоверность - тут она максимальна. Фотографа и остальных подключишь на тираже.</div></div>
 
-    <div class="block-label">Девять шагов · от скелета до тиража</div>
-    <div class="tl-nums reveal">
-      <div class="tl-num"><div class="n">0</div><div><h4>Утвердить скелеты Статьи №1 и Статьи №2</h4><p>Заготовки - в следующем разделе. Пройдись, поправь под себя, переставь блоки.</p><p class="crit">Готово, когда: на каждый блок скелета ты знаешь, какой смысл из твоего списка туда ложится.</p></div></div>
-      <div class="tl-num"><div class="n">1</div><div><h4>Написать Статью №1 для пилотного аватара (уровни 0→2)</h4><p>По скелету, блок за блоком: сцена из жизни, имя врага, математика потолка, примеры, кивок, мост.</p><p class="crit">Готово, когда: знакомый из этой профессии читает и говорит «это про меня».</p></div></div>
-      <div class="tl-num"><div class="n">2</div><div><h4>Написать Статью №2 для пилота (уровень 2→3)</h4><p>Варианты с плюсами/минусами → «бац» → золотая антилопа → математика дохода (150 000 ₽ × 2 продажи).</p><p class="crit">Готово, когда: после прочтения хочется спросить «а как это устроено?» - ровно тот вопрос, на который отвечает бэкенд.</p></div></div>
-      <div class="tl-num"><div class="n">3</div><div><h4>Собрать СВОЙ канон микса для бэкенда - один раз</h4><p>Сесть со скриптами Брансона (VSL + идеальный вебинар + воронки), выбрать блоки, зафиксировать порядок письменно. Экспромт превращается в твой собственный скрипт - больше к этому вопросу не возвращаешься.</p><p class="crit">Готово, когда: есть записанная последовательность блоков бэкенда.</p></div></div>
-      <div class="tl-num"><div class="n">4</div><div><h4>Написать бэкенд (уровни 3→4→5) по своему канону</h4><p>Как устроен консалтинг, как зарабатываются деньги, желаемое будущее, снятие сомнений. Сам говоришь: тут проблем нет.</p><p class="crit">Готово, когда: статья доводит до места, где просится оффер.</p></div></div>
-      <div class="tl-num"><div class="n">5</div><div><h4>Собрать оффер по Хормози</h4><p>Твоя зона уверенности: «тут мне объяснять не надо».</p><p class="crit">Готово, когда: оффер сформулирован и вшит в финал бэкенда.</p></div></div>
-      <div class="tl-num"><div class="n">6</div><div><h4>Сделать 20 дверей для пилота</h4><p>20 заголовков → 20 дублей страницы Статьи №1 (путь /zagolovok-01 ... /zagolovok-20 или поддомены). Контент один.</p><p class="crit">Готово, когда: каждая дверь открывается и ведёт по нитке дальше.</p></div></div>
-      <div class="tl-num"><div class="n">7</div><div><h4>Запустить рекламу на пилотного аватара</h4><p>Одна РК - на маркетологов. Нитка целиком в бою: реклама → дверь → Статья №1 → Статья №2 → бэкенд → оффер.</p><p class="crit">Готово, когда: по нитке идёт живой трафик и видно, где он останавливается.</p></div></div>
-      <div class="tl-num"><div class="n">8</div><div><h4>Тираж: адаптировать фронтенд под следующих аватаров</h4><p>Слоты + нейросети: фотограф, ведущий, авитолог... По одному, с проверкой адаптаций. Каждый новый аватар = новая РК + 20 дверей.</p><p class="crit">Готово, когда: конвейер «новый аватар за вечер» работает.</p></div></div>
-      <div class="tl-num"><div class="n">9</div><div><h4>Подключить тематические заходы (доп-стратегию)</h4><p>Когда основная нитка доказала себя: выбрать тему → 5-10 заголовков → адаптивные статьи по тому же скелету Статьи №1.</p><p class="crit">Готово, когда: первая тема-статья ведёт холодный трафик в ту же воронку.</p></div></div>
+    <div class="block-label">Десять ворот · от скелета до тиража</div>
+    <!-- viz: pilot: Пилотная нитка - 10 шагов запуска одного аватара через ворота «готово, когда», с гейтом «Нитка доказала себя?» перед масштабом. -->
+<style>
+/* ============================================================
+   vz-pilot · пилотная нитка: конвейер 0-9 через ворота
+   Мобайл (база): одна колонка, жёлоб 18px слева в каждой строке,
+   этажи = плашки + цветной левый кант у шагов (не вложенные рамки).
+   Десктоп (>720px): 4 этажа-дорожки, L-коннекторы, ромб по центру,
+   петля «Залип?» дугой над фронтендом.
+   ============================================================ */
+.vz-pilot{margin:8px 0}
+.vz-pilot *{box-sizing:border-box}
+
+/* ---- заголовок-вывод ---- */
+.vz-pilot-hd{margin-bottom:18px}
+.vz-pilot-hd .k{font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent-ink); font-weight:600}
+.vz-pilot-hd .t{font-size:clamp(17px,2.4vw,20px); font-weight:700; letter-spacing:-.01em; line-height:1.35; max-width:58ch; margin-top:6px}
+
+/* ---- строка: жёлоб 18px + контент ---- */
+.vz-pilot-row{display:flex; align-items:stretch}
+.vz-pilot-rail{flex:0 0 18px; position:relative}
+.vz-pilot-rc{flex:1 1 auto; min-width:0}
+
+/* ---- сегменты красной петли в жёлобе (мобайл) ---- */
+.vz-pilot-rail.r-line::before{content:""; position:absolute; left:7px; top:0; bottom:0; border-left:1.5px dashed var(--neg)}
+.vz-pilot-rail.r-top::before{content:""; position:absolute; left:7px; top:10px; bottom:0; border-left:1.5px dashed var(--neg)}
+.vz-pilot-rail.r-top::after{content:""; position:absolute; left:2.5px; top:1px; width:0; height:0; border-left:5.5px solid transparent; border-right:5.5px solid transparent; border-bottom:8px solid var(--neg)}
+.vz-pilot-rail.r-elbow::before{content:""; position:absolute; left:7px; top:0; height:22px; border-left:1.5px dashed var(--neg)}
+.vz-pilot-rail.r-elbow::after{content:""; position:absolute; left:7px; top:22px; width:11px; height:0; border-top:1.5px dashed var(--neg)}
+
+/* ---- терминалы: вход и результат ---- */
+.vz-pilot-term{background:var(--surface-ink); color:var(--surface); border-radius:var(--r-lg); padding:13px 16px}
+.vz-pilot-term .tag{display:block; font-family:var(--font-mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:color-mix(in srgb, var(--surface) 55%, transparent); margin-bottom:4px}
+.vz-pilot-term .t{font-size:15.5px; font-weight:700; letter-spacing:-.01em}
+.vz-pilot-term .t em{font-style:normal; color:color-mix(in srgb, var(--accent) 50%, var(--surface))}
+.vz-pilot-term .s{font-size:12.5px; color:color-mix(in srgb, var(--surface) 62%, transparent); margin-top:3px; line-height:1.45}
+
+/* ---- ворота: линия + треугольник + критерий ---- */
+.vz-pilot-gate .vz-pilot-rc{display:flex; flex-direction:column; align-items:center; padding:8px 4px 9px; text-align:center}
+.vz-pilot-gate .arr{display:flex; flex-direction:column; align-items:center}
+.vz-pilot-gate .ln{width:0; height:15px; border-left:1.5px solid var(--ink-mute)}
+.vz-pilot-gate .tri{width:0; height:0; border-left:4.5px solid transparent; border-right:4.5px solid transparent; border-top:7px solid var(--ink-mute)}
+.vz-pilot-gate .lbl{font-family:var(--font-mono); font-size:13px; line-height:1.45; color:var(--ink-soft); margin-top:5px; max-width:100%}
+.vz-pilot-gate .lbl .g{font-weight:600; color:var(--ink-mute)}
+.vz-pilot-gate .lbl .yes{font-weight:700; color:var(--ink)}
+
+/* ---- этаж: плашка-заголовок (мобайл) ---- */
+.vz-pilot-fhrow{margin-bottom:7px}
+.vz-pilot-fhead{background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--neg); border-radius:var(--r); padding:8px 11px}
+.vz-pilot-fhead b{display:block; font-family:var(--font-mono); font-size:12px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--ink)}
+.vz-pilot-fhead span{display:block; font-size:12.5px; color:var(--ink-soft); margin-top:2px; line-height:1.4}
+.vz-pilot-fhead em{font-style:normal; font-weight:700}
+.vz-pilot-fhead em.neg{color:var(--neg-ink)}
+.vz-pilot-fhead em.pos{color:var(--pos-ink)}
+.vz-pilot-fhead em.acc{color:var(--accent-ink)}
+
+/* ---- шаг: карточка с цветным левым кантом ---- */
+.vz-pilot-stp{background:var(--paper); border:1px solid var(--line); border-left:3px solid var(--neg); border-radius:var(--r); padding:10px 12px}
+.vz-pilot-stp .hd{display:flex; align-items:baseline; gap:7px}
+.vz-pilot-stp .num{font-family:var(--font-mono); font-size:12px; font-weight:700; color:var(--neg-ink); flex-shrink:0}
+.vz-pilot-stp .nm{font-size:14.5px; font-weight:700; letter-spacing:-.005em; line-height:1.3}
+.vz-pilot-stp .sb{font-size:12.5px; color:var(--ink-soft); line-height:1.45; margin-top:3px}
+.vz-pilot-nw{white-space:nowrap}
+
+/* канты и номера по этажам */
+.vz-pilot-f-front .vz-pilot-stp{border-left-color:var(--neg)}
+.vz-pilot-f-front .vz-pilot-stp .num{color:var(--neg-ink)}
+.vz-pilot-f-back .vz-pilot-fhead{border-left-color:var(--pos)}
+.vz-pilot-f-back .vz-pilot-stp{border-left-color:var(--pos)}
+.vz-pilot-f-back .vz-pilot-stp .num{color:var(--pos-ink)}
+.vz-pilot-f-battle .vz-pilot-fhead{border-left-color:var(--ink)}
+.vz-pilot-f-battle .vz-pilot-stp{border-left-color:var(--ink)}
+.vz-pilot-f-battle .vz-pilot-stp .num{color:var(--ink)}
+.vz-pilot-f-scale .vz-pilot-fhead{border:1px dashed var(--line-2); border-left:3px dashed var(--ink-mute)}
+.vz-pilot-f-scale .vz-pilot-stp{border-left:3px dashed var(--ink-mute)}
+.vz-pilot-f-scale .vz-pilot-stp .num{color:var(--ink-soft)}
+
+/* ---- «Залип?»: ответвление у жёлоба сбоку от шагов 1-2 (мобайл) ---- */
+.vz-pilot-aside{width:fit-content; max-width:96%; margin:3px 0 6px; background:var(--paper); border:1px dashed var(--neg); border-radius:var(--r); padding:8px 11px}
+.vz-pilot-aside .t{font-size:13px; font-weight:700; color:var(--neg-ink); line-height:1.35}
+.vz-pilot-aside .s{font-size:12.5px; color:var(--ink-soft); line-height:1.45; margin-top:2px}
+.vz-pilot-aside .h{font-family:var(--font-mono); font-size:12px; color:var(--neg-ink); margin-top:5px}
+
+/* ---- гейт-ромб «Нитка доказала себя?» ---- */
+.vz-pilot-dmrow .vz-pilot-rc{position:relative; padding:2px 0}
+.vz-pilot-dm{position:relative; width:min(244px,100%); height:118px; margin:0 auto; clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%); background:var(--ink)}
+.vz-pilot-dm::before{content:""; position:absolute; inset:2px; clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%); background:var(--paper)}
+.vz-pilot-dm span{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; text-align:center; font-size:14px; font-weight:700; line-height:1.3; padding:0 52px}
+
+/* ---- ветка «нет»: узкий блок, красная дашевая линия по борту вверх ---- */
+.vz-pilot-no{position:relative; width:fit-content; max-width:96%; margin:10px 0 2px; background:var(--paper); border:1px dashed var(--neg); border-radius:var(--r); padding:8px 11px}
+.vz-pilot-no::before{content:""; position:absolute; left:-11px; top:15px; width:11px; height:0; border-top:1.5px dashed var(--neg)}
+.vz-pilot-no .t{font-size:13px; line-height:1.45; color:var(--ink-soft)}
+.vz-pilot-no .t b{color:var(--neg-ink)}
+.vz-pilot-no .h{font-family:var(--font-mono); font-size:12px; color:var(--neg-ink); margin-top:4px}
+
+/* ---- дуга «Залип?» и L-коннекторы: на мобайле скрыты ---- */
+.vz-pilot-arc{display:none}
+.vz-pilot-lcon{display:none}
+
+/* ---- легенда ---- */
+.vz-pilot-legend{display:flex; flex-wrap:wrap; gap:7px 18px; margin-top:16px; padding-top:12px; border-top:1px solid var(--line); font-family:var(--font-mono); font-size:12px; color:var(--ink-soft)}
+.vz-pilot-legend .it{display:inline-flex; align-items:center}
+.vz-pilot-legend .sw{display:inline-block; width:0; height:12px; border-left:3px solid var(--ink); margin-right:7px}
+.vz-pilot-legend .sw.neg{border-left-color:var(--neg)}
+.vz-pilot-legend .sw.pos{border-left-color:var(--pos)}
+.vz-pilot-legend .sw.negdash{border-left-style:dashed; border-left-color:var(--neg)}
+.vz-pilot-legend .sw.dash{border-left-style:dashed; border-left-color:var(--ink-mute)}
+
+/* ============================================================
+   ДЕСКТОП (всё, что НЕ max-width:720px - точное дополнение
+   контрактного брейкпоинта, без дыры на дробных ширинах):
+   этажи-дорожки, L-коннекторы, дуга, ромб в центре
+   ============================================================ */
+@media not all and (max-width:720px){
+  .vz-pilot-rail{display:none}
+
+  /* этаж = подложка с рамкой */
+  .vz-pilot-floor{border:1px solid var(--line); border-radius:var(--r-lg); padding:12px 14px 14px; background:var(--paper)}
+  .vz-pilot-f-scale{border-style:dashed; border-color:var(--line-2)}
+  .vz-pilot-fhrow{margin-bottom:12px}
+  .vz-pilot-floor .vz-pilot-fhead{background:transparent; border:none; border-left:3px solid var(--ink); border-radius:0; padding:1px 0 1px 9px}
+  .vz-pilot-f-front .vz-pilot-fhead{border-left-color:var(--neg)}
+  .vz-pilot-f-back .vz-pilot-fhead{border-left-color:var(--pos)}
+  .vz-pilot-f-scale .vz-pilot-fhead{border-left-style:dashed; border-left-color:var(--ink-mute)}
+  .vz-pilot-floor .vz-pilot-fhead b{display:inline}
+  .vz-pilot-floor .vz-pilot-fhead span{display:inline; margin:0 0 0 10px}
+
+  /* шаги в ряд, ворота горизонтальные между ними */
+  .vz-pilot-frow{display:flex; align-items:stretch}
+  .vz-pilot-frow > .vz-pilot-row{flex:1 1 0; min-width:0}
+  .vz-pilot-frow > .vz-pilot-row > .vz-pilot-rc{flex:1 1 auto}
+  .vz-pilot-frow > .vz-pilot-gate{flex:0 0 122px}
+  .vz-pilot-f-battle .vz-pilot-frow > .vz-pilot-gate,
+  .vz-pilot-f-scale .vz-pilot-frow > .vz-pilot-gate{flex:0 0 178px}
+  .vz-pilot-stp{height:100%}
+  .vz-pilot-frow .vz-pilot-gate .vz-pilot-rc{justify-content:center; padding:0 7px}
+  .vz-pilot-frow .vz-pilot-gate .arr{flex-direction:row; align-items:center; width:100%}
+  .vz-pilot-frow .vz-pilot-gate .ln{width:auto; height:0; flex:1 1 auto; border-left:none; border-top:1.5px solid var(--ink-mute)}
+  .vz-pilot-frow .vz-pilot-gate .tri{border-top:4.5px solid transparent; border-bottom:4.5px solid transparent; border-left:7px solid var(--ink-mute); border-right:none}
+  .vz-pilot-asiderow{display:none}
+
+  /* петля «Залип?» дугой над фронтендом */
+  .vz-pilot-arc{display:block; position:relative; height:92px; margin:2px 2% 10px}
+  .vz-pilot-arcline{position:absolute; left:7%; right:46%; top:52px; bottom:6px; border:1.5px dashed var(--neg); border-bottom:none; border-radius:14px 14px 0 0}
+  .vz-pilot-arcline::after{content:""; position:absolute; left:-5.5px; bottom:-7px; width:0; height:0; border-left:4.5px solid transparent; border-right:4.5px solid transparent; border-top:7px solid var(--neg)}
+  .vz-pilot-arcline::before{content:""; position:absolute; right:-3px; bottom:-3.5px; width:7px; height:7px; border-radius:50%; background:var(--neg)}
+  .vz-pilot-arcplq{position:absolute; left:50%; top:0; transform:translateX(-50%); max-width:92%; text-align:center; background:var(--paper); border:1px dashed var(--neg); border-radius:var(--r); padding:4px 12px; font-size:13px; line-height:1.4; color:var(--ink-soft); z-index:1}
+  .vz-pilot-arcplq b{color:var(--neg-ink)}
+
+  /* L-коннекторы между этажами: вниз - влево - вниз со стрелкой */
+  .vz-pilot-mgate{display:none}
+  .vz-pilot-lcon{display:block; position:relative; height:86px}
+  .vz-pilot-lcon::before{content:""; position:absolute; left:88px; right:88px; top:0; height:46px; border-right:1.5px solid var(--ink-mute); border-bottom:1.5px solid var(--ink-mute)}
+  .vz-pilot-lcon .seg{position:absolute; left:88px; top:46px; height:33px; width:0; border-left:1.5px solid var(--ink-mute)}
+  .vz-pilot-lcon .seg::after{content:""; position:absolute; left:-4.2px; bottom:-7px; width:0; height:0; border-left:4.5px solid transparent; border-right:4.5px solid transparent; border-top:7px solid var(--ink-mute)}
+  .vz-pilot-lcon .lbl{position:absolute; left:50%; top:46px; transform:translate(-50%,-50%); max-width:72%; text-align:center; background:var(--paper); padding:3px 10px; font-family:var(--font-mono); font-size:13px; line-height:1.4; color:var(--ink-soft)}
+  .vz-pilot-lcon .lbl .g{font-weight:600; color:var(--ink-mute)}
+
+  /* ромб по центру; «нет» уезжает влево от ромба, линия вверх к этажу боя */
+  .vz-pilot-no{position:absolute; left:4px; top:50%; transform:translateY(-50%); width:200px; max-width:none; margin:0}
+  .vz-pilot-no::before{left:22px; top:-96px; width:0; height:96px; border-top:none; border-left:1.5px dashed var(--neg)}
+  .vz-pilot-no::after{content:""; position:absolute; left:17.5px; top:-104px; width:0; height:0; border-left:5px solid transparent; border-right:5px solid transparent; border-bottom:8px solid var(--neg)}
+  .vz-pilot-dmrow .vz-pilot-rc::after{content:""; position:absolute; left:206px; top:50%; width:max(0px, calc(50% - 328px)); height:0; border-top:1.5px dashed var(--neg)}
+}
+</style>
+
+<div class="viz vz-pilot">
+  <div class="vz-pilot-hd">
+    <span class="k">пилотная нитка · шаги 0-9</span>
+    <div class="t">Запуск - это одна нитка через 10 ворот: на следующий шаг пускает только критерий «готово, когда»</div>
+  </div>
+
+  <div class="vz-pilot-flow">
+
+    <!-- ВХОД -->
+    <div class="vz-pilot-row">
+      <span class="vz-pilot-rail"></span>
+      <div class="vz-pilot-rc">
+        <div class="vz-pilot-term">
+          <span class="tag">вход</span>
+          <div class="t">Пилотный аватар: маркетолог</div>
+          <div class="s">одна нитка целиком, не 10 аватаров сразу - твоя родная ниша</div>
+        </div>
+      </div>
     </div>
+
+    <div class="vz-pilot-row vz-pilot-gate">
+      <span class="vz-pilot-rail"></span>
+      <div class="vz-pilot-rc">
+        <span class="arr"><i class="ln"></i><i class="tri"></i></span>
+        <span class="lbl">начинаем с каркаса, не с текста</span>
+      </div>
+    </div>
+
+    <!-- ЭТАЖ 1 · ПИШЕМ ФРОНТЕНД (красный кант: скриптов нет) -->
+    <div class="vz-pilot-floor vz-pilot-f-front">
+      <div class="vz-pilot-row vz-pilot-fhrow">
+        <span class="vz-pilot-rail"></span>
+        <div class="vz-pilot-rc">
+          <div class="vz-pilot-fhead">
+            <b>Пишем фронтенд</b>
+            <span><em class="neg">скриптов НЕТ</em> - создаём их здесь</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- десктоп: дуга «Залип?» над этажом -->
+      <div class="vz-pilot-arc">
+        <span class="vz-pilot-arcline"></span>
+        <span class="vz-pilot-arcplq"><b>Залип: «не знаю, как начать»?</b> → вернись к скелету, заполни ОДИН блок</span>
+      </div>
+
+      <div class="vz-pilot-frow">
+        <div class="vz-pilot-row">
+          <span class="vz-pilot-rail r-top"></span>
+          <div class="vz-pilot-rc">
+            <div class="vz-pilot-stp">
+              <div class="hd"><span class="num">0</span><span class="nm">Скелеты Статьи №1 и №2</span></div>
+              <div class="sb">каркас вместо пустого листа: на каждый блок - смысл из списка</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="vz-pilot-row vz-pilot-gate">
+          <span class="vz-pilot-rail r-line"></span>
+          <div class="vz-pilot-rc">
+            <span class="arr"><i class="ln"></i><i class="tri"></i></span>
+            <span class="lbl"><b class="g">готово:</b> на каждый блок скелета знаешь смысл</span>
+          </div>
+        </div>
+
+        <div class="vz-pilot-row">
+          <span class="vz-pilot-rail r-line"></span>
+          <div class="vz-pilot-rc">
+            <div class="vz-pilot-stp">
+              <div class="hd"><span class="num">1</span><span class="nm">Статья №1 (0→2)</span></div>
+              <div class="sb">сцена из жизни, имя врага, математика потолка</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ответвление у жёлоба, не шаг конвейера -->
+        <div class="vz-pilot-row vz-pilot-asiderow">
+          <span class="vz-pilot-rail r-elbow"></span>
+          <div class="vz-pilot-rc">
+            <div class="vz-pilot-aside">
+              <div class="t">Залип: «не знаю, как начать»?</div>
+              <div class="s">это пустой лист, а не лень - открой скелет, заполни ОДИН блок</div>
+              <div class="h">↰ вернись к шагу 0</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="vz-pilot-row vz-pilot-gate">
+          <span class="vz-pilot-rail"></span>
+          <div class="vz-pilot-rc">
+            <span class="arr"><i class="ln"></i><i class="tri"></i></span>
+            <span class="lbl"><b class="g">готово:</b> знакомый из профессии говорит «это про меня»</span>
+          </div>
+        </div>
+
+        <div class="vz-pilot-row">
+          <span class="vz-pilot-rail"></span>
+          <div class="vz-pilot-rc">
+            <div class="vz-pilot-stp">
+              <div class="hd"><span class="num">2</span><span class="nm">Статья №2 (2→3)</span></div>
+              <div class="sb">варианты → «бац» → золотая антилопа · 150&nbsp;000&nbsp;₽&nbsp;×&nbsp;2</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ворота фронтенд → бэкенд -->
+    <div class="vz-pilot-lgate">
+      <div class="vz-pilot-row vz-pilot-gate vz-pilot-mgate">
+        <span class="vz-pilot-rail"></span>
+        <div class="vz-pilot-rc">
+          <span class="arr"><i class="ln"></i><i class="tri"></i></span>
+          <span class="lbl"><b class="g">готово:</b> после чтения хочется спросить «а как это устроено?»</span>
+        </div>
+      </div>
+      <div class="vz-pilot-lcon">
+        <i class="seg"></i>
+        <span class="lbl"><b class="g">готово:</b> после чтения хочется спросить «а как это устроено?»</span>
+      </div>
+    </div>
+
+    <!-- ЭТАЖ 2 · СОБИРАЕМ БЭКЕНД (зелёный кант: скрипты есть) -->
+    <div class="vz-pilot-floor vz-pilot-f-back">
+      <div class="vz-pilot-row vz-pilot-fhrow">
+        <span class="vz-pilot-rail"></span>
+        <div class="vz-pilot-rc">
+          <div class="vz-pilot-fhead">
+            <b>Собираем бэкенд</b>
+            <span><em class="pos">скрипты ЕСТЬ</em>: Брансон + Хормози</span>
+          </div>
+        </div>
+      </div>
+      <div class="vz-pilot-frow">
+        <div class="vz-pilot-row">
+          <span class="vz-pilot-rail"></span>
+          <div class="vz-pilot-rc">
+            <div class="vz-pilot-stp">
+              <div class="hd"><span class="num">3</span><span class="nm">Канон микса - один раз</span></div>
+              <div class="sb">VSL + идеальный вебинар + воронки: порядок блоков письменно</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="vz-pilot-row vz-pilot-gate">
+          <span class="vz-pilot-rail"></span>
+          <div class="vz-pilot-rc">
+            <span class="arr"><i class="ln"></i><i class="tri"></i></span>
+            <span class="lbl"><b class="g">готово:</b> порядок блоков записан</span>
+          </div>
+        </div>
+
+        <div class="vz-pilot-row">
+          <span class="vz-pilot-rail"></span>
+          <div class="vz-pilot-rc">
+            <div class="vz-pilot-stp">
+              <div class="hd"><span class="num">4</span><span class="nm">Бэкенд (3→4→5)</span></div>
+              <div class="sb">как устроен консалтинг, желаемое будущее, снятие сомнений</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="vz-pilot-row vz-pilot-gate">
+          <span class="vz-pilot-rail"></span>
+          <div class="vz-pilot-rc">
+            <span class="arr"><i class="ln"></i><i class="tri"></i></span>
+            <span class="lbl"><b class="g">готово:</b> статья доводит до места, где просится оффер</span>
+          </div>
+        </div>
+
+        <div class="vz-pilot-row">
+          <span class="vz-pilot-rail"></span>
+          <div class="vz-pilot-rc">
+            <div class="vz-pilot-stp">
+              <div class="hd"><span class="num">5</span><span class="nm">Оффер по Хормози</span></div>
+              <div class="sb">зона уверенности: «тут мне объяснять не надо»</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ворота бэкенд → бой -->
+    <div class="vz-pilot-lgate">
+      <div class="vz-pilot-row vz-pilot-gate vz-pilot-mgate">
+        <span class="vz-pilot-rail"></span>
+        <div class="vz-pilot-rc">
+          <span class="arr"><i class="ln"></i><i class="tri"></i></span>
+          <span class="lbl"><b class="g">готово:</b> оффер вшит в финал бэкенда</span>
+        </div>
+      </div>
+      <div class="vz-pilot-lcon">
+        <i class="seg"></i>
+        <span class="lbl"><b class="g">готово:</b> оффер вшит в финал бэкенда</span>
+      </div>
+    </div>
+
+    <!-- ЭТАЖ 3 · НИТКА В БОЮ (нейтральный кант, синий только как текстовый акцент) -->
+    <div class="vz-pilot-floor vz-pilot-f-battle">
+      <div class="vz-pilot-row vz-pilot-fhrow">
+        <span class="vz-pilot-rail"></span>
+        <div class="vz-pilot-rc">
+          <div class="vz-pilot-fhead">
+            <b>Нитка в бою</b>
+            <span><em class="acc">первый живой трафик</em></span>
+          </div>
+        </div>
+      </div>
+      <div class="vz-pilot-frow">
+        <div class="vz-pilot-row">
+          <span class="vz-pilot-rail"></span>
+          <div class="vz-pilot-rc">
+            <div class="vz-pilot-stp">
+              <div class="hd"><span class="num">6</span><span class="nm">20 дверей</span></div>
+              <div class="sb">20 заголовков → одна Статья №1 <span class="vz-pilot-nw">(/zagolovok-01…20)</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="vz-pilot-row vz-pilot-gate">
+          <span class="vz-pilot-rail"></span>
+          <div class="vz-pilot-rc">
+            <span class="arr"><i class="ln"></i><i class="tri"></i></span>
+            <span class="lbl"><b class="g">готово:</b> каждая дверь открывается и ведёт дальше</span>
+          </div>
+        </div>
+
+        <div class="vz-pilot-row">
+          <span class="vz-pilot-rail"></span>
+          <div class="vz-pilot-rc">
+            <div class="vz-pilot-stp">
+              <div class="hd"><span class="num">7</span><span class="nm">Реклама на пилота</span></div>
+              <div class="sb">РК → дверь → №1 → №2 → бэкенд → оффер</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ворота 7 → гейт-ромб; в жёлобе - красный возврат ветки «нет» -->
+    <div class="vz-pilot-row vz-pilot-gate">
+      <span class="vz-pilot-rail r-top"></span>
+      <div class="vz-pilot-rc">
+        <span class="arr"><i class="ln"></i><i class="tri"></i></span>
+        <span class="lbl"><b class="g">готово:</b> живой трафик идёт, видно, где останавливается</span>
+      </div>
+    </div>
+
+    <!-- ГЕЙТ-РОМБ: тираж только после боя -->
+    <div class="vz-pilot-row vz-pilot-dmrow">
+      <span class="vz-pilot-rail r-line"></span>
+      <div class="vz-pilot-rc">
+        <div class="vz-pilot-dm"><span>Нитка доказала себя?</span></div>
+        <div class="vz-pilot-no">
+          <div class="t"><b>нет</b> → чинить слабый блок (шаги 1-6)</div>
+          <div class="h">↰ вверх, снова в бой</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="vz-pilot-row vz-pilot-gate">
+      <span class="vz-pilot-rail"></span>
+      <div class="vz-pilot-rc">
+        <span class="arr"><i class="ln"></i><i class="tri"></i></span>
+        <span class="lbl"><b class="yes">да</b> - тиражируем только проверенную нитку</span>
+      </div>
+    </div>
+
+    <!-- ЭТАЖ 4 · МАСШТАБ (пунктир: после доказанной нитки) -->
+    <div class="vz-pilot-floor vz-pilot-f-scale">
+      <div class="vz-pilot-row vz-pilot-fhrow">
+        <span class="vz-pilot-rail"></span>
+        <div class="vz-pilot-rc">
+          <div class="vz-pilot-fhead">
+            <b>Масштаб</b>
+            <span>только после доказанной нитки</span>
+          </div>
+        </div>
+      </div>
+      <div class="vz-pilot-frow">
+        <div class="vz-pilot-row">
+          <span class="vz-pilot-rail"></span>
+          <div class="vz-pilot-rc">
+            <div class="vz-pilot-stp">
+              <div class="hd"><span class="num">8</span><span class="nm">Тираж аватаров</span></div>
+              <div class="sb">слоты + нейросети: фотограф, ведущий, авитолог - по одному</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="vz-pilot-row vz-pilot-gate">
+          <span class="vz-pilot-rail"></span>
+          <div class="vz-pilot-rc">
+            <span class="arr"><i class="ln"></i><i class="tri"></i></span>
+            <span class="lbl"><b class="g">готово:</b> конвейер «новый аватар за вечер» работает</span>
+          </div>
+        </div>
+
+        <div class="vz-pilot-row">
+          <span class="vz-pilot-rail"></span>
+          <div class="vz-pilot-rc">
+            <div class="vz-pilot-stp">
+              <div class="hd"><span class="num">9</span><span class="nm">Тематические заходы</span></div>
+              <div class="sb">кликбейт-темы по скелету Статьи №1 → та же воронка</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="vz-pilot-row vz-pilot-gate">
+      <span class="vz-pilot-rail"></span>
+      <div class="vz-pilot-rc">
+        <span class="arr"><i class="ln"></i><i class="tri"></i></span>
+        <span class="lbl"><b class="g">готово:</b> первая тема льёт холодный трафик в ту же воронку</span>
+      </div>
+    </div>
+
+    <!-- РЕЗУЛЬТАТ -->
+    <div class="vz-pilot-row">
+      <span class="vz-pilot-rail"></span>
+      <div class="vz-pilot-rc">
+        <div class="vz-pilot-term">
+          <span class="tag">результат</span>
+          <div class="t">Воронка ест холодный трафик <em>сама</em></div>
+          <div class="s">конвейер: новый аватар = вечер редактуры, не творчество</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="vz-pilot-legend">
+    <span class="it"><i class="sw neg"></i>красный = скрипта нет (создаём)</span>
+    <span class="it"><i class="sw pos"></i>зелёный = скрипт есть</span>
+    <span class="it"><i class="sw negdash"></i>красный пунктир = возврат / затык</span>
+    <span class="it"><i class="sw dash"></i>серый пунктир = масштаб после доказанной нитки</span>
+  </div>
+</div>
 
     <div class="callout warn reveal"><span class="ic">!</span><div><b class="t">Правило против залипания</b>Если поймал себя на «не знаю, как начать» - это сигнал, что ты опять открыл пустой лист вместо скелета. Вернись на шаг 0: открой скелет, найди блок, на который у тебя уже есть смысл, и заполни ТОЛЬКО его. Порядок заполнения блоков не важен - важно, что каждый блок маленький.</div></div>
   </div>
